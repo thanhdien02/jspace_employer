@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 10px; /* Định kích thước chiều rộng của thanh cuộn */
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Màu của thanh cuộn */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400;
+}
