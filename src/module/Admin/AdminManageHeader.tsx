@@ -11,7 +11,10 @@ interface PropComponent {
   collapsed?: any;
   setCollapsed?: any;
 }
-const AdminHeader: React.FC<PropComponent> = ({ collapsed, setCollapsed }) => {
+const AdminManageHeader: React.FC<PropComponent> = ({
+  collapsed,
+  setCollapsed,
+}) => {
   const { user } = useSelector((state: any) => state.auth);
   return (
     <header className="flex px-4 py-2 justify-between items-center bg-slate-800">
@@ -39,8 +42,8 @@ const AdminHeader: React.FC<PropComponent> = ({ collapsed, setCollapsed }) => {
           className="self-center"
         />
         <div className="">
-          <p className="font-semibold text-sm text-white">{user?.username}</p>
-          <p className="text-xs text-white">{user?.role}</p>
+          <p className="font-semibold text-sm text-white">{user?.name}</p>
+          <p className="text-xs text-white">{user?.role?.code}</p>
         </div>
         <CaretDownOutlined className="self-auto text-white" />
       </div>
@@ -48,4 +51,4 @@ const AdminHeader: React.FC<PropComponent> = ({ collapsed, setCollapsed }) => {
   );
 };
 
-export default AdminHeader;
+export default AdminManageHeader;

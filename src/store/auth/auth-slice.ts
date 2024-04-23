@@ -17,37 +17,50 @@ const authSlice: any = createSlice({
   name: "auth",
   initialState: init,
   reducers: {
+    authChange: (state: any, action: any) => ({
+      ...state,
+      user: action.payload,
+    }),
     authLogin: (state: any) => ({
-      ...state,
-    }),
-    authUpdateUser: (state: any, action: any) => ({
-      ...state,
-      user: action.payload.user,
-      accessToken: action.payload.accessToken,
-    }),
-    authFetchMe: (state: any) => ({
       ...state,
     }),
     authLogout: (state: any) => ({
       ...state,
     }),
-    authUploadLoading: (state, action) => ({
+    authRegister: (state: any) => ({
+      ...state,
+    }),
+    authUpdateLoadingRedux: (state: any, action: any) => ({
       ...state,
       loading: action.payload.loading,
     }),
-    authUploadMessageRedux: (state, action) => ({
+
+    authFetchMe: (state: any) => ({
       ...state,
-      message: action.payload.message,
+    }),
+    authGetRoles: (state: any) => ({
+      ...state,
+    }),
+    authUpdateRolesRedux: (state: any, action: any) => ({
+      ...state,
+      roles: action.payload.roles,
+    }),
+    authUpdateFetchRedux: (state: any, action: any) => ({
+      ...state,
+      accessToken: action.payload.accessToken,
+      user: action.payload.user,
     }),
   },
 });
 export const {
   authChange,
   authLogin,
-  authUpdateUser,
+  authUpdateRolesRedux,
+  authGetRoles,
   authFetchMe,
-  authUploadLoading,
+  authRegister,
   authLogout,
-  authUploadMessageRedux,
+  authUpdateLoadingRedux,
+  authUpdateFetchRedux,
 } = authSlice.actions;
 export default authSlice.reducer;

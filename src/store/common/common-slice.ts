@@ -12,10 +12,11 @@ const commonSlice: any = createSlice({
   name: "common",
   initialState: init,
   reducers: {
-    commonChange: (state: any) => ({
+    commonUpdateOAuthRedux: (state: any, action: any) => ({
       ...state,
+      infoUserOauth: action.payload.infoUserOauth,
     }),
   },
 });
-export const { commonChange } = commonSlice.actions;
+export const { commonUpdateOAuthRedux } = commonSlice.actions;
 export default commonSlice.reducer;

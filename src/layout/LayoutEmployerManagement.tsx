@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Button, theme } from "antd";
-import AdminHeader from "../module/Admin/AdminHeader";
+import { Layout, Menu, theme } from "antd";
+import AdminManageHeader from "../module/Admin/AdminManageHeader";
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 const LayoutEmployerManagement: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -17,10 +15,10 @@ const LayoutEmployerManagement: React.FC = () => {
   } = theme.useToken();
   return (
     <>
-      <AdminHeader
+      <AdminManageHeader
         collapsed={collapsed}
         setCollapsed={setCollapsed}
-      ></AdminHeader>
+      ></AdminManageHeader>
       <Layout>
         <Sider
           trigger={null}

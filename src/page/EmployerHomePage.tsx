@@ -1,12 +1,7 @@
 import React from "react";
-import EmployerHomeHeader from "../models/employer/EmployerHomeHeader";
 
 const EmployerHomePage: React.FC = () => {
-  return (
-    <>
-      <EmployerHomeHeader></EmployerHomeHeader>
-    </>
-  );
+  return <>Xin chao</>;
 };
 
 export default EmployerHomePage;

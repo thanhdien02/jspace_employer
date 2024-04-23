@@ -190,16 +190,6 @@ const AdminManageUser: React.FC = () => {
     },
   ];
 
-
-  
-  // const onChange: TableProps<DataType>["onChange"] = (
-  //   pagination,
-  //   filters,
-  //   sorter,
-  //   extra
-  // ) => {
-  //   console.log("params", extra);
-  // };
   const { accessToken } = useSelector((state: any) => state.auth);
   //Load information user
   useEffect(() => {
