@@ -1,11 +1,17 @@
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import PageNotFound from "./page/PageNotFound";
-import LayoutEmployerManagement from "./layout/LayoutEmployerManagement";
-import EmployerHomePage from "./page/EmployerHomePage";
-import LayoutEmployerHomePage from "./layout/LayoutEmployerHomePage";
+import EmployerDashboardPage from "./page/employer/EmployerDashboardPage";
+import EmployerUpdateInformationPage from "./page/employer/EmployerUpdateInformationPage";
 
+const LayoutEmployerManagement = lazy(
+  () => import("./layout/LayoutEmployerManagement")
+);
+const PageNotFound = lazy(() => import("./page/common/PageNotFound"));
+const EmployerHomePage = lazy(() => import("./page/common/EmployerHomePage"));
+const LayoutEmployerHomePage = lazy(
+  () => import("./layout/LayoutEmployerHomePage")
+);
 function App() {
   return (
     <>
@@ -20,11 +26,22 @@ function App() {
               element={<EmployerHomePage></EmployerHomePage>}
             ></Route>
           </Route>
-         
+
           <Route
             path="/manage"
             element={<LayoutEmployerManagement></LayoutEmployerManagement>}
-          ></Route>
+          >
+            <Route
+              path="/manage/dashboard"
+              element={<EmployerDashboardPage></EmployerDashboardPage>}
+            ></Route>
+            <Route
+              path="/manage/update"
+              element={
+                <EmployerUpdateInformationPage></EmployerUpdateInformationPage>
+              }
+            ></Route>
+          </Route>
           <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
         </Routes>
       </Suspense>

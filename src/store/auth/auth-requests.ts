@@ -27,10 +27,9 @@ export const requestAuthFetchMe = (accessToken: string) => {
 };
 export const requestAuthRefresh = (refreshToken: string) => {
   if (!refreshToken) return;
-  return axios.get(`${API}/api/v1/auth/user-refresh-token`, {
+  return axios.post(`${API}/api/v1/auth/user-refresh-token`, null, {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${refreshToken}`,
+      refreshToken: refreshToken,
     },
   });
 };

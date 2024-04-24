@@ -34,8 +34,10 @@ const authSlice: any = createSlice({
       ...state,
       loading: action.payload.loading,
     }),
-
     authFetchMe: (state: any) => ({
+      ...state,
+    }),
+    authRefreshToken: (state: any) => ({
       ...state,
     }),
     authGetRoles: (state: any) => ({
@@ -62,5 +64,6 @@ export const {
   authLogout,
   authUpdateLoadingRedux,
   authUpdateFetchRedux,
+  authRefreshToken,
 } = authSlice.actions;
 export default authSlice.reducer;

@@ -5,10 +5,7 @@ interface PropComponent {
   checkLogin?: boolean;
   setCheckLogin?: any;
 }
-const EmployerHomeHeader: React.FC<PropComponent> = ({
-  setCheckLogin,
-}) => {
-
+const EmployerHomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
   const handleLogin = () => {
     setCheckLogin(true);
   };
@@ -59,7 +56,7 @@ const EmployerHomeHeader: React.FC<PropComponent> = ({
         <div className="">
           <div className="flex justify-center items-center gap-1">
             <button
-              className="px-2 py-3 hover:opacity-80 transition-all bg-primary text-white rounded-md"
+              className="px-4 py-3 hover:opacity-80 transition-all bg-primary text-white rounded-md"
               onClick={handleLogin}
             >
               Đăng tuyển & Tìm CV

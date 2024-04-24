@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import err from "../assets/404.png";
+import err from "../../assets/404.png";
 import { useDispatch, useSelector } from "react-redux";
-import { authFetchMe } from "../store/auth/auth-slice";
+import { authFetchMe } from "../../store/auth/auth-slice";
 const PageNotFound: React.FC = () => {
   const navigate = useNavigate();
   const { accessToken } = useSelector((state: any) => state.auth);
-  // Get infomation user
   const dispath = useDispatch();
-  //Load information user
   useEffect(() => {
     if (accessToken == "") {
       dispath(authFetchMe());

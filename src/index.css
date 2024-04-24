@@ -9,8 +9,8 @@
 }
 
 ::-webkit-scrollbar {
-  width: 10px; /* Định kích thước chiều rộng của thanh cuộn */
-  height: 10px;
+  width: 6px; /* Định kích thước chiều rộng của thanh cuộn */
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -23,4 +23,7 @@
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-400;
+}
+.ant-menu-inline-collapsed{
+  @apply !w-[80px]
 }

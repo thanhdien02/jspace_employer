@@ -4,11 +4,12 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
-import logo from "../assets/logo3.png";
+import logo from "../../assets/logo3.png";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import IconClose from "../components/icons/IconClose";
-import { authLogin, authUpdateLoadingRedux } from "../store/auth/auth-slice";
+import IconClose from "../../components/icons/IconClose";
+import { authLogin, authUpdateLoadingRedux } from "../../store/auth/auth-slice";
+import { getToken } from "../../utils/auth";
 
 interface PropComponent {
   className?: string;
@@ -22,7 +23,9 @@ const LoginPage: React.FC<PropComponent> = ({
   actionLogin,
   claseNameOverlay,
 }) => {
-  const { loading, accessToken } = useSelector((state: any) => state.auth);
+  const { loading, accessToken, user } = useSelector(
+    (state: any) => state.auth
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const login: any = useGoogleLogin({
@@ -52,10 +55,19 @@ const LoginPage: React.FC<PropComponent> = ({
   }, [checkLogin]);
 
   useEffect(() => {
-    if (accessToken != "") {
+    if (accessToken != "" && user?.role?.code == "EMPLOYEE") {
       navigate("/manage");
     }
   }, [accessToken]);
+
+  useEffect(() => {
+    const token = getToken();
+    if (token.accessToken == "null") {
+    } else if (token.accessToken != "") {
+      console.log("123456");
+      navigate("/manage");
+    }
+  }, []);
   return (
     <div
       className={`  flex fixed inset-0 transition-all z-10 ${className} ${
