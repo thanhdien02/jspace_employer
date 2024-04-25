@@ -29,7 +29,7 @@ html {
   @apply bg-slate-400;
 }
 
-/* sidebar manage  */
+/* sidebar manage antd */
 .ant-menu-inline-collapsed {
   @apply !w-[80px];
 }
@@ -40,7 +40,25 @@ html {
 .ant-select-outlined .ant-select-selector:focus {
   @apply !border-stone-400/70;
 }
+
+/* input select of antd */
 .ant-select-outlined .ant-select-selector {
   border-color: #e7e5e4 !important;
   box-shadow: none !important;
 }
+
+.ant-select-selection-item {
+  padding: 0 35px !important;
+}
+.ant-select-selection-placeholder {
+  display: inline-block;
+  margin-left: 35px;
+}
+
+/* react-quill description */
+.ql-container.ql-snow {
+  max-height: 250px;
+  overflow: auto;
+}
+
+

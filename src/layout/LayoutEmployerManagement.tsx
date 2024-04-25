@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "../utils/auth";
 import { authFetchMe } from "../store/auth/auth-slice";
@@ -51,11 +51,18 @@ const LayoutEmployerManagement: React.FC = () => {
               className="flex gap-4 items-center p-4 cursor-pointer"
               onClick={() => navigate("/manage/update-information-account")}
             >
-              <img
-                src={user?.picture}
-                alt=""
-                className="w-[45px] h-[45px] rounded-full object-cover"
-              />
+              {user?.picture ? (
+                <img
+                  src={user?.picture}
+                  alt=""
+                  className="w-[45px] h-[45px] rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-[45px] h-[45px] rounded-full flex">
+                  <Spin className="m-auto" />
+                </div>
+              )}
+
               {collapsed ? (
                 ""
               ) : (
@@ -67,6 +74,7 @@ const LayoutEmployerManagement: React.FC = () => {
                 </div>
               )}
             </div>
+            <span className="w-full bg-gray-200 h-[1px] block"></span>
             <Menu
               theme="light"
               mode="inline"
@@ -77,7 +85,7 @@ const LayoutEmployerManagement: React.FC = () => {
             />
           </div>
         </Sider>
-        <Layout className="h-svh">
+        <Layout className="min-h-svh">
           <Outlet></Outlet>
         </Layout>
       </Layout>

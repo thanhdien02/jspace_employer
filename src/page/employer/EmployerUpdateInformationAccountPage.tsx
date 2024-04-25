@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { MailOutlined, UserOutlined } from "@ant-design/icons";
+import { MailOutlined,UserOutlined } from "@ant-design/icons";
 import IconPhone from "../../components/icons/IconPhone";
 import { employerUpdateInformationEmployer } from "../../store/employer/employer-slice";
 import { Select } from "antd";
@@ -47,10 +47,10 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
           <div className="flex gap-10">
             <div className="grow-[1]">
               <label
-                htmlFor="name"
+                htmlFor="namecompany"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Họ và Tên
+                Tên công ty
               </label>
               <div className="mt-2 relative">
                 <UserOutlined

@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import React from "react";
 import {
   CaretDownOutlined,
@@ -53,11 +53,17 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
         </button>
         <IconBell className="p-2 bg-gray-100/20 block rounded-full cursor-pointer"></IconBell>
         <div className="relative group flex gap-3 items-start cursor-pointer px-4 py-2 rounded-lg transition-all ">
-          <img
-            src={user?.picture}
-            alt=""
-            className="w-[40px] h-[40px] object-cover self-center rounded-full"
-          />
+          {user?.picture ? (
+            <img
+              src={user?.picture}
+              alt=""
+              className="w-[40px] h-[40px] object-cover self-center rounded-full"
+            />
+          ) : (
+            <div className="w-[40px] h-[40px] rounded-full flex">
+              <Spin className="m-auto" />
+            </div>
+          )}
           <div className="">
             <p className="font-semibold text-sm text-white">{user?.name}</p>
             <p className="text-xs text-white">{user?.role?.code}</p>

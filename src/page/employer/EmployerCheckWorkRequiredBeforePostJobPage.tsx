@@ -40,7 +40,7 @@ const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
               </span>
             </NavLink>
             <NavLink
-              to="/manage/"
+              to="/manage/update-information-company"
               className="flex items-center gap-2 border border-gray-200 border-solid p-4 shadow-sm rounded-md hover:text-primary  hover:bg-blue-50 transition-all"
             >
               <IconCheck></IconCheck>
