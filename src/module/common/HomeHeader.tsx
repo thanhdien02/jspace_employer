@@ -5,7 +5,7 @@ interface PropComponent {
   checkLogin?: boolean;
   setCheckLogin?: any;
 }
-const EmployerHomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
+const HomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
   const handleLogin = () => {
     setCheckLogin(true);
   };
@@ -68,4 +68,4 @@ const EmployerHomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
   );
 };
 
-export default EmployerHomeHeader;
+export default HomeHeader;

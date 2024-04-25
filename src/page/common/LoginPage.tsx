@@ -64,7 +64,6 @@ const LoginPage: React.FC<PropComponent> = ({
     const token = getToken();
     if (token.accessToken == "null") {
     } else if (token.accessToken != "") {
-      console.log("123456");
       navigate("/manage");
     }
   }, []);

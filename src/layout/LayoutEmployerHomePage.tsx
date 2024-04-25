@@ -1,8 +1,6 @@
 import React, { lazy, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-const EmployerHomeHeader = lazy(
-  () => import("../models/employer/EmployerHomeHeader")
-);
+const HomeHeader = lazy(() => import("../module/common/HomeHeader"));
 const LoginPage = lazy(() => import("../page/common/LoginPage"));
 import { Outlet } from "react-router-dom";
 
@@ -26,8 +24,8 @@ const LayoutEmployerHomePage: React.FC = () => {
       ) : (
         ""
       )}
-      <EmployerHomeHeader setCheckLogin={setCheckLogin}></EmployerHomeHeader>
-      <div className="bg-white">
+      <HomeHeader setCheckLogin={setCheckLogin}></HomeHeader>
+      <div className="p-2">
         <Outlet></Outlet>
       </div>
     </>

@@ -1,7 +1,6 @@
-import { Avatar, Button } from "antd";
+import { Button } from "antd";
 import React from "react";
 import {
-  UserOutlined,
   CaretDownOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -15,7 +14,7 @@ interface PropComponent {
   collapsed?: any;
   setCollapsed?: any;
 }
-const AdminManageHeader: React.FC<PropComponent> = ({
+const EmployerManageHeader: React.FC<PropComponent> = ({
   collapsed,
   setCollapsed,
 }) => {
@@ -45,19 +44,19 @@ const AdminManageHeader: React.FC<PropComponent> = ({
       <div className="flex gap-5 items-center">
         <button
           className="flex items-center gap-2 text-white bg-gray-100/20 p-2 text-sm rounded-xl px-4 font-medium"
-          // onClick={() => {
-          //   dispatch(authRefreshToken());
-          // }}
+          onClick={() => {
+            navigate("/manage/check-work-required");
+          }}
         >
           <PlusOutlined />
           <span>Đăng tin</span>
         </button>
         <IconBell className="p-2 bg-gray-100/20 block rounded-full cursor-pointer"></IconBell>
         <div className="relative group flex gap-3 items-start cursor-pointer px-4 py-2 rounded-lg transition-all ">
-          <Avatar
-            style={{ backgroundColor: "#87d068" }}
-            icon={<UserOutlined />}
-            className="self-center"
+          <img
+            src={user?.picture}
+            alt=""
+            className="w-[40px] h-[40px] object-cover self-center rounded-full"
           />
           <div className="">
             <p className="font-semibold text-sm text-white">{user?.name}</p>
@@ -84,4 +83,4 @@ const AdminManageHeader: React.FC<PropComponent> = ({
   );
 };
 
-export default AdminManageHeader;
+export default EmployerManageHeader;

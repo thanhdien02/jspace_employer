@@ -8,22 +8,39 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 ::-webkit-scrollbar {
-  width: 6px; /* Định kích thước chiều rộng của thanh cuộn */
+  width: 6px;
   height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Màu nền của scrollbar */
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888; /* Màu của thanh cuộn */
+  background: #888;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-400;
 }
-.ant-menu-inline-collapsed{
-  @apply !w-[80px]
+
+/* sidebar manage  */
+.ant-menu-inline-collapsed {
+  @apply !w-[80px];
+}
+
+.ant-select-outlined .ant-select-selector:hover {
+  @apply !border-stone-400/70;
+}
+.ant-select-outlined .ant-select-selector:focus {
+  @apply !border-stone-400/70;
+}
+.ant-select-outlined .ant-select-selector {
+  border-color: #e7e5e4 !important;
+  box-shadow: none !important;
 }

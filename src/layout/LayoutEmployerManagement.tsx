@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Menu, theme } from "antd";
-import AdminManageHeader from "../module/Admin/AdminManageHeader";
+import { Layout, Menu } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "../utils/auth";
 import { authFetchMe } from "../store/auth/auth-slice";
 import { Outlet, useNavigate } from "react-router-dom";
 import { dataSideBar } from "../utils/dataFetch";
-import logo from "../assets/logo3.png";
-const { Sider, Content } = Layout;
+import EmployerManageHeader from "../module/employer/EmployerManageHeader";
+const { Sider } = Layout;
 
 const LayoutEmployerManagement: React.FC = () => {
   const { user } = useSelector((state: any) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
   const handleChangeSibar = (e: any) => {
     const path: any = dataSideBar.find((item) => item.key === e.key);
     if (path.label === "Log out") {
@@ -36,11 +31,11 @@ const LayoutEmployerManagement: React.FC = () => {
 
   return (
     <>
-      <AdminManageHeader
+      <EmployerManageHeader
         collapsed={collapsed}
         setCollapsed={setCollapsed}
-      ></AdminManageHeader>
-      <Layout className="mt-[65px] bg-white" hasSider>
+      ></EmployerManageHeader>
+      <Layout className="mt-[65px] bg-white">
         <Sider
           trigger={null}
           collapsible
@@ -52,15 +47,26 @@ const LayoutEmployerManagement: React.FC = () => {
               collapsed ? "w-[80px]" : "w-[200px]"
             }`}
           >
-            <div className="flex gap-4 items-center p-4">
-              <img src={logo} alt="" className="w-[45px] h-[45px]" />
+            <div
+              className="flex gap-4 items-center p-4 cursor-pointer"
+              onClick={() => navigate("/manage/update-information-account")}
+            >
+              <img
+                src={user?.picture}
+                alt=""
+                className="w-[45px] h-[45px] rounded-full object-cover"
+              />
               {collapsed ? (
                 ""
               ) : (
-                <p className="font-medium line-clamp-1">{user.name}</p>
+                <div className="flex flex-col gap-1">
+                  <p className="font-medium line-clamp-1">{user?.name}</p>
+                  <p className="font-medium line-clamp-1 text-gray-500 text-xs">
+                    {user?.role?.code}
+                  </p>
+                </div>
               )}
             </div>
-            <div className="demo-logo-vertical" />
             <Menu
               theme="light"
               mode="inline"
@@ -71,19 +77,8 @@ const LayoutEmployerManagement: React.FC = () => {
             />
           </div>
         </Sider>
-        <Layout className="">
-          <Content
-            className="h-full overflow-auto"
-            style={{
-              margin: "24px 16px",
-              padding: 24,
-              minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            <Outlet></Outlet>
-          </Content>
+        <Layout className="h-svh">
+          <Outlet></Outlet>
         </Layout>
       </Layout>
     </>
