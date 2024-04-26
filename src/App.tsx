@@ -6,6 +6,7 @@ import EmployerCheckWorkRequiredBeforePostJobPage from "./page/employer/Employer
 import EmployerUpdateInformationCompanyPage from "./page/employer/EmployerUpdateInformationCompanyPage";
 import EmployerUpdateInformationAccountPage from "./page/employer/EmployerUpdateInformationAccountPage";
 import EmployerListCompanyForAccountSelectPage from "./page/employer/EmployerListCompanyForAccountSelectPage";
+import EmployerChangePasswordPage from "./page/employer/EmployerChangePasswordPage";
 
 const LayoutEmployerManagement = lazy(
   () => import("./layout/LayoutEmployerManagement")
@@ -56,6 +57,12 @@ function App() {
               path="/manage/list-company"
               element={
                 <EmployerListCompanyForAccountSelectPage></EmployerListCompanyForAccountSelectPage>
+              }
+            ></Route>
+            <Route
+              path="/manage/change-password"
+              element={
+                <EmployerChangePasswordPage></EmployerChangePasswordPage>
               }
             ></Route>
           </Route>

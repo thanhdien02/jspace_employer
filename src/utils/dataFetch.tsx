@@ -3,6 +3,7 @@ import {
   VideoCameraOutlined,
   UserOutlined,
   DashboardOutlined,
+  SwapOutlined,
 } from "@ant-design/icons";
 import IconBuilding from "../components/icons/IconBuilding";
 
@@ -36,6 +37,12 @@ export const dataSideBar = [
     icon: <VideoCameraOutlined />,
     label: "Danh sách công ty",
     path: "/manage/list-company",
+  },
+  {
+    key: "6",
+    icon: <SwapOutlined />,
+    label: "Đổi mật khẩu",
+    path: "/manage/change-password",
   },
 ];
 export const dataPosition = [
