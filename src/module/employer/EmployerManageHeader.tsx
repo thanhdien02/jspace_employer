@@ -65,7 +65,7 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
             </div>
           )}
           <div className="">
-            <p className="font-semibold text-sm text-white">{user?.name}</p>
+            <p className="font-semibold text-sm text-white max-w-[150px] line-clamp-2">{user?.name}</p>
             <p className="text-xs text-white">{user?.role?.code}</p>
           </div>
           <CaretDownOutlined className="self-auto text-white" />

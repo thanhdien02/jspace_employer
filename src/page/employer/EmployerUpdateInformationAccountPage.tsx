@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { MailOutlined,UserOutlined } from "@ant-design/icons";
+import { MailOutlined, UserOutlined } from "@ant-design/icons";
 import IconPhone from "../../components/icons/IconPhone";
 import { employerUpdateInformationEmployer } from "../../store/employer/employer-slice";
 import { Select } from "antd";
@@ -66,8 +66,6 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                 <input
                   {...register("name", {
                     required: true,
-                    maxLength: 40,
-                    minLength: 5,
                   })}
                   placeholder="Tài khoản"
                   type="text"
@@ -79,10 +77,6 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                   {" "}
                   {errors?.name?.type === "required"
                     ? "*Bạn chưa điền thông tin tài khoản."
-                    : errors?.name?.type === "maxLength"
-                    ? "*Tài khoản không được quá 40 ký tự"
-                    : errors?.name?.type === "minLength"
-                    ? "*Tài khoản không được ít hơn 5 ký tự"
                     : ""}
                 </p>
               </div>

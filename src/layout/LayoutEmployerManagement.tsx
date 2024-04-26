@@ -67,7 +67,7 @@ const LayoutEmployerManagement: React.FC = () => {
                 ""
               ) : (
                 <div className="flex flex-col gap-1">
-                  <p className="font-medium line-clamp-1">{user?.name}</p>
+                  <p className="font-medium line-clamp-2 leading-5">{user?.name}</p>
                   <p className="font-medium line-clamp-1 text-gray-500 text-xs">
                     {user?.role?.code}
                   </p>

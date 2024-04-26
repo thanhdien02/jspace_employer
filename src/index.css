@@ -61,4 +61,13 @@ html {
   overflow: auto;
 }
 
-
+.ant-input-search-button {
+  background-color: #1967d2;
+  border-color: #1967d2;
+  color: white;
+}
+.ant-input-search-button:hover  {
+  background-color: #1967d2 !important;
+  border-color: #1967d2;
+  color: white;
+}

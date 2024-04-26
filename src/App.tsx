@@ -5,6 +5,7 @@ import HomePage from "./page/common/HomePage";
 import EmployerCheckWorkRequiredBeforePostJobPage from "./page/employer/EmployerCheckWorkRequiredBeforePostJobPage";
 import EmployerUpdateInformationCompanyPage from "./page/employer/EmployerUpdateInformationCompanyPage";
 import EmployerUpdateInformationAccountPage from "./page/employer/EmployerUpdateInformationAccountPage";
+import EmployerListCompanyForAccountSelectPage from "./page/employer/EmployerListCompanyForAccountSelectPage";
 
 const LayoutEmployerManagement = lazy(
   () => import("./layout/LayoutEmployerManagement")
@@ -49,6 +50,12 @@ function App() {
               path="/manage/check-work-required"
               element={
                 <EmployerCheckWorkRequiredBeforePostJobPage></EmployerCheckWorkRequiredBeforePostJobPage>
+              }
+            ></Route>
+            <Route
+              path="/manage/list-company"
+              element={
+                <EmployerListCompanyForAccountSelectPage></EmployerListCompanyForAccountSelectPage>
               }
             ></Route>
           </Route>
