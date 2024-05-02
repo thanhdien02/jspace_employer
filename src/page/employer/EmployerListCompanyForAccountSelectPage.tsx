@@ -1,20 +1,32 @@
-import React, { useEffect } from "react";
-import { Input } from "antd";
+import React, { useEffect, useState } from "react";
+import { Empty, Input, Pagination, Skeleton } from "antd";
 import CardCompanyForAccountSelect from "../../components/cards/CardCompanyForAccountSelect";
 import { debounce } from "ts-debounce";
 import IconAdd from "../../components/icons/IconAdd";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { companyGetCompany } from "../../store/company/company-slice";
 const { Search } = Input;
 
 const EmployerListCompanyForAccountSelectPage: React.FC = () => {
+  const { company, loadingCompany, paginationCompany } = useSelector(
+    (state: any) => state.company
+  );
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   const handleSearchCompany = debounce((value: any) => {
-    console.log("Input value:", value);
-    // Gọi hàm khác tại đây nếu cần
+    setPage(1);
+    dispatch(companyGetCompany({ companyname: value }));
   }, 500);
+
+  useEffect(() => {
+    dispatch(companyGetCompany({ page: page }));
+  }, [page]);
   return (
     <>
       <div className="my-10 mx-40">
@@ -31,7 +43,7 @@ const EmployerListCompanyForAccountSelectPage: React.FC = () => {
               onInput={(e: any) => {
                 handleSearchCompany(e?.target?.value);
               }}
-              loading={false}
+              loading={loadingCompany}
               allowClear
             />
             <div>
@@ -45,18 +57,44 @@ const EmployerListCompanyForAccountSelectPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid gap-5 grid-cols-2 p-5 pt-0">
-            <CardCompanyForAccountSelect></CardCompanyForAccountSelect>
-            <CardCompanyForAccountSelect></CardCompanyForAccountSelect>
-            <CardCompanyForAccountSelect></CardCompanyForAccountSelect>
-            <CardCompanyForAccountSelect></CardCompanyForAccountSelect>
-            <CardCompanyForAccountSelect></CardCompanyForAccountSelect>
-            <CardCompanyForAccountSelect></CardCompanyForAccountSelect>
-            <CardCompanyForAccountSelect></CardCompanyForAccountSelect>
-            <CardCompanyForAccountSelect></CardCompanyForAccountSelect>
-            <CardCompanyForAccountSelect></CardCompanyForAccountSelect>
-            <CardCompanyForAccountSelect></CardCompanyForAccountSelect>
-          </div>
+          {loadingCompany ? (
+            <div className="p-5 pt-0">
+              <Skeleton />
+            </div>
+          ) : company?.length > 0 ? (
+            <>
+              <div className="grid gap-5 grid-cols-2 p-5 pt-0">
+                {company?.length > 0 &&
+                  company?.map((item: any) => (
+                    <CardCompanyForAccountSelect
+                      key={item?.id}
+                      logo={item?.logo}
+                      companyName={item?.name}
+                      address={item?.address}
+                      website={item?.companyLink}
+                      companySize={item?.companySize}
+                      onClickFill={() =>
+                        navigate(
+                          `/manage/update-information-company/${item?.id}`
+                        )
+                      }
+                    ></CardCompanyForAccountSelect>
+                  ))}
+              </div>
+              <div className="flex">
+                <Pagination
+                  className="ml-auto pr-5 pb-5"
+                  defaultCurrent={1}
+                  onChange={(e) => setPage(e)}
+                  total={paginationCompany?.totalElements}
+                  current={page}
+                  pageSize={paginationCompany?.pageSize}
+                />
+              </div>
+            </>
+          ) : (
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          )}
         </div>
       </div>
     </>

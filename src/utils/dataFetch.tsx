@@ -24,7 +24,7 @@ export const dataSideBar = [
     key: "3",
     icon: <IconBuilding></IconBuilding>,
     label: "Thông tin công ty",
-    path: "/manage/update-information-company",
+    path: "/manage/information-company",
   },
   {
     key: "4",
@@ -43,6 +43,12 @@ export const dataSideBar = [
     icon: <SwapOutlined />,
     label: "Đổi mật khẩu",
     path: "/manage/change-password",
+  },
+  {
+    key: "7",
+    icon: <IconBuilding></IconBuilding>,
+    label: "Thông tin công ty",
+    path: "/manage/update-information-company",
   },
 ];
 export const dataPosition = [

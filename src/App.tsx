@@ -7,6 +7,7 @@ import EmployerUpdateInformationCompanyPage from "./page/employer/EmployerUpdate
 import EmployerUpdateInformationAccountPage from "./page/employer/EmployerUpdateInformationAccountPage";
 import EmployerListCompanyForAccountSelectPage from "./page/employer/EmployerListCompanyForAccountSelectPage";
 import EmployerChangePasswordPage from "./page/employer/EmployerChangePasswordPage";
+import EmployerInformationCompanyPage from "./page/employer/EmployerInformationCompanyPage";
 
 const LayoutEmployerManagement = lazy(
   () => import("./layout/LayoutEmployerManagement")
@@ -42,6 +43,12 @@ function App() {
               }
             ></Route>
             <Route
+              path="/manage/update-information-company/:companyId"
+              element={
+                <EmployerUpdateInformationCompanyPage></EmployerUpdateInformationCompanyPage>
+              }
+            ></Route>
+            <Route
               path="/manage/update-information-company"
               element={
                 <EmployerUpdateInformationCompanyPage></EmployerUpdateInformationCompanyPage>
@@ -63,6 +70,12 @@ function App() {
               path="/manage/change-password"
               element={
                 <EmployerChangePasswordPage></EmployerChangePasswordPage>
+              }
+            ></Route>
+            <Route
+              path="/manage/information-company"
+              element={
+                <EmployerInformationCompanyPage></EmployerInformationCompanyPage>
               }
             ></Route>
           </Route>

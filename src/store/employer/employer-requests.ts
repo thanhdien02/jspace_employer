@@ -19,3 +19,21 @@ export const requestEmployerUpdateInformation = (
     }
   );
 };
+export const requestEmployerPickCompanyInListThatForYourCompany = (
+  dataUpdateEmployerForPick: any,
+  employer_id: string,
+  accessToken: string
+) => {
+  return axios.patch(
+    `${API}/api/v1/employees/${employer_id}`,
+    {
+      ...dataUpdateEmployerForPick,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};

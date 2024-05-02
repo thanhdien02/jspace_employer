@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { MailOutlined, UserOutlined } from "@ant-design/icons";
+import { MailOutlined, UserOutlined, CameraOutlined } from "@ant-design/icons";
 import IconPhone from "../../components/icons/IconPhone";
 import { employerUpdateInformationEmployer } from "../../store/employer/employer-slice";
-import { Select } from "antd";
+import { message, Select, Spin, Upload, UploadProps } from "antd";
 import { dataPosition } from "../../utils/dataFetch";
 import ButtonLoading from "../../components/button/ButtonLoading";
+import IconGroupUser from "../../components/icons/IconGroupUser";
 interface Inputs {
   name: string;
   phone: number;
@@ -35,8 +36,21 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
   }, [accessToken]);
 
   useEffect(() => {
+    document.title = "Chi tiết tài khoản";
     window.scrollTo(0, 0);
   }, []);
+  const props: UploadProps = {
+    beforeUpload: (file) => {
+      const isPNG = file.type === "image/png";
+      if (!isPNG) {
+        message.error(`${file.name} is not a png file`);
+      }
+      return isPNG || Upload.LIST_IGNORE;
+    },
+    onChange: (info) => {
+      console.log(info.fileList);
+    },
+  };
   return (
     <>
       <div className="lg:mx-60 p-5 my-5 mt-10 shadow-md rounded-lg bg-white">
@@ -44,7 +58,31 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
           <h2 className="font-bold text-lg my-3 text-gray-800 mb-5">
             Cài đặt thông tin cá nhân
           </h2>
-          <div className="flex gap-10">
+          <div className="flex justify-center pt-5">
+            <Upload {...props} className="relative inline-block">
+              {user?.picture ? (
+                <img
+                  src={user?.picture}
+                  alt=""
+                  className="w-[75px] h-[75px] rounded-full cursor-pointer"
+                />
+              ) : (
+                <div className="w-[75px] h-[75px] rounded-full flex">
+                  <Spin className="m-auto" />
+                </div>
+              )}
+              {user?.picture ? (
+                <CameraOutlined
+                  className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
+                  style={{ fontSize: "18px" }}
+                />
+              ) : (
+                ""
+              )}
+            </Upload>
+          </div>
+          <h4 className="text-center font-semibold text-base">Ảnh đại diện</h4>
+          <div className="flex gap-10 mt-6">
             <div className="grow-[1]">
               <label
                 htmlFor="namecompany"
@@ -122,7 +160,7 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                 Số điện thoại
               </label>
               <div className="mt-2 relative">
-                <IconPhone className="absolute top-0 left-0 translate-x-[50%] translate-y-[50%] text-gray-400"></IconPhone>
+                <IconPhone className="absolute top-0 left-0 translate-x-[50%] translate-y-[45%] text-gray-400"></IconPhone>
                 <input
                   {...register("phone", {})}
                   placeholder="Số điện thoại"
@@ -140,12 +178,15 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
               >
                 Vị trí
               </label>
-              <Select
-                defaultValue="Nhân viên"
-                className="h-11 mt-2 !w-full block hover:!border-gray-400"
-                allowClear
-                options={dataPosition}
-              />
+              <div className="relative">
+                <Select
+                  defaultValue="Nhân viên"
+                  className="h-11 mt-2 !w-full block hover:!border-gray-400"
+                  allowClear
+                  options={dataPosition}
+                />
+                <IconGroupUser className="absolute top-0 left-0 translate-x-[50%] translate-y-[45%] text-gray-400"></IconGroupUser>
+              </div>
             </div>
           </div>
           <div className="flex justify-end mt-10">

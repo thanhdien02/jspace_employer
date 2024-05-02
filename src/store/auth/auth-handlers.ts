@@ -1,6 +1,11 @@
 import { call, put } from "redux-saga/effects";
 import { getToken, logOut, saveToken } from "../../utils/auth";
-import { authUpdateFetchRedux, authUpdateLoadingRedux } from "./auth-slice";
+import {
+  authUpdateCheckAuthRedux,
+  authUpdateFetchRedux,
+  authUpdateLoadingRedux,
+  authUpdateMessageRedux,
+} from "./auth-slice";
 import {
   requestAuthFetchMe,
   requestAuthLogin,
@@ -32,18 +37,34 @@ function* handleAuthFetchMe(): Generator<any> {
   try {
     const { accessToken } = getToken();
     const response: any = yield call(requestAuthFetchMe, accessToken);
-    if (response?.data?.result?.role?.code == "EMPLOYEE") {
+    if (response?.data?.result?.user?.role?.code == "EMPLOYEE") {
       yield put(
         authUpdateFetchRedux({
           accessToken: accessToken,
-          user: response.data.result,
+          user: response.data.result.user,
+          companyAuth: response.data.result.company,
         })
       );
-    } else if (response?.data?.result?.role?.code == "CANDIDATE") {
+      yield put(
+        authUpdateCheckAuthRedux({
+          checkAuth: {
+            verifiedByCompany: response?.data?.result?.verifiedByCompany,
+            hasFullCredentialInfo:
+              response?.data?.result?.hasFullCredentialInfo,
+            hasCompany: response?.data?.result?.hasCompany,
+            companyVerified: response?.data?.result?.companyVerified,
+          },
+        })
+      );
+    } else if (response?.data?.result?.user?.role?.code == "CANDIDATE") {
+      message.error("Đây là tài khoản CANDIDATE.");
+    } else {
       logOut();
-      message.error("Đây là tài khoản CANDIDATE. Đăng nhập thất bại");
     }
-  } catch (error) {
+  } catch (error: any) {
+    yield put(
+      authUpdateMessageRedux({ messageAuth: error?.response?.data?.message })
+    );
   } finally {
   }
 }
@@ -76,6 +97,7 @@ function* handleAuthRefrestToken(): Generator<any> {
     const response: any = yield call(requestAuthRefresh, refreshToken);
     if (response?.data?.result) {
       saveToken(response?.data?.result?.accessToken, refreshToken);
+      yield call(handleAuthRefrestToken);
     }
   } catch (error) {
   } finally {

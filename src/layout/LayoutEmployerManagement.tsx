@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Layout, Menu, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "../utils/auth";
-import { authFetchMe } from "../store/auth/auth-slice";
+import { authFetchMe, authRefreshToken } from "../store/auth/auth-slice";
 import { Outlet, useNavigate } from "react-router-dom";
 import { dataSideBar } from "../utils/dataFetch";
 import EmployerManageHeader from "../module/employer/EmployerManageHeader";
 const { Sider } = Layout;
 
 const LayoutEmployerManagement: React.FC = () => {
-  const { user } = useSelector((state: any) => state.auth);
+  const { user, messageAuth } = useSelector((state: any) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
@@ -28,6 +28,11 @@ const LayoutEmployerManagement: React.FC = () => {
       navigate("/");
     }
   }, []);
+  useEffect(() => {
+    if (messageAuth === "unauthenticated") {
+      dispatch(authRefreshToken());
+    }
+  }, [messageAuth]);
 
   return (
     <>
@@ -67,7 +72,9 @@ const LayoutEmployerManagement: React.FC = () => {
                 ""
               ) : (
                 <div className="flex flex-col gap-1">
-                  <p className="font-medium line-clamp-2 leading-5">{user?.name}</p>
+                  <p className="font-medium line-clamp-2 leading-5">
+                    {user?.name}
+                  </p>
                   <p className="font-medium line-clamp-1 text-gray-500 text-xs">
                     {user?.role?.code}
                   </p>

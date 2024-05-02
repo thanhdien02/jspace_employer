@@ -2,16 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IAuth {
   user: any;
+  companyAuth?: any;
+  checkAuth?: any;
   accessToken: string;
   loading?: boolean;
-  message?: string;
+  messageAuth?: string;
 }
 
 const init: IAuth = {
   user: {},
+  companyAuth: {},
+  checkAuth: {},
   accessToken: "",
   loading: false,
-  message: "",
+  messageAuth: "",
 };
 const authSlice: any = createSlice({
   name: "auth",
@@ -34,6 +38,18 @@ const authSlice: any = createSlice({
       ...state,
       loading: action.payload.loading,
     }),
+    authUpdateCheckAuthRedux: (state: any, action: any) => ({
+      ...state,
+      checkAuth: action.payload.checkAuth,
+    }),
+    authUpdateCompanyAuthRedux: (state: any, action: any) => ({
+      ...state,
+      companyAuth: action.payload.companyAuth,
+    }),
+    authUpdateMessageRedux: (state: any, action: any) => ({
+      ...state,
+      messageAuth: action.payload.messageAuth,
+    }),
     authFetchMe: (state: any) => ({
       ...state,
     }),
@@ -51,6 +67,7 @@ const authSlice: any = createSlice({
       ...state,
       accessToken: action.payload.accessToken,
       user: action.payload.user,
+      companyAuth: action.payload.companyAuth,
     }),
   },
 });
@@ -65,5 +82,8 @@ export const {
   authUpdateLoadingRedux,
   authUpdateFetchRedux,
   authRefreshToken,
+  authUpdateCheckAuthRedux,
+  authUpdateCompanyAuthRedux,
+  authUpdateMessageRedux,
 } = authSlice.actions;
 export default authSlice.reducer;

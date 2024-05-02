@@ -1,29 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { MailOutlined, HomeOutlined, CameraOutlined } from "@ant-design/icons";
 import ButtonLoading from "../../components/button/ButtonLoading";
 import { message, Select, Spin, Upload, UploadProps } from "antd";
 import { dataScale } from "../../utils/dataFetch";
 import IconPhone from "../../components/icons/IconPhone";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import IconMap from "../../components/icons/IconMap";
 import IconLink from "../../components/icons/IconLink";
 import IconGroupUser from "../../components/icons/IconGroupUser";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { formats, modules } from "../../utils/quill";
+import {
+  companyCreateCompany,
+  companyGetCompanyById,
+} from "../../store/company/company-slice";
+import { useParams } from "react-router-dom";
+import bg from "../../assets/bg-login.jpg";
 interface Inputs {
-  companyname: string;
+  name: string;
   phone: number;
   email: string;
   address: string;
   description: string;
-  scale: string;
-  website: string;
-  id: string;
+  companySize: string;
+  companyLink: string;
 }
 const EmployerUpdateInformationCompanyPage: React.FC = () => {
-  const { user } = useSelector((state: any) => state.auth);
+  const { user, companyAuth } = useSelector((state: any) => state.auth);
+  const { loadingCompany, company } = useSelector(
+    (state: any) => state.company
+  );
+  const [companySize, setCompanySize] = useState("");
+  const [companyDescription, setCompanyDescription] = useState("");
+  const { companyId } = useParams();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -32,6 +44,9 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataUpdateCompany: Inputs) => {
     console.log("🚀 ~ dataUpdateCompany:", dataUpdateCompany);
+    if (!companyId) {
+      dispatch(companyCreateCompany(dataUpdateCompany));
+    }
   };
 
   const props: UploadProps = {
@@ -48,8 +63,40 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
   };
 
   useEffect(() => {
+    if (companyId === undefined) {
+      setValue("name", companyAuth?.name, { shouldValidate: true });
+      setValue("phone", companyAuth?.phone, { shouldValidate: true });
+      setValue("email", companyAuth?.email, { shouldValidate: true });
+      setValue("address", companyAuth?.address, { shouldValidate: true });
+      setValue("companyLink", companyAuth?.companyLink, {
+        shouldValidate: true,
+      });
+      setValue("description", companyAuth?.description, {
+        shouldValidate: true,
+      });
+      setCompanySize(companyAuth?.companySize);
+      setCompanyDescription(companyAuth?.description);
+    } else {
+      dispatch(companyGetCompanyById({ companyId: companyId }));
+    }
     window.scrollTo(0, 0);
   }, []);
+  useEffect(() => {
+    if (companyId) {
+      setValue("name", company?.name, { shouldValidate: true });
+      setValue("phone", company?.phone, { shouldValidate: true });
+      setValue("email", company?.email, { shouldValidate: true });
+      setValue("address", company?.address, { shouldValidate: true });
+      setValue("companyLink", company?.companyLink, {
+        shouldValidate: true,
+      });
+      setValue("description", company?.description, {
+        shouldValidate: true,
+      });
+      setCompanySize(company?.companySize);
+      setCompanyDescription(company?.description);
+    }
+  }, [company]);
 
   return (
     <>
@@ -59,28 +106,42 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
             Cập nhật thông tin công ty
           </h2>
         </div>
-        <div className="flex justify-center pt-5">
-          <Upload {...props} className="relative inline-block">
-            {user?.picture ? (
-              <img
-                src={user?.picture}
-                alt=""
-                className="w-[75px] h-[75px] rounded-full cursor-pointer"
-              />
-            ) : (
-              <div className="w-[75px] h-[75px] rounded-full flex">
-                <Spin className="m-auto" />
-              </div>
-            )}
-            {user?.picture ? (
-              <CameraOutlined
-                className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
-                style={{ fontSize: "18px" }}
-              />
-            ) : (
-              ""
-            )}
-          </Upload>
+        <div className="flex relative pt-5 h-[200px] justify-center">
+          <div className="absolute inset-0 bottom-8">
+            <>
+              <Upload
+                {...props}
+                className="absolute top-2 left-2 px-2 py-1 rounded-md bg-slate-100 hover:opacity-90 hover:text-primary transition-all"
+              >
+                <button className="">Chọn ảnh bìa</button>
+              </Upload>
+
+              <img src={bg} alt="" className="w-full h-full object-cover" />
+            </>
+          </div>
+          <div className="flex justify-center self-end ">
+            <Upload {...props} className="relative inline-block">
+              {user?.picture ? (
+                <img
+                  src={user?.picture}
+                  alt=""
+                  className="w-[75px] h-[75px] rounded-full cursor-pointer"
+                />
+              ) : (
+                <div className="w-[75px] h-[75px] rounded-full flex">
+                  <Spin className="m-auto" />
+                </div>
+              )}
+              {user?.picture ? (
+                <CameraOutlined
+                  className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
+                  style={{ fontSize: "18px" }}
+                />
+              ) : (
+                ""
+              )}
+            </Upload>
+          </div>
         </div>
         <h4 className="text-center font-semibold text-base">Logo công ty</h4>
         <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
@@ -104,7 +165,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                   }}
                 />
                 <input
-                  {...register("companyname", {
+                  {...register("name", {
                     required: true,
                   })}
                   placeholder="Tên công ty"
@@ -180,8 +241,10 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                   placeholder="Số lượng nhân viên"
                   className="h-11 mt-2 !w-full"
                   allowClear
+                  value={companySize}
                   onChange={(e) => {
-                    setValue("scale", e);
+                    // setValue("scale", e);
+                    setCompanySize(e);
                   }}
                   options={dataScale}
                 />
@@ -200,7 +263,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
               <div className="mt-2 relative">
                 <IconLink className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconLink>
                 <input
-                  {...register("website", {})}
+                  {...register("companyLink", {})}
                   placeholder="http://"
                   type="text"
                   autoComplete="off"
@@ -244,7 +307,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
               theme="snow"
               modules={modules}
               formats={formats}
-              // value={code}
+              value={companyDescription}
               onChange={(content) => {
                 setValue("description", content);
               }}
@@ -254,7 +317,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
           <div className="flex justify-end mt-10">
             <ButtonLoading
               title="Lưu thông tin"
-              loading={false}
+              loading={loadingCompany}
             ></ButtonLoading>
           </div>
         </form>
