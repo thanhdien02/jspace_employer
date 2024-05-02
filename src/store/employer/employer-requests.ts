@@ -37,3 +37,18 @@ export const requestEmployerPickCompanyInListThatForYourCompany = (
     }
   );
 };
+export const requestEmployerConfirmCompanyInListThatForYourCompany = (
+  company_id: string,
+  accessToken: string
+) => {
+  return axios.put(
+    `${API}/api/v1/employees/pick-company?companyId=${company_id}`,
+    null,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};

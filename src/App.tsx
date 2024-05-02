@@ -49,6 +49,12 @@ function App() {
               }
             ></Route>
             <Route
+              path="/manage/update-information-company/update"
+              element={
+                <EmployerUpdateInformationCompanyPage></EmployerUpdateInformationCompanyPage>
+              }
+            ></Route>
+            <Route
               path="/manage/update-information-company"
               element={
                 <EmployerUpdateInformationCompanyPage></EmployerUpdateInformationCompanyPage>

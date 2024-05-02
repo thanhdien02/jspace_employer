@@ -18,6 +18,7 @@ import {
 } from "../../store/company/company-slice";
 import { useParams } from "react-router-dom";
 import bg from "../../assets/bg-login.jpg";
+import { employerConfirmCompanyEmployer } from "../../store/employer/employer-slice";
 interface Inputs {
   name: string;
   phone: number;
@@ -44,11 +45,14 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataUpdateCompany: Inputs) => {
     console.log("🚀 ~ dataUpdateCompany:", dataUpdateCompany);
-    if (!companyId) {
+    if (companyId === "updatecompany") {
+      // cập nhật
+    } else if (companyId === undefined) {
       dispatch(companyCreateCompany(dataUpdateCompany));
+    } else {
+      dispatch(employerConfirmCompanyEmployer({ company_id: companyId }));
     }
   };
-
   const props: UploadProps = {
     beforeUpload: (file) => {
       const isPNG = file.type === "image/png";
@@ -63,7 +67,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (companyId === undefined) {
+    if (companyId !== undefined && companyId === "updatecompany") {
       setValue("name", companyAuth?.name, { shouldValidate: true });
       setValue("phone", companyAuth?.phone, { shouldValidate: true });
       setValue("email", companyAuth?.email, { shouldValidate: true });
@@ -81,6 +85,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
     }
     window.scrollTo(0, 0);
   }, []);
+
   useEffect(() => {
     if (companyId) {
       setValue("name", company?.name, { shouldValidate: true });

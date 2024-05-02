@@ -15,15 +15,21 @@ const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
   }, []);
   useEffect(() => {
     setProccessCheckIdentification(0);
+    let progress = 0;
     if (checkAuth.hasFullCredentialInfo) {
-      setProccessCheckIdentification(proccessCheckIdentification + 33.33);
+      progress += 33.33;
+      // setProccessCheckIdentification(proccessCheckIdentification + 33.33);
     }
     if (checkAuth?.hasCompany && checkAuth?.companyVerified) {
-      setProccessCheckIdentification(proccessCheckIdentification + 33.33);
+      progress += 33.33;
+      // setProccessCheckIdentification(proccessCheckIdentification + 33.33);
+      console.log("2");
     }
     if (checkAuth?.verifiedByCompany) {
-      setProccessCheckIdentification(proccessCheckIdentification + 33.33);
+      progress += 33.33;
+      // setProccessCheckIdentification(proccessCheckIdentification + 33.33);
     }
+    setProccessCheckIdentification(progress);
   }, [checkAuth]);
 
   return (
