@@ -68,6 +68,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
 
   useEffect(() => {
     if (companyId !== undefined && companyId === "updatecompany") {
+      console.log("123");
       setValue("name", companyAuth?.name, { shouldValidate: true });
       setValue("phone", companyAuth?.phone, { shouldValidate: true });
       setValue("email", companyAuth?.email, { shouldValidate: true });
@@ -87,7 +88,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (companyId) {
+    if (companyId && companyId !== "updatecompany") {
       setValue("name", company?.name, { shouldValidate: true });
       setValue("phone", company?.phone, { shouldValidate: true });
       setValue("email", company?.email, { shouldValidate: true });

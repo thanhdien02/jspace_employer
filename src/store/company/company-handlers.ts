@@ -34,7 +34,8 @@ function* handleCompanyUpdateInformation(
     } else {
       message.error("Cập nhật thông tin tài khoản thất bại.");
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(companyUpdateLoadingRedux({ loadingCompany: false }));
   }
@@ -56,7 +57,8 @@ function* handleCompanyCreateCompany(dataCompanyCreate: any): Generator<any> {
     } else {
       message.error("Tạo công ty thất bại.");
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(companyUpdateLoadingRedux({ loadingCompany: false }));
   }
@@ -92,7 +94,8 @@ function* handleCompanyGetCompany(dataGetCompany: any): Generator<any> {
     } else {
       message.error("Tạo công ty thất bại.");
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(companyUpdateLoadingRedux({ loadingCompany: false }));
   }
@@ -114,7 +117,8 @@ function* handleCompanyGetCompanyById(dataGetById: any): Generator<any> {
     } else {
       message.error("Tạo công ty thất bại.");
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(companyUpdateLoadingRedux({ loadingCompany: false }));
   }

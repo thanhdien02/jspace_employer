@@ -30,7 +30,8 @@ function* handleEmployerUpdateInformation(
       message.error("Cập nhật thông tin tài khoản thất bại.");
       // yield put(employerUpdateMessageRedux({ messageAdmin: "fail" }));
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(employerUpdateLoadingRedux({ loadingEmployer: false }));
   }
@@ -54,7 +55,8 @@ function* handleEmployerConfirmInformationCompany(
     } else {
       message.error("Cập nhật thông tin tài khoản thất bại.");
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(employerUpdateLoadingRedux({ loadingEmployer: false }));
   }

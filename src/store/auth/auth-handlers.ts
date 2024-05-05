@@ -28,7 +28,8 @@ function* handleAuthLogin(dataLogin: any): Generator<any> {
       );
       yield call(handleAuthFetchMe);
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(authUpdateLoadingRedux({ loading: false }));
   }
@@ -62,6 +63,7 @@ function* handleAuthFetchMe(): Generator<any> {
       logOut();
     }
   } catch (error: any) {
+    message.error(error?.response?.data?.message);
     yield put(
       authUpdateMessageRedux({ messageAuth: error?.response?.data?.message })
     );
@@ -85,7 +87,8 @@ function* handleAuthRegister(dataRegister: any): Generator<any> {
       );
       yield call(handleAuthFetchMe);
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(authUpdateLoadingRedux({ loading: false }));
   }
@@ -97,9 +100,10 @@ function* handleAuthRefrestToken(): Generator<any> {
     const response: any = yield call(requestAuthRefresh, refreshToken);
     if (response?.data?.result) {
       saveToken(response?.data?.result?.accessToken, refreshToken);
-      yield call(handleAuthRefrestToken);
+      yield call(handleAuthFetchMe);
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
   }
 }

@@ -29,7 +29,8 @@ function* handleFileUploadFile(dataUploadFile: any): Generator<any> {
         })
       );
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(fileUpdateLoadingRedux({ loading: false }));
   }
@@ -57,7 +58,8 @@ function* handleFileGetAllFile(dataCandadate_id: any): Generator<any> {
         })
       );
     }
-  } catch (error) {
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
   } finally {
     yield put(fileUpdateLoadingRedux({ loading: false }));
   }
