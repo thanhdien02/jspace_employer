@@ -41,8 +41,8 @@ export const dataSideBar = [
   {
     key: "6",
     icon: <SwapOutlined />,
-    label: "Đổi mật khẩu",
-    path: "/manage/change-password",
+    label: "Đăng bài",
+    path: "/manage/post-job",
   },
   {
     key: "7",
@@ -67,4 +67,109 @@ export const dataScale = [
   { value: "1000+", label: "1000+ nhân viên" },
   { value: "3000+", label: "3000+ nhân viên" },
   { value: "5000+", label: "5000+ nhân viên" },
+];
+export const dataExperience: any = [
+  {
+    value: "khongyeucau",
+    label: "Không yêu cầu",
+  },
+  {
+    value: "1nam",
+    label: "1 năm kinh nghiệm",
+  },
+  {
+    value: "2nam",
+    label: "2 năm kinh nghiệm",
+  },
+  {
+    value: "3nam",
+    label: "3 năm kinh nghiệm",
+  },
+  {
+    value: "4nam",
+    label: "4 năm kinh nghiệm",
+  },
+  {
+    value: "5nam",
+    label: "5 năm kinh nghiệm",
+  },
+];
+export const dataAddress: any = [
+  {
+    value: "hcm",
+    label: "TP HCM",
+  },
+  {
+    value: "dongthap",
+    label: "Đồng Tháp",
+  },
+  {
+    value: "hanoi",
+    label: "Hà Nội",
+  },
+  {
+    value: "cantho",
+    label: "Cần Thơ",
+  },
+];
+
+export const dataSkills: any = [
+  {
+    value: "JAVA",
+    label: "JAVA",
+  },
+  {
+    value: "React JS",
+    label: "React JS",
+  },
+  {
+    value: "TypeScript",
+    label: "TypeScript",
+  },
+  {
+    value: "Spring Boot",
+    label: "Spring Boot",
+  },
+  {
+    value: "Javascript",
+    label: "Javascript",
+  },
+  {
+    value: "HTML",
+    label: "HTML",
+  },
+  {
+    value: "CSS",
+    label: "CSS",
+  },
+  {
+    value: "Vue",
+    label: "Vue",
+  },
+  {
+    value: "Kỹ thuật lập trình",
+    label: "Kỹ thuật lập trình",
+  },
+  {
+    value: "Quan hện công chúng a",
+    label: "Quan hện công chúng a",
+  },
+  {
+    value: "Quan hện công chúng b",
+    label: "Quan hện công chúng b",
+  },
+  {
+    value: "Quan hện công chúng c",
+    label: "Quan hện công chúng c",
+  },
+];
+export const dataTimeWork: any = [
+  {
+    value: "fulltime",
+    label: "Full time",
+  },
+  {
+    value: "parttime",
+    label: "Part time",
+  },
 ];

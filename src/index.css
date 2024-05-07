@@ -66,8 +66,29 @@ html {
   border-color: #1967d2;
   color: white;
 }
-.ant-input-search-button:hover  {
+.ant-input-search-button:hover {
   background-color: #1967d2 !important;
   border-color: #1967d2;
   color: white;
+}
+/* select */
+.select-custom > .ant-select-selector {
+  border: none !important;
+}
+
+.select-custom .ant-select-selection-item {
+  padding: 0 !important;
+}
+.select-custom .ant-select-selection-placeholder {
+  display: inline-block;
+  margin-left: 0px;
+}
+.skill.select-custom .ant-select-selector {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+/* datepicker */
+.ant-picker-outlined {
+  border-color: #e7e5e4 !important;
+  box-shadow: none !important;
 }
