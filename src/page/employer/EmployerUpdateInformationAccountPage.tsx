@@ -3,7 +3,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { MailOutlined, UserOutlined, CameraOutlined } from "@ant-design/icons";
 import IconPhone from "../../components/icons/IconPhone";
-import { employerUpdateInformationEmployer } from "../../store/employer/employer-slice";
+import {
+  employerUpdateBackgroundEmployer,
+  employerUpdateInformationEmployer,
+} from "../../store/employer/employer-slice";
 import { message, Select, Spin, Upload, UploadProps } from "antd";
 import { dataPosition } from "../../utils/dataFetch";
 import ButtonLoading from "../../components/button/ButtonLoading";
@@ -41,14 +44,33 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
   }, []);
   const props: UploadProps = {
     beforeUpload: (file) => {
+      const isPNG = file.type === "image/png" || "image/jpg";
+      if (!isPNG) {
+        message.error(`${file.name} is not a png file`);
+      }
+      return isPNG || Upload.LIST_IGNORE;
+    },
+    onChange: (info: any) => {
+      dispatch(
+        employerUpdateBackgroundEmployer({
+          file: info.file,
+          employer_id: user?.id,
+        })
+      );
+    },
+    customRequest: () => {},
+  };
+  const props1: UploadProps = {
+    beforeUpload: (file) => {
       const isPNG = file.type === "image/png";
       if (!isPNG) {
         message.error(`${file.name} is not a png file`);
       }
       return isPNG || Upload.LIST_IGNORE;
     },
-    onChange: (info) => {
+    onChange: (info: any) => {
       console.log(info.fileList);
+      console.log("123");
     },
   };
   return (
@@ -58,28 +80,46 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
           <h2 className="font-bold text-lg my-3 text-gray-800 mb-5">
             Cài đặt thông tin cá nhân
           </h2>
-          <div className="flex justify-center pt-5">
-            <Upload {...props} className="relative inline-block">
-              {user?.picture ? (
+          <div className="flex relative pt-5 h-[200px] justify-center">
+            <div className="absolute inset-0 bottom-8 bg-blue-100">
+              <>
+                <Upload
+                  {...props}
+                  className="absolute top-2 cursor-pointer left-2 px-2 py-1 rounded-md bg-slate-100 hover:opacity-90 hover:text-primary transition-all"
+                >
+                  <span className="">Chọn ảnh bìa</span>
+                </Upload>
+
                 <img
-                  src={user?.picture}
+                  src="https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
                   alt=""
-                  className="w-[75px] h-[75px] rounded-full cursor-pointer"
+                  className="w-full h-full object-cover"
                 />
-              ) : (
-                <div className="w-[75px] h-[75px] rounded-full flex">
-                  <Spin className="m-auto" />
-                </div>
-              )}
-              {user?.picture ? (
-                <CameraOutlined
-                  className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
-                  style={{ fontSize: "18px" }}
-                />
-              ) : (
-                ""
-              )}
-            </Upload>
+              </>
+            </div>
+            <div className="flex justify-center self-end ">
+              <Upload {...props1} className="relative inline-block">
+                {user?.picture ? (
+                  <img
+                    src={user?.picture}
+                    alt=""
+                    className="w-[75px] h-[75px] rounded-full cursor-pointer"
+                  />
+                ) : (
+                  <div className="w-[75px] h-[75px] rounded-full flex bg-white">
+                    <Spin className="m-auto" />
+                  </div>
+                )}
+                {user?.picture ? (
+                  <CameraOutlined
+                    className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
+                    style={{ fontSize: "18px" }}
+                  />
+                ) : (
+                  ""
+                )}
+              </Upload>
+            </div>
           </div>
           <h4 className="text-center font-semibold text-base">Ảnh đại diện</h4>
           <div className="flex gap-10 mt-6">
@@ -88,7 +128,7 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                 htmlFor="namecompany"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Tên công ty
+                Tên tài khoản
               </label>
               <div className="mt-2 relative">
                 <UserOutlined
@@ -111,13 +151,14 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                   id="name"
                   className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
                 />
-                <p className="text-red-500 py-2">
-                  {" "}
-                  {errors?.name?.type === "required"
-                    ? "*Bạn chưa điền thông tin tài khoản."
-                    : ""}
-                </p>
               </div>
+              {errors?.name?.type == "required" ? (
+                <p className="text-red-600 mt-1">
+                  *Bạn chưa điền tên tài khoản
+                </p>
+              ) : (
+                <></>
+              )}
             </div>
             <div className="grow-[1]">
               <label

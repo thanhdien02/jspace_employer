@@ -27,6 +27,8 @@ const companySlice: any = createSlice({
     }),
     companyCreateCompany: () => {},
     companyGetCompany: () => {},
+    companyUpdateLogoCompany: () => {},
+    companyUpdateBackgroundCompany: () => {},
     companyGetCompanyById: () => {},
     companyUpdateCompanyRedux: (state, action) => ({
       ...state,
@@ -48,5 +50,7 @@ export const {
   companyGetCompany,
   companyGetCompanyById,
   companyUpdatePaginationRedux,
+  companyUpdateLogoCompany,
+  companyUpdateBackgroundCompany,
 } = companySlice.actions;
 export default companySlice.reducer;

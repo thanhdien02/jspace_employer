@@ -11,7 +11,9 @@ import {
   requestCompanyCreateCompany,
   requestCompanyGetCompany,
   requestCompanyGetCompanyById,
+  requestCompanyUpdateBackground,
   requestCompanyUpdateInformation,
+  requestCompanyUpdateLogo,
 } from "./company-requests";
 
 function* handleCompanyUpdateInformation(
@@ -92,7 +94,7 @@ function* handleCompanyGetCompany(dataGetCompany: any): Generator<any> {
         })
       );
     } else {
-      message.error("Tạo công ty thất bại.");
+      // message.error("Tạo công ty thất bại.");
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);
@@ -110,12 +112,69 @@ function* handleCompanyGetCompanyById(dataGetById: any): Generator<any> {
       dataGetById?.payload?.companyId,
       token?.accessToken
     );
-    console.log(response);
     if (response?.data?.code === 1000) {
       message.success("Load dữ liệu công ty thành công.");
       yield put(companyUpdateCompanyRedux({ company: response.data.result }));
     } else {
-      message.error("Tạo công ty thất bại.");
+      // message.error("Tạo công ty thất bại.");
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(companyUpdateLoadingRedux({ loadingCompany: false }));
+  }
+}
+
+function* handleCompanyUpdateBackgroundCompany(
+  dataUpdateBackgroundCompany: any
+): Generator<any> {
+  try {
+    yield put(companyUpdateLoadingRedux({ loadingCompany: true }));
+    const token: Token = getToken();
+    const formData = new FormData();
+    formData.append(
+      "file",
+      dataUpdateBackgroundCompany?.payload?.file?.originFileObj
+    );
+    const response: any = yield call(
+      requestCompanyUpdateBackground,
+      formData,
+      dataUpdateBackgroundCompany?.payload?.company_id,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      message.success("Cập nhật background thành công.");
+      yield call(handleAuthFetchMe);
+    } else {
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(companyUpdateLoadingRedux({ loadingCompany: false }));
+  }
+}
+
+function* handleCompanyUpdateLogoCompany(
+  dataUpdateLogoCompany: any
+): Generator<any> {
+  try {
+    yield put(companyUpdateLoadingRedux({ loadingCompany: true }));
+    const token: Token = getToken();
+    const formData = new FormData();
+    formData.append(
+      "file",
+      dataUpdateLogoCompany?.payload?.file?.originFileObj
+    );
+    const response: any = yield call(
+      requestCompanyUpdateLogo,
+      formData,
+      dataUpdateLogoCompany?.payload?.company_id,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      message.success("Cập nhật logo công ty thành công.");
+      yield call(handleAuthFetchMe);
+    } else {
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);
@@ -128,4 +187,6 @@ export {
   handleCompanyCreateCompany,
   handleCompanyGetCompany,
   handleCompanyGetCompanyById,
+  handleCompanyUpdateBackgroundCompany,
+  handleCompanyUpdateLogoCompany,
 };

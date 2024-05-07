@@ -53,13 +53,48 @@ export const requestCompanyGetCompany = (
   );
 };
 export const requestCompanyGetCompanyById = (
-  companyId: string,
+  companyId: string = "",
   accessToken: string
 ) => {
+  if (companyId == "") return;
   return axios.get(`${API}/api/v1/companies/${companyId}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
   });
+};
+export const requestCompanyUpdateBackground = (
+  dataCompanyUpdateBackground: any,
+  company_id: string = "",
+  accessToken: string
+) => {
+  if (accessToken === undefined || company_id == "") return;
+  return axios.put(
+    `${API}/api/v1/companies/${company_id}/update-background`,
+    dataCompanyUpdateBackground,
+    {
+      headers: {
+        "Content-Type": "multipart/form-datas",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
+export const requestCompanyUpdateLogo = (
+  dataCompanyUpdateLogo: any,
+  company_id: string = "",
+  accessToken: string
+) => {
+  if (accessToken === undefined || company_id == "") return;
+  return axios.put(
+    `${API}/api/v1/companies/${company_id}/update-logo`,
+    dataCompanyUpdateLogo,
+    {
+      headers: {
+        "Content-Type": "multipart/form-datas",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 };

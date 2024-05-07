@@ -134,6 +134,7 @@ const EmployerPostJobPage: React.FC = () => {
                   {...register("experience", {
                     required: true,
                   })}
+                  allowClear={true}
                   showSearch
                   placeholder="Kinh nghiệm"
                   className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-3 border border-stone-200 border-solid w-full rounded-md"
@@ -198,6 +199,7 @@ const EmployerPostJobPage: React.FC = () => {
                 <Select
                   showSearch
                   placeholder="Vị trí"
+                  allowClear={true}
                   className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                   optionFilterProp="children"
                   filterOption={(input, option: any) =>
@@ -235,6 +237,7 @@ const EmployerPostJobPage: React.FC = () => {
                     required: true,
                   })}
                   showSearch
+                  allowClear={true}
                   placeholder="Địa chỉ"
                   className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                   optionFilterProp="children"
@@ -271,6 +274,7 @@ const EmployerPostJobPage: React.FC = () => {
                   })}
                   id="timeWord"
                   showSearch
+                  allowClear={true}
                   placeholder="Thời gian làm việc"
                   className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                   optionFilterProp="children"

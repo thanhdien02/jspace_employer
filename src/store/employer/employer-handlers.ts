@@ -3,6 +3,7 @@ import { getToken, Token } from "../../utils/auth";
 import { employerUpdateLoadingRedux } from "./employer-slice";
 import {
   requestEmployerConfirmCompanyInListThatForYourCompany,
+  requestEmployerUpdateBackground,
   requestEmployerUpdateInformation,
 } from "./employer-requests";
 import { message } from "antd";
@@ -25,10 +26,8 @@ function* handleEmployerUpdateInformation(
     if (response?.data?.code === 1000) {
       message.success("Cập nhật thông tin tài khoản thành công.");
       yield call(handleAuthFetchMe);
-      // yield put(employerUpdateMessageRedux({ messageAdmin: "success" }));
     } else {
-      message.error("Cập nhật thông tin tài khoản thất bại.");
-      // yield put(employerUpdateMessageRedux({ messageAdmin: "fail" }));
+      // message.error("Cập nhật thông tin tài khoản thất bại.");
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);
@@ -61,7 +60,37 @@ function* handleEmployerConfirmInformationCompany(
     yield put(employerUpdateLoadingRedux({ loadingEmployer: false }));
   }
 }
+function* handleEmployerBackgroundEmployer(
+  dataBackgroundEmployer: any
+): Generator<any> {
+  try {
+    yield put(employerUpdateLoadingRedux({ loadingEmployer: true }));
+    const token: Token = getToken();
+    const formData = new FormData();
+    formData.append(
+      "file",
+      dataBackgroundEmployer?.payload?.file?.originFileObj
+    );
+    const response: any = yield call(
+      requestEmployerUpdateBackground,
+      formData,
+      dataBackgroundEmployer?.payload?.employer_id,
+      token?.accessToken
+    );
+    console.log("response: " + response);
+    if (response?.data?.code === 1000) {
+      message.success("Cập nhật background thành công.");
+      yield call(handleAuthFetchMe);
+    } else {
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(employerUpdateLoadingRedux({ loadingEmployer: false }));
+  }
+}
 export {
   handleEmployerUpdateInformation,
   handleEmployerConfirmInformationCompany,
+  handleEmployerBackgroundEmployer,
 };

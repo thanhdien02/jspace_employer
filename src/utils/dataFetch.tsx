@@ -44,12 +44,6 @@ export const dataSideBar = [
     label: "Đăng bài",
     path: "/manage/post-job",
   },
-  {
-    key: "7",
-    icon: <IconBuilding></IconBuilding>,
-    label: "Thông tin công ty",
-    path: "/manage/update-information-company",
-  },
 ];
 export const dataPosition = [
   { value: "truongphong", label: "Trưởng phòng" },

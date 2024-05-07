@@ -92,3 +92,8 @@ html {
   border-color: #e7e5e4 !important;
   box-shadow: none !important;
 }
+
+/* upload image antd */
+.ant-upload-list.ant-upload-list-text{
+  display: none !important;
+}

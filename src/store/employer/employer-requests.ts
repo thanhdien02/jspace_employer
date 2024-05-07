@@ -19,19 +19,18 @@ export const requestEmployerUpdateInformation = (
     }
   );
 };
-export const requestEmployerPickCompanyInListThatForYourCompany = (
-  dataUpdateEmployerForPick: any,
-  employer_id: string,
+export const requestEmployerUpdateBackground = (
+  dataEmployerUpdateBackground: any,
+  employer_id: string = "",
   accessToken: string
 ) => {
-  return axios.patch(
-    `${API}/api/v1/employees/${employer_id}`,
-    {
-      ...dataUpdateEmployerForPick,
-    },
+  if (accessToken === undefined || employer_id == "") return;
+  return axios.put(
+    `${API}/api/v1/employees/${employer_id}/update-background`,
+    dataEmployerUpdateBackground,
     {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-datas",
         Authorization: `Bearer ${accessToken}`,
       },
     }
@@ -41,6 +40,7 @@ export const requestEmployerConfirmCompanyInListThatForYourCompany = (
   company_id: string,
   accessToken: string
 ) => {
+  if (company_id === undefined) return;
   return axios.put(
     `${API}/api/v1/employees/pick-company?companyId=${company_id}`,
     null,
