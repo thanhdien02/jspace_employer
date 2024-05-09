@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IFile {
   files: any;
-  loading?: boolean;
+  loadingFile?: boolean;
   messageFile?: string;
 }
 
 const init: IFile = {
   files: {},
-  loading: false,
+  loadingFile: false,
   messageFile: "",
 };
 const fileSlice: any = createSlice({
@@ -18,9 +18,10 @@ const fileSlice: any = createSlice({
     fileUploadFile: (state: any) => ({
       ...state,
     }),
+    fileUploadImage: () => {},
     fileUpdateLoadingRedux: (state: any, action: any) => ({
       ...state,
-      loading: action.payload.loading,
+      loadingFile: action.payload.loadingFile,
     }),
     fileUpdateFileRedux: (state: any, action: any) => ({
       ...state,
@@ -41,5 +42,6 @@ export const {
   fileUpdateMessageRedux,
   fileGetAllFile,
   fileUpdateFileRedux,
+  fileUploadImage,
 } = fileSlice.actions;
 export default fileSlice.reducer;

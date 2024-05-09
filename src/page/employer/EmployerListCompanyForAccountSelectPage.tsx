@@ -63,7 +63,7 @@ const EmployerListCompanyForAccountSelectPage: React.FC = () => {
             </div>
           ) : company?.length > 0 ? (
             <>
-              <div className="grid gap-5 grid-cols-2 p-5 pt-0">
+              <div className="grid gap-5 grid-cols-2 p-5 pt-0 overflow-hidden">
                 {company?.length > 0 &&
                   company?.map((item: any) => (
                     <CardCompanyForAccountSelect

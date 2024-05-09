@@ -4,6 +4,7 @@ import employerReducer from "./employer/employer-slice";
 import commonReducer from "./common/common-slice";
 import companyReducer from "./company/company-slice";
 import fileReducer from "./file/file-slice";
+import jobReducer from "./job/job-slice";
 import { combineReducers } from "@reduxjs/toolkit";
 
 export const reducer: any = combineReducers({
@@ -13,4 +14,5 @@ export const reducer: any = combineReducers({
   common: commonReducer,
   file: fileReducer,
   company: companyReducer,
+  job: jobReducer,
 });

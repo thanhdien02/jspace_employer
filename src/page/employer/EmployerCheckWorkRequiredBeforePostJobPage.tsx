@@ -1,4 +1,4 @@
-import { Progress, Tooltip } from "antd";
+import { Popover, Progress, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -102,9 +102,17 @@ const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
                 ) : (
                   <IconText></IconText>
                 )}
-                <span className="font-medium text-base">
-                  Xác thực tài khoản
-                </span>
+                <Popover
+                  content={
+                    <p className="max-w-[300px] font-medium">
+                      Nhấn vào để gửi thông báo đến email công ty xác nhận.
+                    </p>
+                  }
+                >
+                  <span className="font-medium text-base">
+                    Xác thực là thành viên của công ty
+                  </span>
+                </Popover>
               </NavLink>
             </div>
             <div className="mt-4 text-gray-500 font-medium text-xs px-5">

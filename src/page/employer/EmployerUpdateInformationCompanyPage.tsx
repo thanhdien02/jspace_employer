@@ -21,6 +21,10 @@ import {
 import { useParams } from "react-router-dom";
 import bg from "../../assets/bg-login.jpg";
 import { employerConfirmCompanyEmployer } from "../../store/employer/employer-slice";
+import {
+  fileUpdateMessageRedux,
+  fileUploadImage,
+} from "../../store/file/file-slice";
 interface Inputs {
   name: string;
   phone: number;
@@ -29,13 +33,20 @@ interface Inputs {
   description: string;
   companySize: string;
   companyLink: string;
+  logo?: string;
+  background?: string;
 }
 const EmployerUpdateInformationCompanyPage: React.FC = () => {
   const { companyAuth } = useSelector((state: any) => state.auth);
+  const { loadingFile, messageFile, files } = useSelector(
+    (state: any) => state.file
+  );
   const { loadingCompany, company } = useSelector(
     (state: any) => state.company
   );
   const [companySize, setCompanySize] = useState("");
+  const [companyLogo, setCompanyLogo] = useState("");
+  const [companyBackground, setCompanyBackground] = useState("");
   const [companyDescription, setCompanyDescription] = useState("");
   const { companyId } = useParams();
   const dispatch = useDispatch();
@@ -65,13 +76,16 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
       return isPNG || Upload.LIST_IGNORE;
     },
     onChange: (info) => {
-      console.log(info.file);
-      dispatch(
-        companyUpdateBackgroundCompany({
-          file: info.file,
-          company_id: companyAuth?.id,
-        })
-      );
+      if (companyId === undefined) {
+        dispatch(fileUploadImage({ file: info.file, message: "background" }));
+      } else {
+        dispatch(
+          companyUpdateBackgroundCompany({
+            file: info.file,
+            company_id: companyAuth?.id,
+          })
+        );
+      }
     },
     customRequest: () => {},
   };
@@ -84,13 +98,16 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
       return isPNG || Upload.LIST_IGNORE;
     },
     onChange: (info) => {
-      console.log(info.file);
-      dispatch(
-        companyUpdateLogoCompany({
-          file: info.file,
-          company_id: companyAuth?.id,
-        })
-      );
+      if (companyId === undefined) {
+        dispatch(fileUploadImage({ file: info.file, message: "logo" }));
+      } else {
+        dispatch(
+          companyUpdateLogoCompany({
+            file: info.file,
+            company_id: companyAuth?.id,
+          })
+        );
+      }
     },
     customRequest: () => {},
   };
@@ -110,12 +127,26 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
       setValue("companySize", companyAuth?.companySize);
       setCompanySize(companyAuth?.companySize);
       setCompanyDescription(companyAuth?.description);
+      setCompanyLogo(companyAuth?.logo);
+      setCompanyBackground(companyAuth?.background);
     } else {
       dispatch(companyGetCompanyById({ companyId: companyId }));
     }
     window.scrollTo(0, 0);
   }, [companyAuth]);
 
+  useEffect(() => {
+    if (messageFile == "logo") {
+      setCompanyLogo(files?.filePath);
+      setValue("logo", files?.filePath);
+    } else if (messageFile == "background") {
+      setCompanyBackground(files?.filePath);
+      setValue("background", files?.filePath);
+    }
+    if (messageFile != "") {
+      dispatch(fileUpdateMessageRedux({ messageFile: "" }));
+    }
+  }, [files]);
   useEffect(() => {
     if (companyId && companyId !== "updatecompany") {
       setValue("name", company?.name, { shouldValidate: true });
@@ -131,6 +162,8 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
       setValue("companySize", company?.companySize);
       setCompanySize(company?.companySize);
       setCompanyDescription(company?.description);
+      setCompanyLogo(company?.logo);
+      setCompanyBackground(company?.background);
     }
   }, [company]);
 
@@ -152,13 +185,13 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                 <span className="">Chọn ảnh bìa</span>
               </Upload>
 
-              {loadingCompany ? (
+              {loadingCompany || loadingFile ? (
                 <div className="flex bg-gray-200 h-full w-full">
                   <Spin className="m-auto" />
                 </div>
               ) : (
                 <img
-                  src={companyAuth?.background ? companyAuth.background : bg}
+                  src={companyBackground ? companyBackground : bg}
                   alt=""
                   className="w-full h-full object-cover"
                 />
@@ -167,24 +200,24 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
           </div>
           <div className="flex justify-center self-end ">
             <Upload {...propsLogo} className="relative inline-block">
-              {!loadingCompany ? (
-                <img
-                  src={companyAuth?.logo ? companyAuth.logo : bg}
-                  alt=""
-                  className="w-[75px] h-[75px] object-cover rounded-full cursor-pointer"
-                />
-              ) : (
+              {loadingCompany || loadingFile ? (
                 <div className="w-[75px] h-[75px] rounded-full flex bg-white">
                   <Spin className="m-auto" />
                 </div>
+              ) : (
+                <img
+                  src={companyLogo ? companyLogo : bg}
+                  alt=""
+                  className="w-[75px] h-[75px] object-cover rounded-full cursor-pointer bg-white"
+                />
               )}
-              {!loadingCompany ? (
+              {loadingCompany || loadingFile ? (
+                ""
+              ) : (
                 <CameraOutlined
                   className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
                   style={{ fontSize: "18px" }}
                 />
-              ) : (
-                ""
               )}
             </Upload>
           </div>
@@ -297,7 +330,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                 </div>
                 <p className="text-red-500 mt-1">
                   {" "}
-                  {errors?.email?.type == "required"
+                  {errors?.phone?.type == "required"
                     ? "*Bạn chưa điền số điện thoại."
                     : ""}
                 </p>

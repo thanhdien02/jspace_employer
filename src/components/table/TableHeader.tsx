@@ -7,7 +7,7 @@ interface PropComponent {
 const TableHeader: React.FC<PropComponent> = ({ className, children }) => {
   return (
     <>
-      <thead className={`rounded-md ${className}`}>
+      <thead className={`rounded-md text-nowrap ${className}`}>
         <tr>{children}</tr>
       </thead>
     </>

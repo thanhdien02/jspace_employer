@@ -8,6 +8,7 @@ const HomePage: React.FC = () => {
         harum, eum ullam fugit, numquam natus ab voluptas amet iusto nihil sed
         quod minima excepturi delectus enim sequi quo praesentium non.
       </div>
+      <div className="h-[1000px]"></div>
     </>
   );
 };

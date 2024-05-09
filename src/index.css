@@ -8,8 +8,8 @@
   box-sizing: border-box;
 }
 
-html {
-  overflow-y: scroll;
+body {
+  overflow: visible;
 }
 
 ::-webkit-scrollbar {
@@ -94,6 +94,6 @@ html {
 }
 
 /* upload image antd */
-.ant-upload-list.ant-upload-list-text{
+.ant-upload-list.ant-upload-list-text {
   display: none !important;
 }

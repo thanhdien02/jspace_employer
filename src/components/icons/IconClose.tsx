@@ -9,7 +9,10 @@ const IconClose: React.FC<PropComponent> = ({
   actionCloseLogin,
 }) => {
   return (
-    <span className={`${className}`} onClick={() => actionCloseLogin(false)}>
+    <span
+      className={`${className}`}
+      onClick={() => (actionCloseLogin ? actionCloseLogin(false) : {})}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

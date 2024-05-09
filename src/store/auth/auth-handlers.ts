@@ -64,9 +64,14 @@ function* handleAuthFetchMe(): Generator<any> {
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);
-    yield put(
-      authUpdateMessageRedux({ messageAuth: error?.response?.data?.message })
-    );
+    if (error.response.data.message === "Do not permission") {
+      logOut();
+      yield put(authUpdateMessageRedux({ messageAuth: "notpermission" }));
+    } else {
+      yield put(
+        authUpdateMessageRedux({ messageAuth: error?.response?.data?.message })
+      );
+    }
   } finally {
   }
 }
@@ -103,6 +108,7 @@ function* handleAuthRefrestToken(): Generator<any> {
       yield call(handleAuthFetchMe);
     }
   } catch (error: any) {
+    logOut();
     message.error(error?.response?.data?.message);
   } finally {
   }

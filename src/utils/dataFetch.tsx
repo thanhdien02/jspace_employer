@@ -4,6 +4,7 @@ import {
   UserOutlined,
   DashboardOutlined,
   SwapOutlined,
+  ScheduleOutlined,
 } from "@ant-design/icons";
 import IconBuilding from "../components/icons/IconBuilding";
 
@@ -43,6 +44,12 @@ export const dataSideBar = [
     icon: <SwapOutlined />,
     label: "Đăng bài",
     path: "/manage/post-job",
+  },
+  {
+    key: "7",
+    icon: <ScheduleOutlined />,
+    label: "Quản lí công việc",
+    path: "/manage/jobs",
   },
 ];
 export const dataPosition = [
@@ -165,5 +172,68 @@ export const dataTimeWork: any = [
   {
     value: "parttime",
     label: "Part time",
+  },
+];
+export const dataGender: any = [
+  {
+    value: "Male",
+    label: "Male",
+  },
+  {
+    value: "Female",
+    label: "Female",
+  },
+  {
+    value: "Other",
+    label: "Other",
+  },
+];
+
+export const dataHeaderManageJob = [
+  {
+    title: "ID",
+    width: "4%",
+  },
+  {
+    title: "Tên công việc",
+    width: "20%",
+  },
+  {
+    title: "Mức lương",
+    width: "10%",
+  },
+  {
+    title: "Số lượng",
+    width: "5%",
+  },
+  {
+    title: "Vị trí",
+    width: "5%",
+  },
+  {
+    title: "Giới tính",
+    width: "5%",
+  },
+  {
+    title: "TG làm việc",
+    width: "5%",
+  },
+  {
+    title: "Kỹ năng",
+    width: "15%",
+  },
+  {
+    title: "Ngày đăng",
+    width: "8%",
+  },
+  {
+    title: "Ngày kết thúc",
+    width: "8%",
+  },
+
+  {
+    title: "Thực hiện",
+    width: "10%",
+    className: "absolute right-3 z-10",
   },
 ];

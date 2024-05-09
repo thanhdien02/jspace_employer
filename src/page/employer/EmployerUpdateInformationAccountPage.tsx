@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { MailOutlined, UserOutlined, CameraOutlined } from "@ant-design/icons";
@@ -18,9 +18,11 @@ interface Inputs {
   id: string;
 }
 const EmployerUpdateInformationAccountPage: React.FC = () => {
-  const { accessToken, user } = useSelector((state: any) => state.auth);
+  const { user } = useSelector((state: any) => state.auth);
   const { loadingEmployer } = useSelector((state: any) => state.employer);
   const dispatch = useDispatch();
+  const [employerLogo, setEmployerLogo] = useState("");
+  const [employerBackground, setEmployerBackground] = useState("");
   const {
     register,
     handleSubmit,
@@ -36,7 +38,9 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
     setValue("phone", user?.phone, { shouldValidate: true });
     setValue("email", user?.email, { shouldValidate: true });
     setValue("id", user?.id, { shouldValidate: true });
-  }, [accessToken]);
+    setEmployerLogo(user?.picture);
+    setEmployerBackground(user?.background);
+  }, [user]);
 
   useEffect(() => {
     document.title = "Chi tiết tài khoản";
@@ -70,7 +74,6 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
     },
     onChange: (info: any) => {
       console.log(info.fileList);
-      console.log("123");
     },
   };
   return (
@@ -90,18 +93,32 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                   <span className="">Chọn ảnh bìa</span>
                 </Upload>
 
-                <img
-                  src="https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
+                {loadingEmployer ? (
+                  <div className="flex bg-gray-200 h-full w-full">
+                    <Spin className="m-auto" />
+                  </div>
+                ) : (
+                  <img
+                    src={
+                      employerBackground
+                        ? employerBackground
+                        : "https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
+                    }
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </>
             </div>
             <div className="flex justify-center self-end ">
               <Upload {...props1} className="relative inline-block">
-                {user?.picture ? (
+                {employerLogo ? (
                   <img
-                    src={user?.picture}
+                    src={
+                      employerLogo
+                        ? employerLogo
+                        : "https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
+                    }
                     alt=""
                     className="w-[75px] h-[75px] rounded-full cursor-pointer"
                   />
@@ -110,7 +127,7 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                     <Spin className="m-auto" />
                   </div>
                 )}
-                {user?.picture ? (
+                {employerLogo ? (
                   <CameraOutlined
                     className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
                     style={{ fontSize: "18px" }}
@@ -187,7 +204,7 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                   type="email"
                   autoComplete="off"
                   id="email"
-                  className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-12 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
+                  className="h-full cursor-not-allowed focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-12 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                 />
               </div>
             </div>

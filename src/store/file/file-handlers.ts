@@ -5,12 +5,16 @@ import {
   fileUpdateLoadingRedux,
   fileUpdateMessageRedux,
 } from "./file-slice";
-import { requestFileGetAllFile, requestFileUploadFile } from "./file-requests";
+import {
+  requestFileGetAllFile,
+  requestFileUploadFile,
+  requestFileUploadImage,
+} from "./file-requests";
 import { message } from "antd";
 
 function* handleFileUploadFile(dataUploadFile: any): Generator<any> {
   try {
-    yield put(fileUpdateLoadingRedux({ loading: true }));
+    yield put(fileUpdateLoadingRedux({ loadingFile: true }));
     const formData = new FormData();
     formData.append("file", dataUploadFile?.payload?.file);
     formData.append("name", dataUploadFile?.payload?.file?.name);
@@ -32,13 +36,41 @@ function* handleFileUploadFile(dataUploadFile: any): Generator<any> {
   } catch (error: any) {
     message.error(error?.response?.data?.message);
   } finally {
-    yield put(fileUpdateLoadingRedux({ loading: false }));
+    yield put(fileUpdateLoadingRedux({ loadingFile: false }));
+  }
+}
+
+function* handleFileUploadImage(dataUploadImage: any): Generator<any> {
+  try {
+    yield put(fileUpdateLoadingRedux({ loadingFile: true }));
+    const formData = new FormData();
+    formData.append("file", dataUploadImage?.payload?.file?.originFileObj);
+    const { accessToken } = getToken();
+    const response: any = yield call(
+      requestFileUploadImage,
+      formData,
+      accessToken
+    );
+    console.log("🚀 ~ function*handleFileUploadImage ~ response:", response);
+    if (response?.data?.code === 1000) {
+      message.success("Upload ảnh thành công");
+      yield put(fileUpdateFileRedux({ files: response?.data?.result }));
+      if (dataUploadImage?.payload?.message == "logo") {
+        yield put(fileUpdateMessageRedux({ messageFile: "logo" }));
+      } else if (dataUploadImage?.payload?.message == "background") {
+        yield put(fileUpdateMessageRedux({ messageFile: "background" }));
+      }
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(fileUpdateLoadingRedux({ loadingFile: false }));
   }
 }
 function* handleFileGetAllFile(dataCandadate_id: any): Generator<any> {
   console.log(dataCandadate_id);
   try {
-    yield put(fileUpdateLoadingRedux({ loading: true }));
+    yield put(fileUpdateLoadingRedux({ loadingFile: true }));
     const { accessToken } = getToken();
     const response: any = yield call(
       requestFileGetAllFile,
@@ -61,7 +93,7 @@ function* handleFileGetAllFile(dataCandadate_id: any): Generator<any> {
   } catch (error: any) {
     message.error(error?.response?.data?.message);
   } finally {
-    yield put(fileUpdateLoadingRedux({ loading: false }));
+    yield put(fileUpdateLoadingRedux({ loadingFile: false }));
   }
 }
-export { handleFileUploadFile, handleFileGetAllFile };
+export { handleFileUploadFile, handleFileGetAllFile, handleFileUploadImage };

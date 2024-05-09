@@ -9,6 +9,7 @@ import IconGroupUser from "../../components/icons/IconGroupUser";
 import {
   dataAddress,
   dataExperience,
+  dataGender,
   dataPosition,
   dataSkills,
   dataTimeWork,
@@ -19,17 +20,19 @@ import IconAcademicCap from "../../components/icons/IconAcademicCap";
 import IconClipboardDocument from "../../components/icons/IconClipboardDocument";
 import IconClock from "../../components/icons/IconClock";
 import IconMoney from "../../components/icons/IconMoney";
+import IconCog from "../../components/icons/IconCog";
 interface Inputs {
-  titleJob?: string;
+  title?: string;
   salary?: number;
-  address?: string;
-  dateEnd?: string | string[];
+  location?: string;
+  closeDate?: string | string[];
   description?: string;
-  quantitycandidates?: string;
+  quantity?: string;
   experience?: string;
   skills?: string | string[];
   rank?: string;
-  timeWord?: string;
+  jobType?: string;
+  gender?: string;
 }
 const EmployerPostJobPage: React.FC = () => {
   const [jobDescription] = useState("");
@@ -56,10 +59,10 @@ const EmployerPostJobPage: React.FC = () => {
           <div className="flex gap-10">
             <div className="grow-[1]">
               <label
-                htmlFor="companyname"
+                htmlFor="title"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Tên công ty <span className="text-red-500">*</span>
+                Tên công việc <span className="text-red-500">*</span>
               </label>
               <div className="mt-2 relative">
                 <HomeOutlined
@@ -73,7 +76,7 @@ const EmployerPostJobPage: React.FC = () => {
                   }}
                 />
                 <input
-                  {...register("titleJob", {
+                  {...register("title", {
                     required: true,
                   })}
                   placeholder="Tên công việc"
@@ -83,7 +86,7 @@ const EmployerPostJobPage: React.FC = () => {
                   className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
                 />
               </div>
-              {errors.titleJob?.type == "required" ? (
+              {errors.title?.type == "required" ? (
                 <p className="text-red-600 mt-1">
                   *Bạn chưa điền tên công việc
                 </p>
@@ -167,17 +170,17 @@ const EmployerPostJobPage: React.FC = () => {
               <div className="relative mt-2">
                 <IconGroupUser className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconGroupUser>
                 <input
-                  {...register("quantitycandidates", {
+                  {...register("quantity", {
                     required: true,
                   })}
                   placeholder="Số lượng tuyển"
                   type="number"
                   autoComplete="off"
-                  id="quantitycandidates"
+                  id="quantity"
                   className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
                 />
               </div>
-              {errors?.quantitycandidates?.type == "required" ? (
+              {errors?.quantity?.type == "required" ? (
                 <p className="text-red-600 mt-1">
                   *Bạn chưa điền số lượng tuyển
                 </p>
@@ -225,7 +228,7 @@ const EmployerPostJobPage: React.FC = () => {
             </div>
             <div className="">
               <label
-                htmlFor="address"
+                htmlFor="location"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Địa chỉ <span className="text-red-500">*</span>
@@ -233,7 +236,7 @@ const EmployerPostJobPage: React.FC = () => {
               <div className="mt-2 relative">
                 <IconMap className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconMap>
                 <Select
-                  {...register("address", {
+                  {...register("location", {
                     required: true,
                   })}
                   showSearch
@@ -246,12 +249,12 @@ const EmployerPostJobPage: React.FC = () => {
                   }
                   options={dataAddress}
                   onChange={(e) => {
-                    setValue("address", e);
-                    clearErrors("address");
+                    setValue("location", e);
+                    clearErrors("location");
                   }}
                 />
               </div>
-              {errors?.address?.type == "required" ? (
+              {errors?.location?.type == "required" ? (
                 <p className="text-red-600 mt-1">*Bạn chưa điền địa chỉ</p>
               ) : (
                 <></>
@@ -261,7 +264,7 @@ const EmployerPostJobPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-10 mt-5">
             <div className="">
               <label
-                htmlFor="timeWord"
+                htmlFor="jobType"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Thời gian làm việc <span className="text-red-500">*</span>
@@ -269,10 +272,10 @@ const EmployerPostJobPage: React.FC = () => {
               <div className="mt-2 relative">
                 <IconClock className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconClock>
                 <Select
-                  {...register("timeWord", {
+                  {...register("jobType", {
                     required: true,
                   })}
-                  id="timeWord"
+                  id="jobType"
                   showSearch
                   allowClear={true}
                   placeholder="Thời gian làm việc"
@@ -283,12 +286,12 @@ const EmployerPostJobPage: React.FC = () => {
                   }
                   options={dataTimeWork}
                   onChange={(e) => {
-                    setValue("timeWord", e);
-                    clearErrors("timeWord");
+                    setValue("jobType", e);
+                    clearErrors("jobType");
                   }}
                 />
               </div>
-              {errors?.timeWord?.type == "required" ? (
+              {errors?.jobType?.type == "required" ? (
                 <p className="text-red-600 mt-1">
                   *Bạn chưa điền thời gian làm việc
                 </p>
@@ -305,7 +308,7 @@ const EmployerPostJobPage: React.FC = () => {
               </label>
               <div className="mt-2 relative">
                 <DatePicker
-                  {...register("dateEnd", {
+                  {...register("closeDate", {
                     required: true,
                   })}
                   format={{
@@ -314,14 +317,14 @@ const EmployerPostJobPage: React.FC = () => {
                   }}
                   onChange={(value, valueString) => {
                     console.log("🚀 ~ value:", value);
-                    setValue("dateEnd", valueString);
-                    clearErrors("dateEnd");
+                    setValue("closeDate", valueString);
+                    clearErrors("closeDate");
                   }}
                   placeholder="Ngày kết thúc bài đăng"
                   className="h-11 w-full focus:border-solid focus:border-stone-400/70 border border-stone-200 border-solid"
                 />
               </div>
-              {errors?.dateEnd?.type == "required" ? (
+              {errors?.closeDate?.type == "required" ? (
                 <p className="text-red-600 mt-1">
                   *Bạn chưa điền ngày kết thúc
                 </p>
@@ -330,37 +333,74 @@ const EmployerPostJobPage: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="mt-5">
-            <label
-              htmlFor="skills"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Kỹ năng <span className="text-red-500">*</span>
-            </label>
-            <div className="mt-2 relative">
-              <IconClipboardDocument className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconClipboardDocument>
-              <Select
-                mode="tags"
-                {...register("skills", {
-                  required: true,
-                })}
-                style={{ width: "100%" }}
-                placeholder="Kỹ năng"
-                className="skill select-custom min-h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 border border-stone-200 border-solid w-full rounded-md"
-                options={dataSkills}
-                allowClear
-                onChange={(e) => {
-                  console.log("🚀 ~ e:", e);
-                  setValue("skills", e);
-                  clearErrors("skills");
-                }}
-              />
+          <div className="grid grid-cols-2 gap-10 mt-5">
+            <div className="">
+              <label
+                htmlFor="skills"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Kỹ năng <span className="text-red-500">*</span>
+              </label>
+              <div className="mt-2 relative">
+                <IconClipboardDocument className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconClipboardDocument>
+                <Select
+                  mode="tags"
+                  {...register("skills", {
+                    required: true,
+                  })}
+                  style={{ width: "100%" }}
+                  placeholder="Kỹ năng"
+                  className="skill select-custom min-h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 border border-stone-200 border-solid w-full rounded-md"
+                  options={dataSkills}
+                  allowClear
+                  onChange={(e) => {
+                    console.log("🚀 ~ e:", e);
+                    setValue("skills", e);
+                    clearErrors("skills");
+                  }}
+                />
+              </div>
+              {errors?.skills?.type == "required" ? (
+                <p className="text-red-600 mt-1">*Bạn chưa điền kỹ năng</p>
+              ) : (
+                <></>
+              )}
             </div>
-            {errors?.skills?.type == "required" ? (
-              <p className="text-red-600 mt-1">*Bạn chưa điền kỹ năng</p>
-            ) : (
-              <></>
-            )}
+            <div className="">
+              <label
+                htmlFor="gender"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Giới tính <span className="text-red-500">*</span>
+              </label>
+              <div className="mt-2 relative">
+                <IconCog className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconCog>
+                <Select
+                  {...register("gender", {
+                    required: true,
+                  })}
+                  id="gender"
+                  showSearch
+                  allowClear={true}
+                  placeholder="Giới tính"
+                  className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
+                  optionFilterProp="children"
+                  filterOption={(input, option: any) =>
+                    (option?.label ?? "").includes(input)
+                  }
+                  options={dataGender}
+                  onChange={(e) => {
+                    setValue("gender", e);
+                    clearErrors("gender");
+                  }}
+                />
+              </div>
+              {errors?.gender?.type == "required" ? (
+                <p className="text-red-600 mt-1">*Bạn chưa điền giới tính</p>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
           {/*  */}
           <div className="mt-5">

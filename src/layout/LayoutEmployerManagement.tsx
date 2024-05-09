@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Layout, Menu, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "../utils/auth";
-import { authFetchMe, authRefreshToken } from "../store/auth/auth-slice";
+import {
+  authFetchMe,
+  authLogout,
+  authRefreshToken,
+} from "../store/auth/auth-slice";
 import { Outlet, useNavigate } from "react-router-dom";
 import { dataSideBar } from "../utils/dataFetch";
 import EmployerManageHeader from "../module/employer/EmployerManageHeader";
@@ -31,6 +35,8 @@ const LayoutEmployerManagement: React.FC = () => {
   useEffect(() => {
     if (messageAuth === "unauthenticated") {
       dispatch(authRefreshToken());
+    } else if (messageAuth == "notpermission") {
+      dispatch(authLogout());
     }
   }, [messageAuth]);
 

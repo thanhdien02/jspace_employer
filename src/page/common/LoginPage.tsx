@@ -49,9 +49,10 @@ const LoginPage: React.FC<PropComponent> = ({
     const elementBody = document.body;
     if (checkLogin) {
       elementBody.style.overflow = "hidden";
-    } else {
-      elementBody.style.overflow = "visible";
     }
+    return () => {
+      elementBody.style.overflow = "visible";
+    };
   }, [checkLogin]);
 
   useEffect(() => {

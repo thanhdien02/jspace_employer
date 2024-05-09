@@ -5,7 +5,6 @@ interface IEmployer {
   loadingEmployer?: boolean;
   messageEmployer?: string;
 }
-
 const init: IEmployer = {
   employer: {},
   loadingEmployer: false,
