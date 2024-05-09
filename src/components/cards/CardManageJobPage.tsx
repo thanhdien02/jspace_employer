@@ -24,8 +24,19 @@ const CardManageJobPage: React.FC<PropComponent> = ({ className, onClick }) => {
         </TableRowContent>
         <TableRowContent className="">17/10/2024</TableRowContent>
         <TableRowContent className="">29/10/2024</TableRowContent>
-
         <TableRowContent className="">
+          <Popconfirm
+            title="Khóa tài khoản"
+            description="Bạn có chắc khóa tài khoản ?"
+            okText="Đồng ý"
+            cancelText="Không"
+            onConfirm={() => {}}
+            onCancel={() => {}}
+          >
+            <Switch checked={true} onChange={() => {}} />
+          </Popconfirm>
+        </TableRowContent>
+        <TableRowContent className="absolute right-28 z-10">
           <Popconfirm
             title="Khóa tài khoản"
             description="Bạn có chắc khóa tài khoản ?"

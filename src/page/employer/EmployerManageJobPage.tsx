@@ -52,7 +52,7 @@ const EmployerManageJobPage: React.FC = () => {
         {/*  */}
         <div className="relative">
           <div className="w-full overflow-auto ">
-            <Table className="min-w-[1600px] max-w-[2000px] overflow-auto">
+            <Table className="min-w-[2300px] overflow-auto">
               <HeaderTableManageJobPage></HeaderTableManageJobPage>
               {false ? (
                 <tbody className="">
@@ -70,7 +70,7 @@ const EmployerManageJobPage: React.FC = () => {
                 </tbody>
               )}
             </Table>
-            <div className="absolute bg-white w-[100px] h-full right-0 top-0 bottom-0"></div>
+            <div className="absolute bg-white w-[190px] h-full right-0 top-0 bottom-0"></div>
           </div>
         </div>
         <div className="mt-4 flex justify-end">

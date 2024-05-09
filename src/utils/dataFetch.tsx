@@ -5,6 +5,7 @@ import {
   DashboardOutlined,
   SwapOutlined,
   ScheduleOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import IconBuilding from "../components/icons/IconBuilding";
 
@@ -50,6 +51,12 @@ export const dataSideBar = [
     icon: <ScheduleOutlined />,
     label: "Quản lí công việc",
     path: "/manage/jobs",
+  },
+  {
+    key: "8",
+    icon: <UsergroupAddOutlined />,
+    label: "Quản lí ứng viên xin việc",
+    path: "/manage/candidates",
   },
 ];
 export const dataPosition = [
@@ -196,11 +203,11 @@ export const dataHeaderManageJob = [
   },
   {
     title: "Tên công việc",
-    width: "20%",
+    width: "15%",
   },
   {
     title: "Mức lương",
-    width: "10%",
+    width: "8%",
   },
   {
     title: "Số lượng",
@@ -229,6 +236,11 @@ export const dataHeaderManageJob = [
   {
     title: "Ngày kết thúc",
     width: "8%",
+  },
+  {
+    title: "Tình trạng",
+    width: "10%",
+    className: "absolute right-24 z-10",
   },
 
   {
