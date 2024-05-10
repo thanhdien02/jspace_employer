@@ -8,6 +8,7 @@ import { formats, modules } from "../../utils/quill";
 import IconGroupUser from "../../components/icons/IconGroupUser";
 import {
   dataAddress,
+  dataEnterSalary,
   dataExperience,
   dataGender,
   dataPosition,
@@ -36,6 +37,7 @@ interface Inputs {
 }
 const EmployerPostJobPage: React.FC = () => {
   const [jobDescription] = useState("");
+  const [selectEnterSalary, setSelectEnterSalary] = useState("");
   const {
     register,
     handleSubmit,
@@ -56,8 +58,8 @@ const EmployerPostJobPage: React.FC = () => {
       <div className="mx-40 my-10 bg-white px-8 py-5 rounded-lg shadow-md">
         <h2 className="font-bold text-lg my-2 text-gray-800">Đăng tin</h2>
         <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
-          <div className="flex gap-10">
-            <div className="grow-[1]">
+          <div className="grid grid-cols-2 gap-10">
+            <div className="">
               <label
                 htmlFor="title"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -94,7 +96,7 @@ const EmployerPostJobPage: React.FC = () => {
                 <></>
               )}
             </div>
-            <div className="grow-[1]">
+            <div className="">
               <label
                 htmlFor="salary"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -103,7 +105,87 @@ const EmployerPostJobPage: React.FC = () => {
               </label>
               <div className="mt-2 relative">
                 <IconMoney className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconMoney>
-                <input
+                <Select
+                  {...register("salary", {
+                    required: true,
+                  })}
+                  allowClear={true}
+                  placeholder="Kinh nghiệm"
+                  className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-3 border border-stone-200 border-solid w-full rounded-md"
+                  optionFilterProp="children"
+                  filterOption={(input, option: any) =>
+                    (option?.label ?? "").includes(input)
+                  }
+                  onChange={(e) => {
+                    // setValue("salary", e);
+                    // clearErrors("salary");
+                    setSelectEnterSalary(e);
+                  }}
+                  options={dataEnterSalary}
+                />
+                {selectEnterSalary == "fix" ? (
+                  <div className="flex">
+                    <input
+                      {...register("salary", {
+                        required: true,
+                      })}
+                      placeholder="Mức lương"
+                      type="number"
+                      autoComplete="off"
+                      id="salary"
+                      className="h-full mt-5 focus:border-solid focus:border-stone-400/70 transition-all outline-none px-5 py-3 border border-stone-200 border-solid w-full rounded-md"
+                    />
+                  </div>
+                ) : selectEnterSalary == "between" ? (
+                  <div className="grid grid-cols-2 mt-5 gap-5">
+                    <input
+                      {...register("salary", {
+                        required: true,
+                      })}
+                      placeholder="Từ"
+                      type="number"
+                      autoComplete="off"
+                      id="salary"
+                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none px-5 py-3 border border-stone-200 border-solid w-full rounded-md"
+                    />
+                    <input
+                      placeholder="Đến"
+                      type="number"
+                      autoComplete="off"
+                      id="salary"
+                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none px-5 py-3 border border-stone-200 border-solid w-full rounded-md"
+                    />
+                  </div>
+                ) : selectEnterSalary == "up" ? (
+                  <div className="mt-5">
+                    <input
+                      {...register("salary", {
+                        required: true,
+                      })}
+                      placeholder="Lên đến"
+                      type="number"
+                      autoComplete="off"
+                      id="salary"
+                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none px-5 py-3 border border-stone-200 border-solid w-full rounded-md"
+                    />
+                  </div>
+                ) : selectEnterSalary == "more" ? (
+                  <div className="mt-5">
+                    <input
+                      {...register("salary", {
+                        required: true,
+                      })}
+                      placeholder="Trên"
+                      type="number"
+                      autoComplete="off"
+                      id="salary"
+                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none px-5 py-3 border border-stone-200 border-solid w-full rounded-md"
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
+                {/* <input
                   {...register("salary", {
                     required: true,
                   })}
@@ -112,7 +194,7 @@ const EmployerPostJobPage: React.FC = () => {
                   autoComplete="off"
                   id="salary"
                   className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-12 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
-                />
+                /> */}
               </div>
               {errors?.salary?.type == "required" ? (
                 <p className="text-red-600 mt-1">*Bạn chưa điền mức lương</p>
@@ -165,7 +247,7 @@ const EmployerPostJobPage: React.FC = () => {
                 htmlFor="quantitycandidates"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Số lượng tuyển
+                Số lượng tuyển <span className="text-red-500">*</span>
               </label>
               <div className="relative mt-2">
                 <IconGroupUser className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconGroupUser>

@@ -66,7 +66,7 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
   }, []);
   return (
     <>
-      <div className="fixed z-10 inset-0">
+      <div className="fixed z-20 inset-0">
         <div
           onClick={() => onClick(false)}
           className={`fixed z-10 flex inset-0 bg-black/30 ${className}`}

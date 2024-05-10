@@ -282,6 +282,9 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                     }}
                   />
                   <input
+                    disabled={
+                      companyId !== undefined && companyId === "updatecompany"
+                    }
                     {...register("email", {
                       required: true,
                       pattern: {
@@ -349,7 +352,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                       required: true,
                     })}
                     placeholder="Số lượng nhân viên"
-                    className="h-11 mt-2 !w-full"
+                    className="edit-select-custom h-11 mt-2 !w-full"
                     allowClear
                     value={companySize}
                     onChange={(e) => {

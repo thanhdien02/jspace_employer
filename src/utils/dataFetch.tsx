@@ -183,6 +183,10 @@ export const dataTimeWork: any = [
 ];
 export const dataGender: any = [
   {
+    value: "None Gender",
+    label: "None Gender",
+  },
+  {
     value: "Male",
     label: "Male",
   },
@@ -190,62 +194,108 @@ export const dataGender: any = [
     value: "Female",
     label: "Female",
   },
+];
+export const dataEnterSalary: any = [
   {
-    value: "Other",
-    label: "Other",
+    value: "fix",
+    label: "Mức lương cố định",
+  },
+  {
+    value: "between",
+    label: "Mức lương trong khoản",
+  },
+  {
+    value: "more",
+    label: "Mức lương trên bao nhiêu",
+  },
+  {
+    value: "up",
+    label: "Mức lương dưới bao nhiêu",
   },
 ];
 
 export const dataHeaderManageJob = [
   {
     title: "ID",
-    width: "4%",
+    className: "w-[50px]",
   },
   {
     title: "Tên công việc",
-    width: "15%",
+    className: "w-[500px] ",
   },
   {
     title: "Mức lương",
-    width: "8%",
+    className: "w-[100px]",
   },
   {
     title: "Số lượng",
-    width: "5%",
+    className: "w-[70px]",
   },
   {
     title: "Vị trí",
-    width: "5%",
+    className: "w-[100px]",
   },
   {
     title: "Giới tính",
-    width: "5%",
+    className: "w-[150px]",
   },
   {
     title: "TG làm việc",
-    width: "5%",
+    className: "w-[150px]",
   },
   {
     title: "Kỹ năng",
-    width: "15%",
+    className: "w-[400px]",
   },
   {
     title: "Ngày đăng",
-    width: "8%",
+    className: "w-[150px]",
   },
   {
     title: "Ngày kết thúc",
-    width: "8%",
+    className: "w-[150px]",
   },
   {
     title: "Tình trạng",
-    width: "10%",
-    className: "absolute right-24 z-10",
+    className: "absolute right-56 z-10",
   },
-
   {
     title: "Thực hiện",
-    width: "10%",
-    className: "absolute right-3 z-10",
+    className: "absolute right-[135px] z-10",
+  },
+  {
+    title: "Ứng viên",
+    className: "absolute right-10 z-10",
+  },
+];
+
+export const dataHeaderManageCandidateApplyJob = [
+  {
+    title: "ID",
+    className: "w-[5%]",
+  },
+  {
+    title: "Tên ứng viên",
+    className: "w-[18%]",
+  },
+  {
+    title: "Email",
+    className: "w-[15%]",
+  },
+  {
+    title: "Số điện thoại",
+    className: "w-[12%]",
+  },
+  {
+    title: "CV",
+    className: "w-[15%]",
+  },
+  {
+    title: "Tình trạng",
+    className: "w-[20%]",
+  },
+  {
+    title: "Chi tiết",
+    className: "w-[15%]",
   },
 ];

@@ -47,10 +47,15 @@ body {
   box-shadow: none !important;
 }
 
-.ant-select-selection-item {
+/* select one */
+.edit-select-custom .ant-select-selection-item {
   padding: 0 35px !important;
 }
-.ant-select-selection-placeholder {
+.custom-base .ant-select-selection-item {
+  padding: 0 5px !important;
+}
+
+.edit-select-custom .ant-select-selection-placeholder {
   display: inline-block;
   margin-left: 35px;
 }
@@ -83,6 +88,7 @@ body {
   display: inline-block;
   margin-left: 0px;
 }
+/*  */
 .skill.select-custom .ant-select-selector {
   margin-top: 6px;
   margin-bottom: 6px;

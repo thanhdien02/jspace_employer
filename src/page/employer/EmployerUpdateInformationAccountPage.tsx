@@ -239,9 +239,10 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
               <div className="relative">
                 <Select
                   defaultValue="Nhân viên"
-                  className="h-11 mt-2 !w-full block hover:!border-gray-400"
+                  className="edit-select-custom h-11 mt-2 !w-full block hover:!border-gray-400"
                   allowClear
                   options={dataPosition}
+                  placeholder="Vị trí"
                 />
                 <IconGroupUser className="absolute top-0 left-0 translate-x-[50%] translate-y-[45%] text-gray-400"></IconGroupUser>
               </div>

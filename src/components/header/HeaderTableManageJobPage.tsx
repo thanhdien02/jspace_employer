@@ -1,22 +1,23 @@
 import React from "react";
 import TableHeader from "../table/TableHeader";
 import TableHeaderContent from "../table/TableHeaderContent";
-import { dataHeaderManageJob } from "../../utils/dataFetch";
 interface PropComponent {
   className?: string;
+  dataHeader?: any;
 }
 
-const HeaderTableManageJobPage: React.FC<PropComponent> = ({ className }) => {
+const HeaderTableManageJobPage: React.FC<PropComponent> = ({
+  className,
+  dataHeader,
+}) => {
   return (
     <>
-      <TableHeader className={`${className}`}>
-        {dataHeaderManageJob?.length > 0 &&
-          dataHeaderManageJob?.map((item: any, index: number) => (
+      <TableHeader className={`${className} w-full`}>
+        {dataHeader?.length > 0 &&
+          dataHeader?.map((item: any, index: number) => (
             <TableHeaderContent
               title={item?.title}
-              className={`w-[${item?.width}] ${
-                item?.className ? item.className : ""
-              }`}
+              className={`${item?.className ? item.className : ""}`}
               key={index}
             ></TableHeaderContent>
           ))}
