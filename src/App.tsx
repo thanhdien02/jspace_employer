@@ -10,6 +10,7 @@ import EmployerChangePasswordPage from "./page/employer/EmployerChangePasswordPa
 import EmployerInformationCompanyPage from "./page/employer/EmployerInformationCompanyPage";
 import EmployerPostJobPage from "./page/employer/EmployerPostJobPage";
 import EmployerManageJobPage from "./page/employer/EmployerManageJobPage";
+import RegisterPage from "./page/common/RegisterPage";
 
 const LayoutEmployerManagement = lazy(
   () => import("./layout/LayoutEmployerManagement")
@@ -97,6 +98,10 @@ function App() {
             ></Route>
           </Route>
           <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
+          <Route
+            path="/register"
+            element={<RegisterPage></RegisterPage>}
+          ></Route>
         </Routes>
       </Suspense>
     </>
