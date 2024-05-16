@@ -3,7 +3,7 @@ interface PropComponent {
   className?: string;
   classIcon?: string;
 }
-const IconCheck: React.FC<PropComponent> = ({ className, classIcon }) => {
+const IconArrowRight: React.FC<PropComponent> = ({ className, classIcon }) => {
   return (
     <span className={`${className}`}>
       <svg
@@ -14,7 +14,7 @@ const IconCheck: React.FC<PropComponent> = ({ className, classIcon }) => {
       >
         <path
           fillRule="evenodd"
-          d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+          d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
           clipRule="evenodd"
         />
       </svg>
@@ -22,4 +22,4 @@ const IconCheck: React.FC<PropComponent> = ({ className, classIcon }) => {
   );
 };
 
-export default IconCheck;
+export default IconArrowRight;

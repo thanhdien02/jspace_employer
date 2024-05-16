@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      width: {
+        primary: "1100px",
+      },
       fontFamily: {
         primary: ["DM Sans", "sans-serif"],
       },

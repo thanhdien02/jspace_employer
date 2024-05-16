@@ -11,13 +11,13 @@ const HomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
   };
   return (
     <>
-      <header className="flex lg:px-20 px-5 pb-3 pt-4 justify-between items-center shadow-md">
+      <header className="flex lg:px-28 px-5 pb-3 pt-4 justify-between items-center shadow-md">
         <div className="flex items-center gap-5">
           <img src={logo} alt="" className="w-[45px] object-cover" />
           <ul className="lg:flex hidden gap-2">
             <li className="">
               <NavLink
-                to="/home"
+                to="/"
                 className={({ isActive }) =>
                   isActive
                     ? "text-primary flex gap-4 pl-4 rounded-lg hover:text-primary "
@@ -29,7 +29,7 @@ const HomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
             </li>
             <li className="">
               <NavLink
-                to="/companys"
+                to="/products"
                 className={({ isActive }) =>
                   isActive
                     ? "text-primary flex gap-4 pl-4 rounded-lg hover:text-primary "
@@ -41,7 +41,7 @@ const HomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
             </li>
             <li className="">
               <NavLink
-                to="/blogs"
+                to="/support"
                 className={({ isActive }) =>
                   isActive
                     ? "text-primary flex gap-4 pl-4 rounded-lg hover:text-primary "

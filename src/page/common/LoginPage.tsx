@@ -15,7 +15,6 @@ import IconKey from "../../components/icons/IconKey";
 interface PropComponent {
   className?: string;
   claseNameOverlay?: string;
-  checkLogin?: boolean;
   actionLogin?: any;
 }
 interface Inputs {
@@ -24,7 +23,6 @@ interface Inputs {
 }
 const LoginPage: React.FC<PropComponent> = ({
   className = "",
-  checkLogin,
   actionLogin,
   claseNameOverlay,
 }) => {
@@ -60,13 +58,11 @@ const LoginPage: React.FC<PropComponent> = ({
 
   useEffect(() => {
     const elementBody = document.body;
-    if (checkLogin) {
-      elementBody.style.overflow = "hidden";
-    }
+    elementBody.style.overflow = "hidden";
     return () => {
       elementBody.style.overflow = "visible";
     };
-  }, [checkLogin]);
+  }, []);
 
   useEffect(() => {
     if (accessToken != "" && user?.role?.code == "EMPLOYEE") {
@@ -86,12 +82,11 @@ const LoginPage: React.FC<PropComponent> = ({
   };
   return (
     <div
-      className={`flex fixed inset-0 transition-all z-10 ${className} ${
-        checkLogin ? "block" : "hidden"
-      } `}
+      className={`flex fixed inset-0 z-10 ${className}
+       `}
     >
       <div
-        className={`m-auto absolute inset-0 bg-black/30 ${claseNameOverlay}`}
+        className={`m-auto absolute inset-0 bg-black/50 ${claseNameOverlay}`}
         onClick={() => {
           if (!loading) {
             actionLogin(false);
@@ -106,7 +101,7 @@ const LoginPage: React.FC<PropComponent> = ({
         >
           <IconClose
             actionCloseLogin={!loading ? actionLogin : () => {}}
-            className="absolute top-2 right-2 hover:bg-blue-200 hover:text-white transition-all p-1 rounded-lg"
+            className="absolute top-2 right-2 hover:bg-slate-200 rounded-sm cursor-pointer"
           ></IconClose>
 
           <div className="flex justify-center flex-col items-center gap-2 mb-5">
