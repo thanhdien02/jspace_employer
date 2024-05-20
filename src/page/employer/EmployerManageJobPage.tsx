@@ -75,10 +75,11 @@ const EmployerManageJobPage: React.FC = () => {
                   </tr>
                 </tbody>
               ) : (
-                <tbody>
+                <tbody className="    ">
                   {dataSideBar?.length > 0 &&
                     dataSideBar?.map((item: any, index: number) => (
                       <CardManageJobPage
+                        className="even:bg-gray-300/50"
                         key={index}
                         data={item}
                         onClickUpdateJob={setUpdateJob}

@@ -5,7 +5,7 @@ import {
   DashboardOutlined,
   SwapOutlined,
   ScheduleOutlined,
-  UsergroupAddOutlined,
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
 import IconBuilding from "../components/icons/IconBuilding";
 
@@ -49,14 +49,20 @@ export const dataSideBar = [
   {
     key: "7",
     icon: <ScheduleOutlined />,
-    label: "Quản lí công việc",
+    label: "Quản lí tin tuyển dụng",
     path: "/manage/jobs",
   },
   {
     key: "8",
-    icon: <UsergroupAddOutlined />,
-    label: "Quản lí ứng viên xin việc",
-    path: "/manage/candidates",
+    icon: <ShoppingCartOutlined />,
+    label: "Mua dịch vụ",
+    path: "/manage/list-products",
+  },
+  {
+    key: "9",
+    icon: <SwapOutlined />,
+    label: "Đổi mật khẩu",
+    path: "/manage/change-password",
   },
 ];
 export const dataPosition = [
@@ -297,5 +303,38 @@ export const dataHeaderManageCandidateApplyJob = [
   {
     title: "Chi tiết",
     className: "w-[15%]",
+  },
+];
+
+export const dataCard = [
+  {
+    id: "1",
+    name: "JSPACE MAX",
+    quantity: 3,
+    price: 40000000,
+  },
+  {
+    id: "2",
+    name: "JSPACE PRO",
+    quantity: 2,
+    price: 10000000,
+  },
+  {
+    id: "3",
+    name: "JSPACE MIN",
+    quantity: 5,
+    price: 20000000,
+  },
+  {
+    id: "4",
+    name: "JSPACE BETA",
+    quantity: 1,
+    price: 14000000,
+  },
+  {
+    id: "5",
+    name: "JSPACE FAST",
+    quantity: 3,
+    price: 40000000,
   },
 ];

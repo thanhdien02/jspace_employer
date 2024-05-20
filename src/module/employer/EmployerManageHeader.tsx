@@ -10,6 +10,7 @@ import IconBell from "../../components/icons/IconBell";
 import { authLogout } from "../../store/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
+import IconCart from "../../components/icons/IconCart";
 interface PropComponent {
   collapsed?: any;
   setCollapsed?: any;
@@ -45,6 +46,15 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
         <button
           className="flex items-center gap-2 text-white bg-gray-100/20 p-2 text-sm rounded-xl px-4 font-medium"
           onClick={() => {
+            navigate("/manage/shopping-cart");
+          }}
+        >
+          <IconCart classIcon="!w-5 !h-5"></IconCart>
+          <span>Giỏ hàng</span>
+        </button>
+        <button
+          className="flex items-center gap-2 text-white bg-gray-100/20 p-2 text-sm rounded-xl px-4 font-medium"
+          onClick={() => {
             navigate("/manage/check-work-required");
           }}
         >
@@ -65,7 +75,9 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
             </div>
           )}
           <div className="">
-            <p className="font-semibold text-sm text-white max-w-[150px] line-clamp-2">{user?.name}</p>
+            <p className="font-semibold text-sm text-white max-w-[150px] line-clamp-2">
+              {user?.name}
+            </p>
             <p className="text-xs text-white">{user?.role?.code}</p>
           </div>
           <CaretDownOutlined className="self-auto text-white" />

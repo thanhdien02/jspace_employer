@@ -39,7 +39,7 @@ const EmployerChangePasswordPage: React.FC = () => {
                   Nhập lại mật khẩu
                 </label>
                 <div className="mt-2 relative">
-                  <IconKey className="absolute top-0 left-0 translate-x-[50%] translate-y-[50%] text-gray-400"></IconKey>
+                  <IconKey className="absolute top-0 left-0 translate-x-[50%] translate-y-[45%] text-gray-400"></IconKey>
                   <input
                     {...register("passwordold", {})}
                     placeholder="Mật khẩu cũ"
@@ -75,7 +75,7 @@ const EmployerChangePasswordPage: React.FC = () => {
                       required: true,
                     })}
                     placeholder="Mật khẩu mới"
-                    type="text"
+                    type="password"
                     autoComplete="off"
                     id="passwordnew"
                     className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
