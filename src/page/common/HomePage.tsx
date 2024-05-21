@@ -22,9 +22,9 @@ const HomePage: React.FC = () => {
             claseNameOverlay="opacity-40"
           ></LoginPage>
         </CSSTransition>
-        <div className="relative w-[900px] flex mx-auto mt-2">
+        <div className="relative w-[900px] max-w-full flex mx-auto mt-2">
           <div className="absolute top-2 left-1/2 -translate-x-[50%] flex flex-col">
-            <h2 className="text-4xl font-bold text-center leading-snug w-[600px]">
+            <h2 className="md:text-4xl text-xl font-bold text-center leading-snug md:w-[600px] w-[300px] max-w-full">
               Đăng tin tuyển dụng, tìm kiếm ứng viên hiệu quả
             </h2>
             <div

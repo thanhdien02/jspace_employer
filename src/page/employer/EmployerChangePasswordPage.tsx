@@ -26,7 +26,7 @@ const EmployerChangePasswordPage: React.FC = () => {
   }, []);
   return (
     <>
-      <div className="mx-60 my-5">
+      <div className="xl:mx-60 mx-10 my-5">
         <HeaderContentManage title="Thay đổi mật khẩu"></HeaderContentManage>
         <div className="bg-white shadow-md p-5 rounded-md">
           <form action="" onSubmit={handleSubmit(onSubmit)} className="py-3">

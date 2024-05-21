@@ -44,6 +44,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
   const { loadingCompany, company } = useSelector(
     (state: any) => state.company
   );
+  const [disableAll, setDisableAll] = useState(false);
   const [companySize, setCompanySize] = useState("");
   const [companyLogo, setCompanyLogo] = useState("");
   const [companyBackground, setCompanyBackground] = useState("");
@@ -164,12 +165,14 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
       setCompanyDescription(company?.description);
       setCompanyLogo(company?.logo);
       setCompanyBackground(company?.background);
+
+      setDisableAll(true);
     }
   }, [company]);
 
   return (
     <>
-      <div className="mx-40 my-10 bg-white px-8 py-5  rounded-lg shadow-md">
+      <div className="xl:mx-40 mx-10 my-10 bg-white px-8 py-5  rounded-lg shadow-md">
         <div>
           <h2 className="font-bold text-lg my-3 text-gray-800 mb-5">
             Cập nhật thông tin công ty
@@ -248,6 +251,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                     {...register("name", {
                       required: true,
                     })}
+                    disabled={disableAll}
                     placeholder="Tên công ty"
                     type="text"
                     autoComplete="off"
@@ -283,7 +287,9 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                   />
                   <input
                     disabled={
-                      companyId !== undefined && companyId === "updatecompany"
+                      (companyId !== undefined &&
+                        companyId === "updatecompany") ||
+                      disableAll
                     }
                     {...register("email", {
                       required: true,
@@ -324,6 +330,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                   <IconPhone className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconPhone>
                   <input
                     {...register("phone", { required: true })}
+                    disabled={disableAll}
                     placeholder="Số điện thoại"
                     type="number"
                     id="phone"
@@ -351,6 +358,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                     {...register("companySize", {
                       required: true,
                     })}
+                    disabled={disableAll}
                     placeholder="Số lượng nhân viên"
                     className="edit-select-custom h-11 mt-2 !w-full"
                     allowClear
@@ -384,6 +392,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                   <IconLink className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconLink>
                   <input
                     {...register("companyLink", {})}
+                    disabled={disableAll}
                     placeholder="http://"
                     type="text"
                     autoComplete="off"
@@ -405,6 +414,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                     {...register("address", {
                       required: true,
                     })}
+                    disabled={disableAll}
                     placeholder="Địa chỉ"
                     type="text"
                     autoComplete="off"
@@ -430,6 +440,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
               </label>
               <ReactQuill
                 id="description"
+                readOnly={disableAll}
                 theme="snow"
                 modules={modules}
                 formats={formats}

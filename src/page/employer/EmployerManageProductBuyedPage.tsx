@@ -7,7 +7,7 @@ const EmployerManageProductBuyedPage: React.FC = () => {
     <>
       <div className="mx-16 my-5 bg-white p-10 shadow">
         <HeaderContentManage title="Danh sách dịch vụ đã mua"></HeaderContentManage>
-        <div className="grid grid-cols-3 gap-10">
+        <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">
           <CardManageProductBuyedPage color="!border-pink-500"></CardManageProductBuyedPage>
           <CardManageProductBuyedPage color="!border-red-500"></CardManageProductBuyedPage>
           <CardManageProductBuyedPage color="!border-green-500"></CardManageProductBuyedPage>

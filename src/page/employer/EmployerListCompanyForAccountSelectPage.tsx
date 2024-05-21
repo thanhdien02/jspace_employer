@@ -29,7 +29,7 @@ const EmployerListCompanyForAccountSelectPage: React.FC = () => {
   }, [page]);
   return (
     <>
-      <div className="my-10 mx-40">
+      <div className="my-10 xl:mx-40 mx-10">
         <header>
           <h2 className="font-bold text-xl my-3">Danh sách công ty</h2>
         </header>

@@ -78,7 +78,7 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
   };
   return (
     <>
-      <div className="lg:mx-60 p-5 my-5 mt-10 shadow-md rounded-lg bg-white">
+      <div className="mx-10 xl:mx-60 p-5 my-5 mt-10 shadow-md rounded-lg bg-white">
         <form action="" onSubmit={handleSubmit(onSubmit)} className="py-3">
           <h2 className="font-bold text-lg my-3 text-gray-800 mb-5">
             Cài đặt thông tin cá nhân

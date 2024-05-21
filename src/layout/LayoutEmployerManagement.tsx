@@ -55,8 +55,8 @@ const LayoutEmployerManagement: React.FC = () => {
           className="!bg-white"
         >
           <div
-            className={`h-full overflow-auto fixed  bg-white left-0 ${
-              collapsed ? "w-[80px]" : "w-[220px]"
+            className={`h-full overflow-auto fixed bg-white left-0 ${
+              collapsed ? "w-[80px]" : "w-[200px]"
             }`}
           >
             <div

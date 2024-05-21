@@ -55,7 +55,7 @@ const EmployerPostJobPage: React.FC = () => {
 
   return (
     <>
-      <div className="mx-40 my-10 bg-white px-8 py-5 rounded-lg shadow-md">
+      <div className="xl:mx-40 mx-10 my-10 bg-white px-8 py-5 rounded-lg shadow-md">
         <h2 className="font-bold text-lg my-2 text-gray-800">Đăng tin</h2>
         <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
           <div className="grid grid-cols-2 gap-10">

@@ -29,15 +29,19 @@ const RegisterPage: React.FC<PropComponent> = ({ className = "" }) => {
   return (
     <>
       <div className="">
-        <img src={bg} className="w-full h-screen object-contain" alt="" />
+        <img
+          src={bg}
+          className="fixed inset-0 lg:object-contain object-top object-contain"
+          alt=""
+        />
       </div>
       <div
         className={`flex fixed inset-0 transition-all z-20 bg-gray-100/20 ${className}`}
       >
-        <div className="m-auto ">
+        <div className="m-auto">
           <form
             action=""
-            className="p-10 rounded-lg my-5  min-h-[250px] w-[650px] border-solid"
+            className="lg:p-10 p-4 rounded-lg my-5 min-h-[250px] max-w-[650px] border-solid"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex justify-center flex-col items-center gap-2 mb-5">
@@ -48,7 +52,7 @@ const RegisterPage: React.FC<PropComponent> = ({ className = "" }) => {
                 JSPACE
               </h1>
             </div>
-            <div className="mt-5 bg-white border border-solid border-gray-200 p-10 rounded-lg shadow-sm">
+            <div className="mt-5 bg-white border border-solid border-gray-200 lg:p-10 p-5 rounded-lg shadow-sm">
               <div className="w-full">
                 <h4 className="mb-2 text-base font-semibold">
                   Hãy nhập mật khẩu để đăng ký ?

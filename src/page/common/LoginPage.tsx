@@ -82,21 +82,21 @@ const LoginPage: React.FC<PropComponent> = ({
   };
   return (
     <div
-      className={`flex fixed inset-0 z-10 ${className}
+      className={` flex fixed inset-0 z-40 ${className}
        `}
     >
       <div
-        className={`m-auto absolute inset-0 bg-black/50 ${claseNameOverlay}`}
+        className={`m-auto absolute inset-0 bg-black/60 ${claseNameOverlay}`}
         onClick={() => {
           if (!loading) {
             actionLogin(false);
           }
         }}
       ></div>
-      <div className="m-auto">
+      <div className="m-auto px-5">
         <form
           action=""
-          className="relative p-10 rounded-lg my-5 bg-white min-h-[250px] min-w-[380px] shadow-lg border-solid border border-slate-500/30"
+          className="relative md:p-10 p-5 rounded-lg my-5 bg-white min-h-[250px] md:min-w-[380px] shadow-lg border-solid border border-slate-500/30"
           onSubmit={handleSubmit(onSubmit)}
         >
           <IconClose

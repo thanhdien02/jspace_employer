@@ -4,7 +4,11 @@ const EmployerDashboardPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  return <>Dashboard</>;
+  return (
+    <>
+      <div className="mx-10 mt-5 bg-white p-5 shadow">Dashboard</div>
+    </>
+  );
 };
 
 export default EmployerDashboardPage;
