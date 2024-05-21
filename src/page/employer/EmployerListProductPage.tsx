@@ -10,9 +10,9 @@ const EmployerListProductPage: React.FC = () => {
         <div className="h-[1px] bg-gray-200 w-full my-3"></div>
         <div className="mt-5 grid grid-cols-3 gap-10">
           <CardListProductPage></CardListProductPage>
-          <CardListProductPage></CardListProductPage>
-          <CardListProductPage></CardListProductPage>
-          <CardListProductPage></CardListProductPage>
+          <CardListProductPage color="!border-red-500"></CardListProductPage>
+          <CardListProductPage color="!border-yellow-500"></CardListProductPage>
+          <CardListProductPage color="!border-green-500"></CardListProductPage>
         </div>
       </div>
     </>

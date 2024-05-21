@@ -60,7 +60,7 @@ function* handleAuthFetchMe(): Generator<any> {
     } else if (response?.data?.result?.user?.role?.code == "CANDIDATE") {
       message.error("Đây là tài khoản CANDIDATE.");
     } else {
-      logOut();
+      // logOut();
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);
@@ -71,6 +71,7 @@ function* handleAuthFetchMe(): Generator<any> {
       yield put(
         authUpdateMessageRedux({ messageAuth: error?.response?.data?.message })
       );
+      console.log("🚀 ~ function*handleAuthFetchMe ~ error:", error);
     }
   } finally {
   }
@@ -122,6 +123,7 @@ function* handleAuthLogout(): Generator<any> {
         accessToken: "",
       })
     );
+    yield put(authUpdateMessageRedux({ messageAuth: "" }));
   } catch (error) {
   } finally {
   }

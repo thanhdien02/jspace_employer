@@ -6,6 +6,7 @@ import {
   SwapOutlined,
   ScheduleOutlined,
   ShoppingCartOutlined,
+  ShoppingOutlined,
 } from "@ant-design/icons";
 import IconBuilding from "../components/icons/IconBuilding";
 
@@ -54,12 +55,19 @@ export const dataSideBar = [
   },
   {
     key: "8",
+    icon: <ShoppingOutlined />,
+    label: "Dịch vụ đã mua",
+    path: "/manage/products-buyed",
+  },
+  {
+    key: "9",
     icon: <ShoppingCartOutlined />,
     label: "Mua dịch vụ",
     path: "/manage/list-products",
   },
+
   {
-    key: "9",
+    key: "10",
     icon: <SwapOutlined />,
     label: "Đổi mật khẩu",
     path: "/manage/change-password",

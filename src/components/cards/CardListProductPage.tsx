@@ -3,12 +3,13 @@ import IconCart from "../icons/IconCart";
 
 interface PropComponent {
   className?: string;
+  color?: string;
 }
-const CardListProductPage: React.FC<PropComponent> = ({ className }) => {
+const CardListProductPage: React.FC<PropComponent> = ({ className, color }) => {
   return (
     <>
       <div
-        className={`flex flex-col gap-2 w-full p-4 min-h-[250px] bg-white rounded-t-md shadow-md !border-t-[6px] border-solid border-primary ${className}`}
+        className={`flex flex-col gap-2 w-full p-4 min-h-[250px] bg-white rounded-t-md shadow-md !border-t-[6px] border-solid border-primary ${color} ${className}`}
       >
         <h3 className="font-semibold text-xl">JSPACE TOP</h3>
         <p className="text-primary text-xl font-medium">

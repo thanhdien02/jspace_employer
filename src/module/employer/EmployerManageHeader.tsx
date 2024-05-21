@@ -1,5 +1,5 @@
 import { Button, Spin } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import {
   CaretDownOutlined,
   MenuUnfoldOutlined,
@@ -22,6 +22,7 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state: any) => state.auth);
+  const [notifications, setNotifications] = useState(false);
   return (
     <header className="fixed z-20 h-[65px] top-0 left-0 right-0 flex px-4 py-2 justify-between items-center bg-slate-800">
       <div className="ml-2">
@@ -61,7 +62,36 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
           <PlusOutlined />
           <span>Đăng tin</span>
         </button>
-        <IconBell className="p-2 bg-gray-100/20 block rounded-full cursor-pointer"></IconBell>
+        <div className="relative">
+          <span onClick={() => setNotifications(!notifications)}>
+            <IconBell className="p-2 bg-gray-100/20 block rounded-full cursor-pointer"></IconBell>
+          </span>
+          {!true ? (
+            <span className="absolute -top-2 -right-2 px-2 font-medium block bg-red-100 text-red-500 rounded-full text-center">
+              2
+            </span>
+          ) : (
+            <></>
+          )}
+
+          {notifications ? (
+            <>
+              <div className="absolute right-0 z-20 w-[280px] min-h-[150px] bg-white shadow-md top-[120%]">
+                <div className="px-3 my-3 font-medium">Thông báo</div>
+                <div className="bg-gray-200 w-full h-[1px]"></div>
+                <div className="max-h-[200px] overflow-auto">
+                  <p className="m-3 text-gray-500">Không có thông báo !</p>
+                </div>
+              </div>
+              <div
+                onClick={() => setNotifications(!notifications)}
+                className="fixed inset-0 z-10 bg-transparent cursor-pointer"
+              ></div>
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
         <div className="relative group flex gap-3 items-start cursor-pointer px-4 py-2 rounded-lg transition-all ">
           {user?.picture ? (
             <img

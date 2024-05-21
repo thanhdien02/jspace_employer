@@ -117,7 +117,7 @@ const EmployerManageShoppingCartPage: React.FC = () => {
                 >
                   Tôi đồng ý với{" "}
                   <span className="text-red-500">Điều khoản dịch vụ</span> của
-                  TopCV
+                  JSPACE
                 </Checkbox>
               </div>
               <button

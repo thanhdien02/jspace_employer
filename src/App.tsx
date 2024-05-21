@@ -14,6 +14,7 @@ import RegisterPage from "./page/common/RegisterPage";
 import ProductPage from "./page/common/ProductPage";
 import EmployerManageShoppingCartPage from "./page/employer/EmployerManageShoppingCartPage";
 import EmployerListProductPage from "./page/employer/EmployerListProductPage";
+import EmployerManageProductBuyedPage from "./page/employer/EmployerManageProductBuyedPage";
 
 const LayoutEmployerManagement = lazy(
   () => import("./layout/LayoutEmployerManagement")
@@ -116,6 +117,12 @@ function App() {
             <Route
               path="/manage/list-products"
               element={<EmployerListProductPage></EmployerListProductPage>}
+            ></Route>
+            <Route
+              path="/manage/products-buyed"
+              element={
+                <EmployerManageProductBuyedPage></EmployerManageProductBuyedPage>
+              }
             ></Route>
           </Route>
           <Route path="*" element={<PageNotFound></PageNotFound>}></Route>

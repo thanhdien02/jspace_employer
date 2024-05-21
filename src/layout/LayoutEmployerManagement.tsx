@@ -35,9 +35,9 @@ const LayoutEmployerManagement: React.FC = () => {
   useEffect(() => {
     if (messageAuth === "unauthenticated") {
       dispatch(authRefreshToken());
-    } else if (messageAuth == "notpermission") {
-      navigate("/");
+    } else if (messageAuth === "notpermission") {
       dispatch(authLogout());
+      navigate("/");
     }
   }, [messageAuth]);
 

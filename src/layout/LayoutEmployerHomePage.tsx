@@ -1,19 +1,25 @@
 import React, { lazy, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const HomeHeader = lazy(() => import("../module/common/HomeHeader"));
 import { Outlet } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import LoginPage from "../page/common/LoginPage";
+import { authLogout } from "../store/auth/auth-slice";
 
 const LayoutEmployerHomePage: React.FC = () => {
-  const { accessToken } = useSelector((state: any) => state.auth);
+  const { accessToken, messageAuth } = useSelector((state: any) => state.auth);
   const [checkLogin, setCheckLogin] = useState(false);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (accessToken !== "") {
       setCheckLogin(false);
     }
   }, [accessToken]);
+  useEffect(() => {
+    if (messageAuth === "notpermission") {
+      dispatch(authLogout());
+    }
+  }, [messageAuth]);
   return (
     <>
       <CSSTransition
