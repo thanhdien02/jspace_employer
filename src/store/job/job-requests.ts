@@ -10,3 +10,12 @@ export const requestJobGetById = (job_id: any, accessToken: string) => {
     },
   });
 };
+export const requestJobPostJob = (dataPost: any, accessToken: string) => {
+  if (!accessToken) return;
+  return axios.post(`${API}/api/v1/employees/posts`, dataPost, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

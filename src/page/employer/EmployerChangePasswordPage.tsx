@@ -1,29 +1,36 @@
 import React, { useEffect } from "react";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { KeyOutlined } from "@ant-design/icons";
 import ButtonLoading from "../../components/button/ButtonLoading";
 import IconKey from "../../components/icons/IconKey";
+import VNCurrencyInput from "../../components/input/InputMoney";
 interface Inputs {
   name: string;
   passwordold: string;
   passwordnew: string;
   passwordnewconfirm: string;
+  amount: string;
 }
 const EmployerChangePasswordPage: React.FC = () => {
   // const dispatch = useDispatch();
+  // const [amount, setAmount] = useState<string>("");
+
   const {
     register,
     handleSubmit,
-    // setValue,
+    control,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataPassword: Inputs) => {
     console.log("🚀 ~ dataPassword:", dataPassword);
+    reset();
   };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <>
       <div className="xl:mx-60 mx-10 my-5">
@@ -120,6 +127,18 @@ const EmployerChangePasswordPage: React.FC = () => {
               </div>
             </div>
 
+            <div className="mt-5">
+              <Controller
+                name="amount"
+                control={control}
+                render={({ field }) => (
+                  <VNCurrencyInput
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  />
+                )}
+              />
+            </div>
             <div className="flex justify-end mt-5">
               <ButtonLoading
                 title="Lưu thông tin"

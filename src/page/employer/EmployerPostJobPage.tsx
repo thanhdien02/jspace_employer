@@ -1,20 +1,12 @@
-import { DatePicker, Select } from "antd";
+import { Select } from "antd";
 import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { HomeOutlined } from "@ant-design/icons";
 import ReactQuill from "react-quill";
 import ButtonLoading from "../../components/button/ButtonLoading";
 import { formats, modules } from "../../utils/quill";
 import IconGroupUser from "../../components/icons/IconGroupUser";
-import {
-  dataAddress,
-  dataEnterSalary,
-  dataExperience,
-  dataGender,
-  dataPosition,
-  dataSkills,
-  dataTimeWork,
-} from "../../utils/dataFetch";
+import { dataEnterSalary } from "../../utils/dataFetch";
 import IconLink from "../../components/icons/IconLink";
 import IconMap from "../../components/icons/IconMap";
 import IconAcademicCap from "../../components/icons/IconAcademicCap";
@@ -22,41 +14,129 @@ import IconClipboardDocument from "../../components/icons/IconClipboardDocument"
 import IconClock from "../../components/icons/IconClock";
 import IconMoney from "../../components/icons/IconMoney";
 import IconCog from "../../components/icons/IconCog";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  commonGetExperience,
+  commonGetGender,
+  commonGetJobType,
+  commonGetLocation,
+  commonGetRank,
+  commonGetSkills,
+} from "../../store/common/common-slice";
+import { jobPostJob } from "../../store/job/job-slice";
+import VNCurrencyInput from "../../components/input/InputMoney";
 interface Inputs {
   title?: string;
-  salary?: number;
+  minPay: string;
+  maxPay: string;
   location?: string;
-  closeDate?: string | string[];
   description?: string;
   quantity?: string;
   experience?: string;
-  skills?: string | string[];
+  skillIdList?: string | string[];
+  newSkills?: string | string[];
   rank?: string;
   jobType?: string;
   gender?: string;
 }
 const EmployerPostJobPage: React.FC = () => {
-  const [jobDescription] = useState("");
+  const { locations, ranks, jobTypes, experiences, genders, skills } =
+    useSelector((state: any) => state.common);
+  const { companyAuth } = useSelector((state: any) => state.auth);
+  const { loadingJob } = useSelector((state: any) => state.job);
+  const dispatch = useDispatch();
+  const [jobDescription, setJobDescription] = useState("");
   const [selectEnterSalary, setSelectEnterSalary] = useState("");
   const {
     register,
     handleSubmit,
     clearErrors,
     setValue,
+    reset,
+    control,
+    getValues,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (dataUpdateCompany: Inputs) => {
-    console.log("🚀 ~ dataUpdateCompany:", dataUpdateCompany);
+  const onSubmit: SubmitHandler<Inputs> = (dataPosJob: Inputs) => {
+    if (dataPosJob?.minPay === undefined) {
+      let minPay = "0";
+      setValue("minPay", minPay);
+      console.log("🚀 ~ dataPosJob:", {
+        ...dataPosJob,
+        minPay,
+        companyId: companyAuth?.id,
+        useTrialPost: true,
+        purchasedProductId: null,
+      });
+      dispatch(
+        jobPostJob({
+          ...dataPosJob,
+          companyId: companyAuth?.id,
+          useTrialPost: true,
+          purchasedProductId: null,
+          newSkills: [],
+        })
+      );
+    } else if (dataPosJob?.maxPay === undefined) {
+      let maxPay = "9007199254740992";
+      setValue("maxPay", maxPay);
+      console.log("🚀 ~ dataPosJob:", {
+        ...dataPosJob,
+        maxPay,
+        companyId: companyAuth?.id,
+        useTrialPost: true,
+        purchasedProductId: null,
+      });
+      dispatch(
+        jobPostJob({
+          ...dataPosJob,
+          companyId: companyAuth?.id,
+          useTrialPost: true,
+          purchasedProductId: null,
+          newSkills: [],
+        })
+      );
+    } else {
+      console.log("🚀 ~ dataPosJob123456789:", {
+        ...dataPosJob,
+        companyId: companyAuth?.id,
+        useTrialPost: true,
+        purchasedProductId: null,
+        newSkills: [],
+      });
+      dispatch(
+        jobPostJob({
+          ...dataPosJob,
+          companyId: companyAuth?.id,
+          useTrialPost: true,
+          purchasedProductId: null,
+          newSkills: [],
+        })
+      );
+    }
+    reset();
+    setJobDescription("");
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    dispatch(commonGetLocation());
+    dispatch(commonGetJobType());
+    dispatch(commonGetGender());
+    dispatch(commonGetRank());
+    dispatch(commonGetExperience());
+    dispatch(commonGetSkills());
+  }, []);
+
   return (
     <>
       <div className="xl:mx-40 mx-10 my-10 bg-white px-8 py-5 rounded-lg shadow-md">
-        <h2 className="font-bold text-lg my-2 text-gray-800">Đăng tin</h2>
+        <div className="grid grid-cols-2 gap-10 items-center">
+          <h2 className="font-bold text-lg my-2 text-gray-800">Đăng tin</h2>
+        </div>
         <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
           <div className="grid grid-cols-2 gap-10">
             <div className="">
@@ -96,111 +176,27 @@ const EmployerPostJobPage: React.FC = () => {
                 <></>
               )}
             </div>
-            <div className="">
+            <div>
               <label
-                htmlFor="salary"
+                htmlFor="title"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Mức lương <span className="text-red-500">*</span>
+                Gói bài đăng
               </label>
-              <div className="mt-2 relative">
-                <IconMoney className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconMoney>
-                <Select
-                  {...register("salary", {
-                    required: true,
-                  })}
-                  allowClear={true}
-                  placeholder="Kinh nghiệm"
-                  className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-3 border border-stone-200 border-solid w-full rounded-md"
-                  optionFilterProp="children"
-                  filterOption={(input, option: any) =>
-                    (option?.label ?? "").includes(input)
-                  }
-                  onChange={(e) => {
-                    // setValue("salary", e);
-                    // clearErrors("salary");
-                    setSelectEnterSalary(e);
-                  }}
-                  options={dataEnterSalary}
-                />
-                {selectEnterSalary == "fix" ? (
-                  <div className="flex">
-                    <input
-                      {...register("salary", {
-                        required: true,
-                      })}
-                      placeholder="Mức lương"
-                      type="number"
-                      autoComplete="off"
-                      id="salary"
-                      className="h-full mt-5 focus:border-solid focus:border-stone-400/70 transition-all outline-none px-5 py-3 border border-stone-200 border-solid w-full rounded-md"
-                    />
-                  </div>
-                ) : selectEnterSalary == "between" ? (
-                  <div className="grid grid-cols-2 mt-5 gap-5">
-                    <input
-                      {...register("salary", {
-                        required: true,
-                      })}
-                      placeholder="Từ"
-                      type="number"
-                      autoComplete="off"
-                      id="salary"
-                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none px-5 py-3 border border-stone-200 border-solid w-full rounded-md"
-                    />
-                    <input
-                      placeholder="Đến"
-                      type="number"
-                      autoComplete="off"
-                      id="salary"
-                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none px-5 py-3 border border-stone-200 border-solid w-full rounded-md"
-                    />
-                  </div>
-                ) : selectEnterSalary == "up" ? (
-                  <div className="mt-5">
-                    <input
-                      {...register("salary", {
-                        required: true,
-                      })}
-                      placeholder="Lên đến"
-                      type="number"
-                      autoComplete="off"
-                      id="salary"
-                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none px-5 py-3 border border-stone-200 border-solid w-full rounded-md"
-                    />
-                  </div>
-                ) : selectEnterSalary == "more" ? (
-                  <div className="mt-5">
-                    <input
-                      {...register("salary", {
-                        required: true,
-                      })}
-                      placeholder="Trên"
-                      type="number"
-                      autoComplete="off"
-                      id="salary"
-                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none px-5 py-3 border border-stone-200 border-solid w-full rounded-md"
-                    />
-                  </div>
-                ) : (
-                  <></>
-                )}
-                {/* <input
-                  {...register("salary", {
-                    required: true,
-                  })}
-                  placeholder="Mức lương"
-                  type="salary"
-                  autoComplete="off"
-                  id="salary"
-                  className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-12 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
-                /> */}
-              </div>
-              {errors?.salary?.type == "required" ? (
-                <p className="text-red-600 mt-1">*Bạn chưa điền mức lương</p>
-              ) : (
-                <></>
-              )}
+              <Select
+                allowClear={true}
+                placeholder="Lựa chọn đăng bài"
+                className="select-custom mt-2 h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
+                optionFilterProp="children"
+                filterOption={(input, option: any) =>
+                  (option?.label ?? "").includes(input)
+                }
+                onChange={() => {}}
+                options={[
+                  { key: "1", value: "Trial" },
+                  { key: "2", value: "Max Pro" },
+                ]}
+              />
             </div>
           </div>
           {/*  */}
@@ -221,7 +217,9 @@ const EmployerPostJobPage: React.FC = () => {
                   })}
                   allowClear={true}
                   showSearch
+                  fieldNames={{ label: "code", value: "value" }}
                   placeholder="Kinh nghiệm"
+                  value={getValues("experience")}
                   className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-3 border border-stone-200 border-solid w-full rounded-md"
                   optionFilterProp="children"
                   filterOption={(input, option: any) =>
@@ -231,7 +229,7 @@ const EmployerPostJobPage: React.FC = () => {
                     setValue("experience", e);
                     clearErrors("experience");
                   }}
-                  options={dataExperience}
+                  options={experiences}
                 />
                 {errors?.experience?.type == "required" ? (
                   <p className="text-red-600 mt-1">
@@ -256,7 +254,7 @@ const EmployerPostJobPage: React.FC = () => {
                     required: true,
                   })}
                   placeholder="Số lượng tuyển"
-                  type="number"
+                  type="text"
                   autoComplete="off"
                   id="quantity"
                   className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
@@ -285,6 +283,8 @@ const EmployerPostJobPage: React.FC = () => {
                   showSearch
                   placeholder="Vị trí"
                   allowClear={true}
+                  value={getValues("rank")}
+                  fieldNames={{ label: "code", value: "value" }}
                   className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                   optionFilterProp="children"
                   filterOption={(input, option: any) =>
@@ -293,7 +293,7 @@ const EmployerPostJobPage: React.FC = () => {
                   {...register("rank", {
                     required: true,
                   })}
-                  options={dataPosition}
+                  options={ranks}
                   onChange={(e) => {
                     setValue("rank", e);
                     clearErrors("rank");
@@ -322,6 +322,8 @@ const EmployerPostJobPage: React.FC = () => {
                     required: true,
                   })}
                   showSearch
+                  value={getValues("location")}
+                  fieldNames={{ label: "province", value: "value" }}
                   allowClear={true}
                   placeholder="Địa chỉ"
                   className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
@@ -329,7 +331,7 @@ const EmployerPostJobPage: React.FC = () => {
                   filterOption={(input, option: any) =>
                     (option?.label ?? "").includes(input)
                   }
-                  options={dataAddress}
+                  options={locations}
                   onChange={(e) => {
                     setValue("location", e);
                     clearErrors("location");
@@ -359,14 +361,16 @@ const EmployerPostJobPage: React.FC = () => {
                   })}
                   id="jobType"
                   showSearch
+                  value={getValues("jobType")}
                   allowClear={true}
-                  placeholder="Thời gian làm việc"
+                  fieldNames={{ label: "code", value: "value" }}
+                  placeholder="Loại công việc"
                   className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                   optionFilterProp="children"
                   filterOption={(input, option: any) =>
                     (option?.label ?? "").includes(input)
                   }
-                  options={dataTimeWork}
+                  options={jobTypes}
                   onChange={(e) => {
                     setValue("jobType", e);
                     clearErrors("jobType");
@@ -383,33 +387,104 @@ const EmployerPostJobPage: React.FC = () => {
             </div>
             <div className="">
               <label
-                htmlFor="address"
+                htmlFor="salary"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Ngày kết thúc bài đăng <span className="text-red-500">*</span>
+                Mức lương <span className="text-red-500">*</span>
               </label>
               <div className="mt-2 relative">
-                <DatePicker
-                  {...register("closeDate", {
-                    required: true,
-                  })}
-                  format={{
-                    format: "YYYY-MM-DD",
-                    type: "mask",
+                <IconMoney className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconMoney>
+                <Select
+                  allowClear={true}
+                  placeholder="Mức lương"
+                  className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-3 border border-stone-200 border-solid w-full rounded-md"
+                  optionFilterProp="children"
+                  filterOption={(input, option: any) =>
+                    (option?.label ?? "").includes(input)
+                  }
+                  onChange={(e) => {
+                    setSelectEnterSalary(e);
                   }}
-                  onChange={(value, valueString) => {
-                    console.log("🚀 ~ value:", value);
-                    setValue("closeDate", valueString);
-                    clearErrors("closeDate");
-                  }}
-                  placeholder="Ngày kết thúc bài đăng"
-                  className="h-11 w-full focus:border-solid focus:border-stone-400/70 border border-stone-200 border-solid"
+                  options={dataEnterSalary}
                 />
+                {selectEnterSalary == "fix" ? (
+                  <div className="flex flex-col gap-2 mt-3">
+                    <label
+                      htmlFor=""
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    ></label>
+                    <Controller
+                      name="maxPay"
+                      control={control}
+                      render={({ field }) => (
+                        <VNCurrencyInput
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        />
+                      )}
+                    />
+                  </div>
+                ) : selectEnterSalary == "between" ? (
+                  <div className="grid grid-cols-2 mt-5 gap-5">
+                    <Controller
+                      name="minPay"
+                      control={control}
+                      render={({ field }) => (
+                        <VNCurrencyInput
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="maxPay"
+                      control={control}
+                      render={({ field }) => (
+                        <VNCurrencyInput
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        />
+                      )}
+                    />
+                  </div>
+                ) : selectEnterSalary == "up" ? (
+                  <div className="mt-5 flex flex-col">
+                    <label
+                      htmlFor=""
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Lên tới
+                    </label>
+                    <Controller
+                      name="maxPay"
+                      control={control}
+                      render={({ field }) => (
+                        <VNCurrencyInput
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        />
+                      )}
+                    />
+                  </div>
+                ) : selectEnterSalary == "more" ? (
+                  <div className="mt-5 flex flex-col">
+                    <Controller
+                      name="minPay"
+                      control={control}
+                      render={({ field }) => (
+                        <VNCurrencyInput
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        />
+                      )}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
-              {errors?.closeDate?.type == "required" ? (
-                <p className="text-red-600 mt-1">
-                  *Bạn chưa điền ngày kết thúc
-                </p>
+              {errors?.minPay?.type == "required" ? (
+                <p className="text-red-600 mt-1">*Bạn chưa điền mức lương</p>
               ) : (
                 <></>
               )}
@@ -418,7 +493,7 @@ const EmployerPostJobPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-10 mt-5">
             <div className="">
               <label
-                htmlFor="skills"
+                htmlFor="skillIdList"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Kỹ năng <span className="text-red-500">*</span>
@@ -427,22 +502,24 @@ const EmployerPostJobPage: React.FC = () => {
                 <IconClipboardDocument className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconClipboardDocument>
                 <Select
                   mode="tags"
-                  {...register("skills", {
+                  {...register("skillIdList", {
                     required: true,
                   })}
                   style={{ width: "100%" }}
                   placeholder="Kỹ năng"
+                  value={getValues("skillIdList")}
+                  fieldNames={{ label: "name", value: "id" }}
                   className="skill select-custom min-h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 border border-stone-200 border-solid w-full rounded-md"
-                  options={dataSkills}
+                  options={skills.length > 0 ? skills : []}
                   allowClear
                   onChange={(e) => {
                     console.log("🚀 ~ e:", e);
-                    setValue("skills", e);
-                    clearErrors("skills");
+                    setValue("skillIdList", e);
+                    clearErrors("skillIdList");
                   }}
                 />
               </div>
-              {errors?.skills?.type == "required" ? (
+              {errors?.skillIdList?.type == "required" ? (
                 <p className="text-red-600 mt-1">*Bạn chưa điền kỹ năng</p>
               ) : (
                 <></>
@@ -464,13 +541,14 @@ const EmployerPostJobPage: React.FC = () => {
                   id="gender"
                   showSearch
                   allowClear={true}
+                  value={getValues("gender")}
                   placeholder="Giới tính"
                   className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                   optionFilterProp="children"
                   filterOption={(input, option: any) =>
                     (option?.label ?? "").includes(input)
                   }
-                  options={dataGender}
+                  options={genders}
                   onChange={(e) => {
                     setValue("gender", e);
                     clearErrors("gender");
@@ -500,14 +578,16 @@ const EmployerPostJobPage: React.FC = () => {
               value={jobDescription}
               onChange={(content) => {
                 setValue("description", content);
+                setJobDescription(content);
               }}
               className="mt-2"
             />
           </div>
+
           <div className="flex justify-end mt-10">
             <ButtonLoading
               title="Lưu thông tin"
-              loading={false}
+              loading={loadingJob}
             ></ButtonLoading>
           </div>
         </form>

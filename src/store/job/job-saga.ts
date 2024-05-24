@@ -1,5 +1,8 @@
-// import { takeLatest } from "redux-saga/effects";
+import { takeLatest } from "redux-saga/effects";
+
+import { jobPostJob } from "./job-slice";
+import { handleJobPostJob } from "./job-handlers";
 
 export default function* authSaga() {
-  //   yield takeLatest(fileUploadFile.type, handleFileUploadFile);
+  yield takeLatest(jobPostJob.type, handleJobPostJob);
 }

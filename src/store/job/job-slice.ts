@@ -29,9 +29,8 @@ const jobSlice: any = createSlice({
       ...state,
       messageJob: action.payload.messageJob,
     }),
-    jobGetJobFilter: (state: any) => ({
-      ...state,
-    }),
+    jobGetJobFilter: () => {},
+    jobPostJob: () => {},
   },
 });
 export const {
@@ -41,5 +40,6 @@ export const {
   jobGetJobFilter,
   jobUpdateJobRedux,
   jobUpdateJob,
+  jobPostJob,
 } = jobSlice.actions;
 export default jobSlice.reducer;
