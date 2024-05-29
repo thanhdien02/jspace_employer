@@ -23,10 +23,10 @@ const CardCompanyForAccountSelect: React.FC<PropComponent> = ({
       <div
         className={`flex justify-between w-full items-center m-auto gap-4 shadow-sm hover:shadow-md transition-all border border-gray-200 border-solid rounded-md h-[100px] p-5 ${className}`}
       >
-        <div className="w-[15%]">
+        <div className="w-[80px] h-[60px]">
           <img
             src={logo ? logo : logo1}
-            className=" w-full h-full rounded-md object-contain"
+            className=" w-full h-full rounded-md object-cover"
             alt=""
           />
         </div>

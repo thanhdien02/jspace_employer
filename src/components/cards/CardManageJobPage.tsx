@@ -6,43 +6,68 @@ interface PropComponent {
   className?: string;
   onClickUpdateJob?: any;
   onClickListCandidate?: any;
-  data?: any;
+  onClickSetJobId?: any;
+  item?: any;
 }
 
 const CardManageJobPage: React.FC<PropComponent> = ({
   className,
   onClickUpdateJob,
   onClickListCandidate,
-  data,
+  onClickSetJobId,
+  item,
 }) => {
   return (
     <>
       <TableRow className={`${className}`}>
-        <TableRowContent className="">12</TableRowContent>
+        <TableRowContent className="">{item?.id}</TableRowContent>
         <TableRowContent className="line-clamp-3">
-          <div className="line-clamp-3">
-            Senior Full-Stack Developer ( NodeJs , ReactJs) Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Illum veritatis cupiditate
-            optio Senior Full-Stack Developer ( NodeJs , ReactJs) Lorem ipsum
-            dolor sit amet consectetur adipisicing elit. Illum veritatis
-            cupiditate optio Senior Full-Stack Developer ( NodeJs , ReactJs)
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
-            veritatis cupiditate optio
-          </div>
+          <div className="line-clamp-2">{item?.title}</div>
         </TableRowContent>
-        <TableRowContent className="">Thỏa thuận</TableRowContent>
-        <TableRowContent className="">10</TableRowContent>
+        <TableRowContent className="">
+          {/* Trong khoảng */}
+          {item?.minPay != "0" &&
+          item?.maxPay != "0" &&
+          item?.maxPay != "2147483647"
+            ? `${item?.minPay.toLocaleString("vi", {
+                style: "currency",
+                currency: "VND",
+              })} - ${item?.maxPay.toLocaleString("vi", {
+                style: "currency",
+                currency: "VND",
+              })}`
+            : ""}
+          {/* Lên tới */}
+          {item?.minPay == "0" && item?.maxPay != "0"
+            ? `Lên tới ${item?.maxPay.toLocaleString("vi", {
+                style: "currency",
+                currency: "VND",
+              })}`
+            : ""}
+          {/* Trên */}
+          {item?.minPay != "0" && item?.maxPay == "2147483647"
+            ? `Trên ${item?.minPay.toLocaleString("vi", {
+                style: "currency",
+                currency: "VND",
+              })}`
+            : ""}
+        </TableRowContent>
+        <TableRowContent className="">{item?.quantity}</TableRowContent>
         <TableRowContent className="">Nhân viên</TableRowContent>
-        <TableRowContent className="">Không yêu cầu</TableRowContent>
-        <TableRowContent className="">Toàn thời gian</TableRowContent>
+        <TableRowContent className="">{item?.experience?.code}</TableRowContent>
+        <TableRowContent className="">{item?.jobType?.code}</TableRowContent>
         <TableRowContent className="">
           <div className="line-clamp-3">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Lorem
-            ipsum
+            {item?.skills?.length > 0 &&
+              item?.skills?.map((item: any, index: number) => (
+                <span key={index} className="ml-2">
+                  {item?.name}
+                </span>
+              ))}
           </div>
         </TableRowContent>
-        <TableRowContent className="">17/10/2024</TableRowContent>
-        <TableRowContent className="">29/10/2024</TableRowContent>
+        <TableRowContent className="">{item?.openDate}</TableRowContent>
+        <TableRowContent className="">{item?.closeDate}</TableRowContent>
         {/*  */}
         <TableRowContent className="absolute right-60 z-10">
           <Popconfirm
@@ -51,7 +76,7 @@ const CardManageJobPage: React.FC<PropComponent> = ({
             okText="Đồng ý"
             cancelText="Không"
             onConfirm={() => {
-              console.log("dữ liệu: ", data?.key);
+              // console.log("dữ liệu: ", item?.key);
             }}
             onCancel={() => {}}
           >
@@ -60,7 +85,10 @@ const CardManageJobPage: React.FC<PropComponent> = ({
         </TableRowContent>
         <TableRowContent className="absolute right-32 z-10">
           <span
-            onClick={() => onClickUpdateJob(true)}
+            onClick={() => {
+              onClickUpdateJob(true);
+              onClickSetJobId(item?.id);
+            }}
             className="py-1 px-2 text-sm rounded-sm bg-primary text-white cursor-pointer"
           >
             Chỉnh sửa
@@ -69,7 +97,10 @@ const CardManageJobPage: React.FC<PropComponent> = ({
         <TableRowContent className="absolute right-2 z-10">
           <div className="relative">
             <span
-              onClick={() => onClickListCandidate(true)}
+              onClick={() => {
+                onClickListCandidate(true);
+                onClickSetJobId(item?.id);
+              }}
               className="py-1 px-2 text-sm rounded-sm bg-primary text-white cursor-pointer"
             >
               Xem ứng viên

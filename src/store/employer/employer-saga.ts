@@ -1,12 +1,14 @@
 import { takeLatest } from "redux-saga/effects";
 import {
   employerConfirmCompanyEmployer,
+  employerUpdateAvatarEmployer,
   employerUpdateBackgroundEmployer,
   employerUpdateInformationEmployer,
 } from "./employer-slice";
 import {
-  handleEmployerBackgroundEmployer,
   handleEmployerConfirmInformationCompany,
+  handleEmployerUpdateAvatarEmployer,
+  handleEmployerUpdateBackgroundEmployer,
   handleEmployerUpdateInformation,
 } from "./employer-handlers";
 
@@ -21,6 +23,10 @@ export default function* adminSaga() {
   );
   yield takeLatest(
     employerUpdateBackgroundEmployer.type,
-    handleEmployerBackgroundEmployer
+    handleEmployerUpdateBackgroundEmployer
+  );
+  yield takeLatest(
+    employerUpdateAvatarEmployer.type,
+    handleEmployerUpdateAvatarEmployer
   );
 }

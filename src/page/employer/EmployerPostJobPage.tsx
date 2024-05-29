@@ -23,15 +23,16 @@ import {
   commonGetRank,
   commonGetSkills,
 } from "../../store/common/common-slice";
-import { jobPostJob } from "../../store/job/job-slice";
+import { jobPostJob, jobUpdateMessageRedux } from "../../store/job/job-slice";
 import VNCurrencyInput from "../../components/input/InputMoney";
+import InputNumber from "../../components/input/InputNumber";
 interface Inputs {
   title?: string;
   minPay: string;
   maxPay: string;
   location?: string;
   description?: string;
-  quantity?: string;
+  quantity: string;
   experience?: string;
   skillIdList?: string | string[];
   newSkills?: string | string[];
@@ -43,7 +44,7 @@ const EmployerPostJobPage: React.FC = () => {
   const { locations, ranks, jobTypes, experiences, genders, skills } =
     useSelector((state: any) => state.common);
   const { companyAuth } = useSelector((state: any) => state.auth);
-  const { loadingJob } = useSelector((state: any) => state.job);
+  const { loadingJob, messageJob } = useSelector((state: any) => state.job);
   const dispatch = useDispatch();
   const [jobDescription, setJobDescription] = useState("");
   const [selectEnterSalary, setSelectEnterSalary] = useState("");
@@ -58,64 +59,43 @@ const EmployerPostJobPage: React.FC = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataPosJob: Inputs) => {
-    if (dataPosJob?.minPay === undefined) {
-      let minPay = "0";
-      setValue("minPay", minPay);
-      console.log("🚀 ~ dataPosJob:", {
-        ...dataPosJob,
-        minPay,
-        companyId: companyAuth?.id,
-        useTrialPost: true,
-        purchasedProductId: null,
-      });
-      dispatch(
-        jobPostJob({
-          ...dataPosJob,
-          companyId: companyAuth?.id,
-          useTrialPost: true,
-          purchasedProductId: null,
-          newSkills: [],
-        })
-      );
-    } else if (dataPosJob?.maxPay === undefined) {
-      let maxPay = "9007199254740992";
-      setValue("maxPay", maxPay);
-      console.log("🚀 ~ dataPosJob:", {
-        ...dataPosJob,
-        maxPay,
-        companyId: companyAuth?.id,
-        useTrialPost: true,
-        purchasedProductId: null,
-      });
-      dispatch(
-        jobPostJob({
-          ...dataPosJob,
-          companyId: companyAuth?.id,
-          useTrialPost: true,
-          purchasedProductId: null,
-          newSkills: [],
-        })
-      );
+    if (dataPosJob?.minPay == undefined && dataPosJob?.maxPay == undefined) {
+      setSelectEnterSalary("NOTFILL");
     } else {
-      console.log("🚀 ~ dataPosJob123456789:", {
-        ...dataPosJob,
-        companyId: companyAuth?.id,
-        useTrialPost: true,
-        purchasedProductId: null,
-        newSkills: [],
-      });
-      dispatch(
-        jobPostJob({
-          ...dataPosJob,
-          companyId: companyAuth?.id,
-          useTrialPost: true,
-          purchasedProductId: null,
-          newSkills: [],
-        })
-      );
+      if (dataPosJob?.minPay == undefined) {
+        dispatch(
+          jobPostJob({
+            ...dataPosJob,
+            companyId: companyAuth?.id,
+            useTrialPost: true,
+            purchasedProductId: null,
+            newSkills: [],
+            minPay: "0",
+          })
+        );
+      } else if (dataPosJob?.maxPay == undefined) {
+        dispatch(
+          jobPostJob({
+            ...dataPosJob,
+            companyId: companyAuth?.id,
+            useTrialPost: true,
+            purchasedProductId: null,
+            newSkills: [],
+            maxPay: "2147483647",
+          })
+        );
+      } else {
+        dispatch(
+          jobPostJob({
+            ...dataPosJob,
+            companyId: companyAuth?.id,
+            useTrialPost: true,
+            purchasedProductId: null,
+            newSkills: [],
+          })
+        );
+      }
     }
-    reset();
-    setJobDescription("");
   };
 
   useEffect(() => {
@@ -131,6 +111,14 @@ const EmployerPostJobPage: React.FC = () => {
     dispatch(commonGetSkills());
   }, []);
 
+  // reset form
+  useEffect(() => {
+    if (messageJob == "postsuccess") {
+      reset();
+      setJobDescription("");
+      dispatch(jobUpdateMessageRedux({ messageJob: "" }));
+    }
+  }, [messageJob]);
   return (
     <>
       <div className="xl:mx-40 mx-10 my-10 bg-white px-8 py-5 rounded-lg shadow-md">
@@ -139,7 +127,7 @@ const EmployerPostJobPage: React.FC = () => {
         </div>
         <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
           <div className="grid grid-cols-2 gap-10">
-            <div className="">
+            <div>
               <label
                 htmlFor="title"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -179,13 +167,14 @@ const EmployerPostJobPage: React.FC = () => {
             <div>
               <label
                 htmlFor="title"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium leading-6 text-red-500"
               >
                 Gói bài đăng
               </label>
               <Select
                 allowClear={true}
-                placeholder="Lựa chọn đăng bài"
+                placeholder="Lựa chọn gói đăng bài"
+                defaultValue="Trial"
                 className="select-custom mt-2 h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                 optionFilterProp="children"
                 filterOption={(input, option: any) =>
@@ -242,27 +231,30 @@ const EmployerPostJobPage: React.FC = () => {
             </div>
             <div className="w-full">
               <label
-                htmlFor="quantitycandidates"
+                htmlFor="quantity"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Số lượng tuyển <span className="text-red-500">*</span>
               </label>
               <div className="relative mt-2">
                 <IconGroupUser className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconGroupUser>
-                <input
-                  {...register("quantity", {
-                    required: true,
-                  })}
-                  placeholder="Số lượng tuyển"
-                  type="text"
-                  autoComplete="off"
-                  id="quantity"
-                  className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
+                <Controller
+                  name="quantity"
+                  control={control}
+                  rules={{ required: "Số lượng tuyển là bắt buộc" }}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <InputNumber
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder="Số lượng tuyển"
+                    />
+                  )}
                 />
               </div>
               {errors?.quantity?.type == "required" ? (
                 <p className="text-red-600 mt-1">
-                  *Bạn chưa điền số lượng tuyển
+                  *Bạn chưa điền số lượng ứng viên cho công việc
                 </p>
               ) : (
                 <></>
@@ -346,7 +338,7 @@ const EmployerPostJobPage: React.FC = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-10 mt-5">
-            <div className="">
+            <div>
               <label
                 htmlFor="jobType"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -385,7 +377,7 @@ const EmployerPostJobPage: React.FC = () => {
                 <></>
               )}
             </div>
-            <div className="">
+            <div>
               <label
                 htmlFor="salary"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -413,39 +405,60 @@ const EmployerPostJobPage: React.FC = () => {
                       htmlFor=""
                       className="block text-sm font-medium leading-6 text-gray-900"
                     ></label>
-                    <Controller
-                      name="maxPay"
-                      control={control}
-                      render={({ field }) => (
-                        <VNCurrencyInput
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        />
-                      )}
-                    />
+                    <div className="relative">
+                      <Controller
+                        name="maxPay"
+                        rules={{ required: "Bạn chưa điền mức lương" }}
+                        control={control}
+                        render={({ field }) => (
+                          <VNCurrencyInput
+                            value={field.value}
+                            onValueChange={field.onChange}
+                            className="!pr-12"
+                          />
+                        )}
+                      />
+                      <span className="absolute font-medium top-1/2 right-2 -translate-y-1/2">
+                        VND
+                      </span>
+                    </div>
                   </div>
                 ) : selectEnterSalary == "between" ? (
                   <div className="grid grid-cols-2 mt-5 gap-5">
-                    <Controller
-                      name="minPay"
-                      control={control}
-                      render={({ field }) => (
-                        <VNCurrencyInput
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="maxPay"
-                      control={control}
-                      render={({ field }) => (
-                        <VNCurrencyInput
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        />
-                      )}
-                    />
+                    <div className="relative">
+                      <Controller
+                        name="minPay"
+                        rules={{ required: "Bạn chưa điền mức lương" }}
+                        control={control}
+                        render={({ field }) => (
+                          <VNCurrencyInput
+                            value={field.value}
+                            onValueChange={field.onChange}
+                            className="!pr-12"
+                          />
+                        )}
+                      />
+                      <span className="absolute font-medium top-1/2 right-2 -translate-y-1/2">
+                        VND
+                      </span>
+                    </div>
+                    <div className="relative">
+                      <Controller
+                        name="maxPay"
+                        control={control}
+                        rules={{ required: "Bạn chưa điền mức lương" }}
+                        render={({ field }) => (
+                          <VNCurrencyInput
+                            value={field.value}
+                            onValueChange={field.onChange}
+                            className="!pr-12"
+                          />
+                        )}
+                      />
+                      <span className="absolute font-medium top-1/2 right-2 -translate-y-1/2">
+                        VND
+                      </span>
+                    </div>
                   </div>
                 ) : selectEnterSalary == "up" ? (
                   <div className="mt-5 flex flex-col">
@@ -455,35 +468,55 @@ const EmployerPostJobPage: React.FC = () => {
                     >
                       Lên tới
                     </label>
-                    <Controller
-                      name="maxPay"
-                      control={control}
-                      render={({ field }) => (
-                        <VNCurrencyInput
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        />
-                      )}
-                    />
+                    <div className="relative">
+                      <Controller
+                        name="maxPay"
+                        rules={{ required: "Bạn chưa điền mức lương" }}
+                        control={control}
+                        render={({ field }) => (
+                          <VNCurrencyInput
+                            value={field.value}
+                            onValueChange={field.onChange}
+                            className="!pr-12"
+                          />
+                        )}
+                      />
+                      <span className="absolute font-medium top-1/2 right-2 -translate-y-1/2">
+                        VND
+                      </span>
+                    </div>
                   </div>
                 ) : selectEnterSalary == "more" ? (
                   <div className="mt-5 flex flex-col">
-                    <Controller
-                      name="minPay"
-                      control={control}
-                      render={({ field }) => (
-                        <VNCurrencyInput
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        />
-                      )}
-                    />
+                    <div className="relative">
+                      <Controller
+                        name="minPay"
+                        control={control}
+                        rules={{ required: "Bạn chưa điền mức lương" }}
+                        render={({ field }) => (
+                          <VNCurrencyInput
+                            value={field.value}
+                            onValueChange={field.onChange}
+                            className="!pr-12"
+                          />
+                        )}
+                      />
+                      <span className="absolute font-medium top-1/2 right-2 -translate-y-1/2">
+                        VND
+                      </span>
+                    </div>
                   </div>
                 ) : (
                   <></>
                 )}
               </div>
-              {errors?.minPay?.type == "required" ? (
+              {selectEnterSalary == "NOTFILL" ? (
+                <p className="text-red-600 mt-1">*Bạn chưa điền mức lương</p>
+              ) : (
+                <></>
+              )}
+              {errors?.minPay?.type == "required" ||
+              errors?.maxPay?.type == "required" ? (
                 <p className="text-red-600 mt-1">*Bạn chưa điền mức lương</p>
               ) : (
                 <></>
@@ -491,7 +524,7 @@ const EmployerPostJobPage: React.FC = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-10 mt-5">
-            <div className="">
+            <div>
               <label
                 htmlFor="skillIdList"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -525,7 +558,7 @@ const EmployerPostJobPage: React.FC = () => {
                 <></>
               )}
             </div>
-            <div className="">
+            <div>
               <label
                 htmlFor="gender"
                 className="block text-sm font-medium leading-6 text-gray-900"

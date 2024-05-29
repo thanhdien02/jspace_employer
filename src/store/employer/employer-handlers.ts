@@ -3,6 +3,7 @@ import { getToken, Token } from "../../utils/auth";
 import { employerUpdateLoadingRedux } from "./employer-slice";
 import {
   requestEmployerConfirmCompanyInListThatForYourCompany,
+  requestEmployerUpdateAvatar,
   requestEmployerUpdateBackground,
   requestEmployerUpdateInformation,
 } from "./employer-requests";
@@ -60,7 +61,7 @@ function* handleEmployerConfirmInformationCompany(
     yield put(employerUpdateLoadingRedux({ loadingEmployer: false }));
   }
 }
-function* handleEmployerBackgroundEmployer(
+function* handleEmployerUpdateBackgroundEmployer(
   dataBackgroundEmployer: any
 ): Generator<any> {
   try {
@@ -89,8 +90,37 @@ function* handleEmployerBackgroundEmployer(
     yield put(employerUpdateLoadingRedux({ loadingEmployer: false }));
   }
 }
+function* handleEmployerUpdateAvatarEmployer(
+  dataUpdateAvatarEmployer: any
+): Generator<any> {
+  try {
+    yield put(employerUpdateLoadingRedux({ loadingEmployer: true }));
+    const token: Token = getToken();
+    const formData = new FormData();
+    formData.append(
+      "file",
+      dataUpdateAvatarEmployer?.payload?.file?.originFileObj
+    );
+    const response: any = yield call(
+      requestEmployerUpdateAvatar,
+      formData,
+      dataUpdateAvatarEmployer?.payload?.employer_id,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      message.success("Cập nhật avatar thành công.");
+      yield call(handleAuthFetchMe);
+    } else {
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(employerUpdateLoadingRedux({ loadingEmployer: false }));
+  }
+}
 export {
   handleEmployerUpdateInformation,
   handleEmployerConfirmInformationCompany,
-  handleEmployerBackgroundEmployer,
+  handleEmployerUpdateBackgroundEmployer,
+  handleEmployerUpdateAvatarEmployer,
 };

@@ -1,15 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IFile {
-  jobs: any;
+  postedJobs: any;
+  jobById: any;
   loadingJob?: boolean;
   messageJob?: string;
+  paginationPostedJob?: any;
 }
 
 const init: IFile = {
-  jobs: {},
+  postedJobs: {},
+  jobById: {},
   loadingJob: false,
   messageJob: "",
+  paginationPostedJob: {},
 };
 const jobSlice: any = createSlice({
   name: "job",
@@ -17,20 +21,29 @@ const jobSlice: any = createSlice({
   reducers: {
     jobGetJobById: () => {},
     jobUpdateJob: () => {},
+    jobGetJobFilter: () => {},
+    jobGetPostedJob: () => {},
+    jobPostJob: () => {},
     jobUpdateLoadingRedux: (state: any, action: any) => ({
       ...state,
       loadingJob: action.payload.loadingJob,
     }),
+    jobUpdateJobByIdRedux: (state: any, action: any) => ({
+      ...state,
+      jobById: action.payload.jobById,
+    }),
     jobUpdateJobRedux: (state: any, action: any) => ({
       ...state,
-      jobs: action.payload.jobs,
+      postedJobs: action.payload.postedJobs,
     }),
     jobUpdateMessageRedux: (state: any, action: any) => ({
       ...state,
       messageJob: action.payload.messageJob,
     }),
-    jobGetJobFilter: () => {},
-    jobPostJob: () => {},
+    jobUpdatePaginationPostedJobRedux: (state: any, action: any) => ({
+      ...state,
+      paginationPostedJob: action.payload.paginationPostedJob,
+    }),
   },
 });
 export const {
@@ -41,5 +54,8 @@ export const {
   jobUpdateJobRedux,
   jobUpdateJob,
   jobPostJob,
+  jobUpdatePaginationPostedJobRedux,
+  jobGetPostedJob,
+  jobUpdateJobByIdRedux,
 } = jobSlice.actions;
 export default jobSlice.reducer;

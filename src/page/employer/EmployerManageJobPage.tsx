@@ -1,24 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { debounce } from "ts-debounce";
 import TitleContent from "../../components/title/TitleContent";
-import { Input, Pagination, Select, Skeleton } from "antd";
+import { Empty, Input, Pagination, Select, Skeleton } from "antd";
 import Table from "../../components/table/Table";
 import CardManageJobPage from "../../components/cards/CardManageJobPage";
 import HeaderTableManageJobPage from "../../components/header/HeaderTableManageJobPage";
 import EmployerUpdateJobPage from "./EmployerUpdateJobPage";
-import { dataHeaderManageJob, dataSideBar } from "../../utils/dataFetch";
+import { dataHeaderManageJob } from "../../utils/dataFetch";
 import EmployerManageCandidateApplyJobPage from "./EmployerManageCandidateApplyJobPage";
+import { useDispatch, useSelector } from "react-redux";
+import { jobGetPostedJob } from "../../store/job/job-slice";
+import IconAdd from "../../components/icons/IconAdd";
+import { useNavigate } from "react-router-dom";
 const { Search } = Input;
 const EmployerManageJobPage: React.FC = () => {
+  const { companyAuth } = useSelector((state: any) => state.auth);
+  const { loadingJob, postedJobs, paginationPostedJob } = useSelector(
+    (state: any) => state.job
+  );
   const [page, setPage] = useState(1);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [updateJob, setUpdateJob] = useState(false);
   const [candidateApply, setCandidateApply] = useState(false);
+  const [jobId, setJobId] = useState("");
   useEffect(() => {}, [page]);
   const handleSearchJob = debounce((value: any) => {
     console.log("Input value:", value);
   }, 500);
-
+  useEffect(() => {
+    if (companyAuth?.id) {
+      dispatch(
+        jobGetPostedJob({ company_id: companyAuth?.id, page: page, size: 8 })
+      );
+    }
+  }, [companyAuth, page]);
   return (
     <>
       <div className="m-10 mt-5">
@@ -57,35 +73,53 @@ const EmployerManageJobPage: React.FC = () => {
               },
             ]}
           />
+          <div
+            onClick={() => navigate("/manage/post-job")}
+            className="ml-auto cursor-pointer flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-md font-medium"
+          >
+            <IconAdd></IconAdd>
+            <button type="button" className="">
+              Đăng tin
+            </button>
+          </div>
         </div>
 
         {/*  */}
         <div className="relative">
           <div className="w-full overflow-auto ">
-            <Table className="min-w-[2200px] overflow-auto">
+            <Table className="min-w-[2350px] overflow-auto">
               <HeaderTableManageJobPage
                 dataHeader={dataHeaderManageJob}
               ></HeaderTableManageJobPage>
-              {false ? (
+              {loadingJob ? (
                 <tbody className="">
                   <tr>
-                    <td className="p-5 text-center" colSpan={7}>
+                    <td className="p-5 text-center" colSpan={10}>
                       <Skeleton active />
                     </td>
                   </tr>
                 </tbody>
               ) : (
-                <tbody className="    ">
-                  {dataSideBar?.length > 0 &&
-                    dataSideBar?.map((item: any, index: number) => (
+                <tbody>
+                  {postedJobs?.length <= 0 || !postedJobs.length ? (
+                    <tr>
+                      <td className="p-5 text-center " colSpan={5}>
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                      </td>
+                    </tr>
+                  ) : (
+                    postedJobs?.length > 0 &&
+                    postedJobs?.map((item: any) => (
                       <CardManageJobPage
                         className="even:bg-gray-300/50"
-                        key={index}
-                        data={item}
+                        key={item?.id}
+                        item={item}
                         onClickUpdateJob={setUpdateJob}
                         onClickListCandidate={setCandidateApply}
+                        onClickSetJobId={setJobId}
                       ></CardManageJobPage>
-                    ))}
+                    ))
+                  )}
                 </tbody>
               )}
             </Table>
@@ -93,15 +127,15 @@ const EmployerManageJobPage: React.FC = () => {
           </div>
         </div>
         <div className="mt-4 flex justify-end">
-          {false ? (
+          {postedJobs.length <= 0 ? (
             <></>
           ) : (
             <Pagination
-              total={50}
+              total={paginationPostedJob?.totalElements}
               onChange={(e) => setPage(e)}
               className="inline-block"
               current={page}
-              pageSize={10}
+              pageSize={paginationPostedJob?.pageSize}
             />
           )}
         </div>
@@ -110,7 +144,7 @@ const EmployerManageJobPage: React.FC = () => {
         {updateJob ? (
           <EmployerUpdateJobPage
             onClick={setUpdateJob}
-            updateCheck={updateJob}
+            jobId={jobId}
           ></EmployerUpdateJobPage>
         ) : (
           <></>

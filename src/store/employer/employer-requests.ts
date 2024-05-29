@@ -36,6 +36,23 @@ export const requestEmployerUpdateBackground = (
     }
   );
 };
+export const requestEmployerUpdateAvatar = (
+  dataEmployerUpdateAvatar: any,
+  employer_id: string = "",
+  accessToken: string
+) => {
+  if (accessToken === undefined || employer_id == "") return;
+  return axios.put(
+    `${API}/api/v1/employees/${employer_id}/update-avatar`,
+    dataEmployerUpdateAvatar,
+    {
+      headers: {
+        "Content-Type": "multipart/form-datas",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
 export const requestEmployerConfirmCompanyInListThatForYourCompany = (
   company_id: string,
   accessToken: string

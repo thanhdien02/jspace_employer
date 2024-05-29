@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { MailOutlined, UserOutlined, CameraOutlined } from "@ant-design/icons";
 import IconPhone from "../../components/icons/IconPhone";
 import {
+  employerUpdateAvatarEmployer,
   employerUpdateBackgroundEmployer,
   employerUpdateInformationEmployer,
 } from "../../store/employer/employer-slice";
@@ -11,9 +12,10 @@ import { message, Select, Spin, Upload, UploadProps } from "antd";
 import { dataPosition } from "../../utils/dataFetch";
 import ButtonLoading from "../../components/button/ButtonLoading";
 import IconGroupUser from "../../components/icons/IconGroupUser";
+import InputNumber from "../../components/input/InputNumber";
 interface Inputs {
   name: string;
-  phone: number;
+  phone: string;
   email: string;
   id: string;
 }
@@ -27,6 +29,7 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataUpdateEmployer: Inputs) => {
@@ -46,7 +49,7 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
     document.title = "Chi tiết tài khoản";
     window.scrollTo(0, 0);
   }, []);
-  const props: UploadProps = {
+  const propsBackground: UploadProps = {
     beforeUpload: (file) => {
       const isPNG = file.type === "image/png" || "image/jpg";
       if (!isPNG) {
@@ -64,18 +67,25 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
     },
     customRequest: () => {},
   };
-  const props1: UploadProps = {
+  const propsAvatar: UploadProps = {
     beforeUpload: (file) => {
-      const isPNG = file.type === "image/png";
+      const isPNG = file.type === "image/png" || "image/jpg";
       if (!isPNG) {
         message.error(`${file.name} is not a png file`);
       }
       return isPNG || Upload.LIST_IGNORE;
     },
     onChange: (info: any) => {
-      console.log(info.fileList);
+      dispatch(
+        employerUpdateAvatarEmployer({
+          file: info.file,
+          employer_id: user?.id,
+        })
+      );
     },
+    customRequest: () => {},
   };
+
   return (
     <>
       <div className="mx-10 xl:mx-60 p-5 my-5 mt-10 shadow-md rounded-lg bg-white">
@@ -87,7 +97,7 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
             <div className="absolute inset-0 bottom-8 bg-blue-100">
               <>
                 <Upload
-                  {...props}
+                  {...propsBackground}
                   className="absolute top-2 cursor-pointer left-2 px-2 py-1 rounded-md bg-slate-100 hover:opacity-90 hover:text-primary transition-all"
                 >
                   <span className="">Chọn ảnh bìa</span>
@@ -111,29 +121,27 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
               </>
             </div>
             <div className="flex justify-center self-end ">
-              <Upload {...props1} className="relative inline-block">
-                {employerLogo ? (
-                  <img
-                    src={
-                      employerLogo
-                        ? employerLogo
-                        : "https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
-                    }
-                    alt=""
-                    className="w-[75px] h-[75px] rounded-full cursor-pointer"
-                  />
+              <Upload {...propsAvatar} className="relative inline-block">
+                {!loadingEmployer ? (
+                  <div>
+                    <img
+                      src={
+                        employerLogo
+                          ? employerLogo
+                          : "https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
+                      }
+                      alt=""
+                      className="w-[75px] h-[75px] rounded-full cursor-pointer object-cover"
+                    />
+                    <CameraOutlined
+                      className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
+                      style={{ fontSize: "18px" }}
+                    />
+                  </div>
                 ) : (
                   <div className="w-[75px] h-[75px] rounded-full flex bg-white">
                     <Spin className="m-auto" />
                   </div>
-                )}
-                {employerLogo ? (
-                  <CameraOutlined
-                    className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
-                    style={{ fontSize: "18px" }}
-                  />
-                ) : (
-                  ""
                 )}
               </Upload>
             </div>
@@ -219,13 +227,17 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
               </label>
               <div className="mt-2 relative">
                 <IconPhone className="absolute top-0 left-0 translate-x-[50%] translate-y-[45%] text-gray-400"></IconPhone>
-                <input
-                  {...register("phone", {})}
-                  placeholder="Số điện thoại"
-                  type="number"
-                  id="phone"
-                  autoComplete="off"
-                  className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md"
+                <Controller
+                  name="phone"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <InputNumber
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder="Số điện thoại"
+                    />
+                  )}
                 />
               </div>
             </div>

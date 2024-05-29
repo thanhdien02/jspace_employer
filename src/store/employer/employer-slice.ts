@@ -14,6 +14,10 @@ const employerSlice: any = createSlice({
   name: "employer",
   initialState: init,
   reducers: {
+    employerUpdateInformationEmployer: () => {},
+    employerUpdateBackgroundEmployer: () => {},
+    employerUpdateAvatarEmployer: () => {},
+    employerConfirmCompanyEmployer: () => {},
     employerUpdateLoadingRedux: (state, action) => ({
       ...state,
       loadingEmployer: action.payload.loadingEmployer,
@@ -22,9 +26,6 @@ const employerSlice: any = createSlice({
       ...state,
       employer: action.payload.employer,
     }),
-    employerUpdateInformationEmployer: () => {},
-    employerUpdateBackgroundEmployer: () => {},
-    employerConfirmCompanyEmployer: () => {},
     employerUpdateMessageRedux: (state, action) => ({
       ...state,
       messageEmployer: action.payload.messageEmployer,
@@ -38,5 +39,6 @@ export const {
   employerUpdateEmployerRedux,
   employerConfirmCompanyEmployer,
   employerUpdateBackgroundEmployer,
+  employerUpdateAvatarEmployer,
 } = employerSlice.actions;
 export default employerSlice.reducer;

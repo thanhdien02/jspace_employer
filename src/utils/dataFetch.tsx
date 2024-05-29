@@ -42,12 +42,6 @@ export const dataSideBar = [
     path: "/manage/list-company",
   },
   {
-    key: "6",
-    icon: <SwapOutlined />,
-    label: "Đăng bài",
-    path: "/manage/post-job",
-  },
-  {
     key: "7",
     icon: <ScheduleOutlined />,
     label: "Quản lí tin tuyển dụng",
@@ -235,11 +229,11 @@ export const dataHeaderManageJob = [
   },
   {
     title: "Tên công việc",
-    className: "w-[500px] ",
+    className: "w-[400px] ",
   },
   {
     title: "Mức lương",
-    className: "w-[100px]",
+    className: "w-[250px]",
   },
   {
     title: "Số lượng",

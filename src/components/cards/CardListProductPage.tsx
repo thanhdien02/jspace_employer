@@ -1,25 +1,67 @@
 import React from "react";
 import IconCart from "../icons/IconCart";
+import IconCheck from "../icons/IconCheck";
 
 interface PropComponent {
   className?: string;
   color?: string;
+  item?: any;
 }
-const CardListProductPage: React.FC<PropComponent> = ({ className, color }) => {
+const CardListProductPage: React.FC<PropComponent> = ({
+  className,
+  color,
+  item,
+}) => {
   return (
     <>
       <div
         className={`flex flex-col gap-2 w-full p-4 min-h-[250px] bg-white rounded-t-md shadow-md !border-t-[6px] border-solid border-primary ${color} ${className}`}
       >
-        <h3 className="font-semibold text-xl">JSPACE TOP</h3>
+        <h3 className="font-semibold text-xl">{item?.name}</h3>
         <p className="text-primary text-xl font-medium">
-          7,500,000 VND<span className="text-red-500">*</span>
+          {item?.price?.toLocaleString("vi", {
+            style: "currency",
+            currency: "VND",
+          })}
+          <span className="text-red-500">*</span>
         </p>
-        <p className="text-gray-500">
-          Đăng tin tuyển dụng hiệu quả với vị trí nổi bật trong Việc làm tốt
-          nhất, được sử dụng tính năng CV đề xuất kết hợp các dịch vụ cao cấp và
-          được bảo hành với nhiều quyền lợi ưu tiên.
-        </p>
+        <ul className="">
+          <li className="flex gap-2 mt-2">
+            <IconCheck
+              className="text-primary"
+              classIcon="!w-5 !h-5"
+            ></IconCheck>
+            <span className="text-gray-600 text-sm">
+              Số lượng bài đăng{" "}
+              <span className="font-bold"> {item?.numberOfPost} bài đăng</span>
+            </span>
+          </li>
+          <li className="flex gap-2 mt-2">
+            <IconCheck
+              className="text-primary"
+              classIcon="!w-5 !h-5"
+            ></IconCheck>
+            <span className="text-gray-600 text-sm">
+              Thời gian sử dụng{" "}
+              <span className="font-bold">{item?.durationDayNumber} ngày</span>
+            </span>
+          </li>
+          <li className="flex gap-2 mt-2">
+            <IconCheck
+              className="text-primary"
+              classIcon="!w-5 !h-5"
+            ></IconCheck>
+            <span className="text-gray-600 text-sm">
+              Thời gian mỗi bài đăng
+              <span className="font-bold"> {item?.postDuration} ngày</span>
+            </span>
+          </li>
+        </ul>
+
+        <div className="mb-4">
+          <p className="font-medium text-base">* Chi tiết:</p>
+          <p className="text-gray-500">{item?.description}</p>
+        </div>
         <div className="mt-auto grid grid-cols-2 gap-2 items-center">
           <button
             className="flex justify-center item-center gap-2 font-medium px-2 py-2 hover:opacity-80 transition-all rounded-md text-primary border border-primary border-solid"
