@@ -5,6 +5,7 @@ import commonReducer from "./common/common-slice";
 import companyReducer from "./company/company-slice";
 import fileReducer from "./file/file-slice";
 import jobReducer from "./job/job-slice";
+import paymentReducer from "./payment/payment-slice";
 import productReducer from "./product/product-slice";
 import { combineReducers } from "@reduxjs/toolkit";
 
@@ -16,5 +17,6 @@ export const reducer: any = combineReducers({
   file: fileReducer,
   company: companyReducer,
   job: jobReducer,
+  payment: paymentReducer,
   product: productReducer,
 });

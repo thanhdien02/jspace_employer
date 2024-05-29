@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
 import CardListProductPage from "../../components/cards/CardListProductPage";
 import { useDispatch, useSelector } from "react-redux";
 import { productGetProduct } from "../../store/product/product-slice";
 import { Empty, Skeleton } from "antd";
+import EmployerBuyNowProductPage from "./EmployerBuyNowProductPage";
 
 const EmployerListProductPage: React.FC = () => {
   const { loadingProduct, products } = useSelector(
     (state: any) => state.product
   );
+  const [checkBuyNow, setCheckBuyNow] = useState(false);
+  const [productId, setProductId] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(productGetProduct({ page: 1, size: 10 }));
@@ -27,6 +30,8 @@ const EmployerListProductPage: React.FC = () => {
               <CardListProductPage
                 key={item?.id}
                 item={item}
+                onClick={setCheckBuyNow}
+                onClickProductId={setProductId}
               ></CardListProductPage>
             ))}
           </div>
@@ -34,6 +39,16 @@ const EmployerListProductPage: React.FC = () => {
           <div className="flex justify-center items-center min-h-[200px] w-full">
             <Empty />
           </div>
+        )}
+
+        {/* by now */}
+        {checkBuyNow ? (
+          <EmployerBuyNowProductPage
+            productId={productId}
+            onClick={setCheckBuyNow}
+          ></EmployerBuyNowProductPage>
+        ) : (
+          <></>
         )}
       </div>
     </>

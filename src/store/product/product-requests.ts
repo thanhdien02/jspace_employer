@@ -11,6 +11,27 @@ export const requestProductGetProduct = (
     },
   });
 };
+export const requestProductGetBuyedProduct = (
+  company_id: string = "1",
+  accessToken: string
+) => {
+  return axios.get(
+    `${API}/api/v1/employees/purchased-products?companyId=${company_id}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
+export const requestProductGetProductById = (product_id: string) => {
+  return axios.get(`${API}/api/v1/products/${product_id}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
 export const requestProductCreateProduct = (
   dataCreateProduct: any,
   accessToken: string

@@ -1,33 +1,74 @@
 import React from "react";
+import IconCheck from "../icons/IconCheck";
 interface PropComponent {
   className?: string;
   color?: string;
+  item?: any;
 }
 const CardManageProductBuyedPage: React.FC<PropComponent> = ({
   className,
   color,
+  item,
 }) => {
   return (
     <>
       <div
-        className={`flex flex-col gap-2 w-full p-4 min-h-[250px] bg-white rounded-md shadow !border-t-[6px] border-solid border-primary ${color} ${className}`}
+        className={`flex flex-col gap-2 w-full p-4 min-h-[250px] bg-white rounded-t-md shadow-md !border-t-[6px] border-solid border-primary ${color} ${className}`}
       >
-        <h3 className="font-semibold text-xl">JSPACE TOP</h3>
+        <h3 className="font-semibold text-xl">
+          {item?.purchasedProduct?.productName}
+        </h3>
         <p className="text-primary text-xl font-medium">
-          7,500,000 VND<span className="text-red-500">*</span>
+          {item?.purchasedProduct?.totalPrice?.toLocaleString("vi", {
+            style: "currency",
+            currency: "VND",
+          })}
+          <span className="text-red-500">*</span>
         </p>
-        <p className="text-gray-500">
-          Đăng tin tuyển dụng hiệu quả với vị trí nổi bật trong Việc làm tốt
-          nhất, được sử dụng tính năng CV đề xuất kết hợp các dịch vụ cao cấp và
-          được bảo hành với nhiều quyền lợi ưu tiên.
-        </p>
-        <div className="mt-auto gap-2 items-center">
-          <button
-            className="w-full py-2 rounded-md font-medium bg-primary text-white hover:opacity-80 transition-all"
-            type="button"
-          >
-            Chi tiết
-          </button>
+        <ul className="">
+          <li className="flex gap-2 mt-2">
+            <IconCheck
+              className="text-primary"
+              classIcon="!w-5 !h-5"
+            ></IconCheck>
+            <span className="text-gray-600 text-sm">
+              Số lượng bài đăng{" "}
+              <span className="font-bold">
+                {" "}
+                {item?.purchasedProduct?.productNumberOfPost} bài đăng
+              </span>
+            </span>
+          </li>
+          <li className="flex gap-2 mt-2">
+            <IconCheck
+              className="text-primary"
+              classIcon="!w-5 !h-5"
+            ></IconCheck>
+            <span className="text-gray-600 text-sm">
+              Thời gian sử dụng{" "}
+              <span className="font-bold">
+                {item?.purchasedProduct?.productDurationDayNumber} ngày
+              </span>
+            </span>
+          </li>
+          <li className="flex gap-2 mt-2">
+            <IconCheck
+              className="text-primary"
+              classIcon="!w-5 !h-5"
+            ></IconCheck>
+            <span className="text-gray-600 text-sm">
+              Thời gian mỗi bài đăng
+              <span className="font-bold">
+                {" "}
+                {item?.purchasedProduct?.productPostDuration} ngày
+              </span>
+            </span>
+          </li>
+        </ul>
+
+        <div className="mb-4">
+          <p className="font-medium text-base">* Chi tiết:</p>
+          <p className="text-gray-500">{item?.purchasedProduct?.description}</p>
         </div>
       </div>
     </>

@@ -5,6 +5,7 @@ import companySaga from "./company/company-saga";
 import fileSaga from "./file/file-saga";
 import jobSaga from "./job/job-saga";
 import productSaga from "./product/product-saga";
+import paymentSaga from "./payment/payment-saga";
 import commonSaga from "./common/common-saga";
 import { all, fork } from "redux-saga/effects";
 export default function* rootSaga(): any {
@@ -15,5 +16,6 @@ export default function* rootSaga(): any {
   yield all([fork(jobSaga)]);
   yield all([fork(fileSaga)]);
   yield all([fork(productSaga)]);
+  yield all([fork(paymentSaga)]);
   yield all([fork(commonSaga)]);
 }

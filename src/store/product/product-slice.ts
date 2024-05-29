@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IUser {
   products: any;
+  buyedProducts: any;
+  productById: any;
   paginationProduct?: any;
   loadingProduct?: boolean;
   messageProduct?: string;
@@ -9,6 +11,8 @@ interface IUser {
 
 const init: IUser = {
   products: [],
+  buyedProducts: [],
+  productById: [],
   paginationProduct: {},
   loadingProduct: false,
   messageProduct: "",
@@ -20,10 +24,19 @@ const companyrequestreviewSlice: any = createSlice({
   reducers: {
     productCreateProduct: () => {},
     productGetProduct: () => {},
-    companyrequestreviewUpdateCompanyRequest: () => {},
+    productGetBuyedProduct: () => {},
+    productGetProductById: () => {},
+    productUpdateProductByIdRedux: (state: any, action: any) => ({
+      ...state,
+      productById: action.payload.productById,
+    }),
     productUpdateProductRedux: (state: any, action: any) => ({
       ...state,
       products: action.payload.products,
+    }),
+    productUpdateBuyedProductRedux: (state: any, action: any) => ({
+      ...state,
+      buyedProducts: action.payload.buyedProducts,
     }),
     productUpdatePaginationRedux: (state: any, action: any) => ({
       ...state,
@@ -44,8 +57,11 @@ export const {
   productUpdateProductRedux,
   productUpdatePaginationRedux,
   productUpdateLoadingRedux,
-  companyrequestreviewUpdateCompanyRequest,
   productUpdateMessageRedux,
   productCreateProduct,
+  productGetProductById,
+  productUpdateProductByIdRedux,
+  productGetBuyedProduct,
+  productUpdateBuyedProductRedux,
 } = companyrequestreviewSlice.actions;
 export default companyrequestreviewSlice.reducer;

@@ -3,14 +3,18 @@ import { getToken } from "../../utils/auth";
 
 import { message } from "antd";
 import {
+  productUpdateBuyedProductRedux,
   productUpdateLoadingRedux,
   productUpdateMessageRedux,
   productUpdatePaginationRedux,
+  productUpdateProductByIdRedux,
   productUpdateProductRedux,
 } from "./product-slice";
 import {
   requestProductCreateProduct,
+  requestProductGetBuyedProduct,
   requestProductGetProduct,
+  requestProductGetProductById,
 } from "./product-requests";
 
 function* handleProductGetProduct(dataGetProduct: any): Generator<any> {
@@ -40,6 +44,64 @@ function* handleProductGetProduct(dataGetProduct: any): Generator<any> {
             totalPages: response.data.result.totalPages,
             numberOfElements: response.data.result.numberOfElements,
           },
+        })
+      );
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(
+      productUpdateLoadingRedux({
+        loadingProduct: false,
+      })
+    );
+  }
+}
+function* handleProductGetBuyedProduct(dataGetProduct: any): Generator<any> {
+  try {
+    yield put(
+      productUpdateLoadingRedux({
+        loadingProduct: true,
+      })
+    );
+    const { accessToken } = getToken();
+    const response: any = yield call(
+      requestProductGetBuyedProduct,
+      dataGetProduct?.payload?.company_id,
+      accessToken
+    );
+    if (response.data.code === 1000) {
+      yield put(
+        productUpdateBuyedProductRedux({
+          buyedProducts: response.data.result,
+        })
+      );
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(
+      productUpdateLoadingRedux({
+        loadingProduct: false,
+      })
+    );
+  }
+}
+function* handleProductGetProductById(dataGetProductById: any): Generator<any> {
+  try {
+    yield put(
+      productUpdateLoadingRedux({
+        loadingProduct: true,
+      })
+    );
+    const response: any = yield call(
+      requestProductGetProductById,
+      dataGetProductById?.payload?.product_id
+    );
+    if (response.data.code === 1000) {
+      yield put(
+        productUpdateProductByIdRedux({
+          productById: response.data.result,
         })
       );
     }
@@ -90,4 +152,9 @@ function* handleProductCreateProduct(dataCreateProduct: any): Generator<any> {
     );
   }
 }
-export { handleProductGetProduct, handleProductCreateProduct };
+export {
+  handleProductGetProduct,
+  handleProductCreateProduct,
+  handleProductGetProductById,
+  handleProductGetBuyedProduct,
+};

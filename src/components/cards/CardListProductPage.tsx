@@ -6,11 +6,15 @@ interface PropComponent {
   className?: string;
   color?: string;
   item?: any;
+  onClick?: any;
+  onClickProductId?: any;
 }
 const CardListProductPage: React.FC<PropComponent> = ({
   className,
   color,
   item,
+  onClick,
+  onClickProductId,
 }) => {
   return (
     <>
@@ -73,6 +77,10 @@ const CardListProductPage: React.FC<PropComponent> = ({
           <button
             className="py-2 rounded-md font-medium bg-primary text-white hover:opacity-80 transition-all"
             type="button"
+            onClick={() => {
+              onClickProductId(item?.id);
+              onClick(true);
+            }}
           >
             Mua ngay
           </button>
