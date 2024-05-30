@@ -16,7 +16,9 @@ const employerSlice: any = createSlice({
   reducers: {
     employerUpdateInformationEmployer: () => {},
     employerUpdateBackgroundEmployer: () => {},
+    employerDeleteBackgroundEmployer: () => {},
     employerUpdateAvatarEmployer: () => {},
+    employerDeleteAvatarEmployer: () => {},
     employerConfirmCompanyEmployer: () => {},
     employerUpdateLoadingRedux: (state, action) => ({
       ...state,
@@ -40,5 +42,7 @@ export const {
   employerConfirmCompanyEmployer,
   employerUpdateBackgroundEmployer,
   employerUpdateAvatarEmployer,
+  employerDeleteAvatarEmployer,
+  employerDeleteBackgroundEmployer,
 } = employerSlice.actions;
 export default employerSlice.reducer;

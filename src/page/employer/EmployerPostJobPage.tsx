@@ -208,15 +208,17 @@ const EmployerPostJobPage: React.FC = () => {
         <div className="grid grid-cols-2 gap-10 items-center">
           <h2 className="font-bold text-lg my-2 text-gray-800">Đăng tin</h2>
           {checkSelectProduct && (
-            <div className="ml-auto">
+            <div className="ml-auto flex gap-2 items-center">
+              <span className="font-medium py-2 px-4 rounded-md bg-gray-200">
+                {productCurrent}
+              </span>
               <button
                 type="button"
-                className="px-2 py-1 rounded-md text-white bg-primary"
+                className="px-3 py-2 rounded-md text-white bg-primary font-medium"
                 onClick={() => setCheckSelectProduct(!checkSelectProduct)}
               >
                 Thay đổi gói bài đăng
               </button>
-              <span>{productCurrent}</span>
             </div>
           )}
         </div>

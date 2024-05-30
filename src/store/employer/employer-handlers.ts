@@ -3,6 +3,8 @@ import { getToken, Token } from "../../utils/auth";
 import { employerUpdateLoadingRedux } from "./employer-slice";
 import {
   requestEmployerConfirmCompanyInListThatForYourCompany,
+  requestEmployerDeleteAvatar,
+  requestEmployerDeleteBackground,
   requestEmployerUpdateAvatar,
   requestEmployerUpdateBackground,
   requestEmployerUpdateInformation,
@@ -118,9 +120,57 @@ function* handleEmployerUpdateAvatarEmployer(
     yield put(employerUpdateLoadingRedux({ loadingEmployer: false }));
   }
 }
+function* handleEmployerDeleteAvatarEmployer(
+  dataUpdateAvatarEmployer: any
+): Generator<any> {
+  try {
+    yield put(employerUpdateLoadingRedux({ loadingEmployer: true }));
+    const token: Token = getToken();
+    const response: any = yield call(
+      requestEmployerDeleteAvatar,
+      dataUpdateAvatarEmployer?.payload?.avatar_id,
+      dataUpdateAvatarEmployer?.payload?.employer_id,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      message.success("Xóa avatar thành công.");
+      yield call(handleAuthFetchMe);
+    } else {
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(employerUpdateLoadingRedux({ loadingEmployer: false }));
+  }
+}
+function* handleEmployerDeleteBackgroundEmployer(
+  dataUpdateBackgroundEmployer: any
+): Generator<any> {
+  try {
+    yield put(employerUpdateLoadingRedux({ loadingEmployer: true }));
+    const token: Token = getToken();
+    const response: any = yield call(
+      requestEmployerDeleteBackground,
+      dataUpdateBackgroundEmployer?.payload?.background_id,
+      dataUpdateBackgroundEmployer?.payload?.employer_id,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      message.success("Xóa background thành công.");
+      yield call(handleAuthFetchMe);
+    } else {
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(employerUpdateLoadingRedux({ loadingEmployer: false }));
+  }
+}
 export {
   handleEmployerUpdateInformation,
   handleEmployerConfirmInformationCompany,
   handleEmployerUpdateBackgroundEmployer,
   handleEmployerUpdateAvatarEmployer,
+  handleEmployerDeleteAvatarEmployer,
+  handleEmployerDeleteBackgroundEmployer,
 };

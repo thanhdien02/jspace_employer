@@ -5,6 +5,7 @@ import IconKey from "../../components/icons/IconKey";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo3.png";
 import bg from "../../assets/banner-home5.jpg";
+
 interface PropComponent {
   className?: string;
   claseNameOverlay?: string;

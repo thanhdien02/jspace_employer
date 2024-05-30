@@ -182,6 +182,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
           <div className="absolute inset-0 bottom-8">
             <>
               <Upload
+                disabled={disableAll}
                 {...propsBackground}
                 className="absolute top-2 left-2 cursor-pointer px-2 py-1 rounded-md bg-slate-100 hover:opacity-90 hover:text-primary transition-all"
               >
@@ -202,7 +203,11 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
             </>
           </div>
           <div className="flex justify-center self-end ">
-            <Upload {...propsLogo} className="relative inline-block">
+            <Upload
+              disabled={disableAll}
+              {...propsLogo}
+              className="relative inline-block"
+            >
               {loadingCompany || loadingFile ? (
                 <div className="w-[75px] h-[75px] rounded-full flex bg-white">
                   <Spin className="m-auto" />

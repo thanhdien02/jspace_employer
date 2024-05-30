@@ -48,7 +48,7 @@ function App() {
             element={<LayoutEmployerManagement></LayoutEmployerManagement>}
           >
             <Route
-              path="/manage/dashboard"
+              path="/manage"
               element={<EmployerDashboardPage></EmployerDashboardPage>}
             ></Route>
             <Route

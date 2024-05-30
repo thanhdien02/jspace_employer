@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Menu, Spin } from "antd";
+import { Avatar, Layout, Menu, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "../utils/auth";
+import { UserOutlined } from "@ant-design/icons";
 import {
   authFetchMe,
   authLogout,
@@ -13,7 +14,10 @@ import EmployerManageHeader from "../module/employer/EmployerManageHeader";
 const { Sider } = Layout;
 
 const LayoutEmployerManagement: React.FC = () => {
-  const { user, messageAuth } = useSelector((state: any) => state.auth);
+  const { user, messageAuth, loading } = useSelector(
+    (state: any) => state.auth
+  );
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
@@ -63,16 +67,18 @@ const LayoutEmployerManagement: React.FC = () => {
               className="flex gap-4 items-center p-4 cursor-pointer"
               onClick={() => navigate("/manage/update-information-account")}
             >
-              {user?.picture ? (
+              {loading ? (
+                <div className="w-[45px] h-[45px] rounded-full flex">
+                  <Spin className="m-auto" />
+                </div>
+              ) : user?.picture ? (
                 <img
                   src={user?.picture}
                   alt=""
                   className="w-[45px] h-[45px] rounded-full object-cover"
                 />
               ) : (
-                <div className="w-[45px] h-[45px] rounded-full flex">
-                  <Spin className="m-auto" />
-                </div>
+                <Avatar className="mx-auto" size={45} icon={<UserOutlined />} />
               )}
 
               {collapsed ? (

@@ -1,4 +1,4 @@
-import { Button, Spin } from "antd";
+import { Avatar, Button, Spin } from "antd";
 import React, { useState } from "react";
 import {
   CaretDownOutlined,
@@ -11,6 +11,7 @@ import { authLogout } from "../../store/auth/auth-slice";
 import { useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import IconCart from "../../components/icons/IconCart";
+import { UserOutlined } from "@ant-design/icons";
 interface PropComponent {
   collapsed?: any;
   setCollapsed?: any;
@@ -21,7 +22,7 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state: any) => state.auth);
+  const { user, loading } = useSelector((state: any) => state.auth);
   const [notifications, setNotifications] = useState(false);
   return (
     <header className="fixed z-20 h-[65px] top-0 left-0 right-0 flex px-4 py-2 justify-between items-center bg-slate-800">
@@ -93,7 +94,11 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
           )}
         </div>
         <div className="relative group flex gap-3 items-start cursor-pointer px-4 py-2 rounded-lg transition-all ">
-          {user?.picture ? (
+          {loading ? (
+            <div className="w-[40px] h-[40px] rounded-full flex">
+              <Spin className="m-auto" />
+            </div>
+          ) : user?.picture ? (
             <img
               src={user?.picture}
               alt=""
@@ -101,7 +106,7 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
             />
           ) : (
             <div className="w-[40px] h-[40px] rounded-full flex">
-              <Spin className="m-auto" />
+              <Avatar className="mx-auto" size={40} icon={<UserOutlined />} />
             </div>
           )}
           <div className="">

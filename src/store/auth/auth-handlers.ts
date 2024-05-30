@@ -36,6 +36,7 @@ function* handleAuthLogin(dataLogin: any): Generator<any> {
 }
 function* handleAuthFetchMe(): Generator<any> {
   try {
+    yield put(authUpdateLoadingRedux({ loading: true }));
     const { accessToken } = getToken();
     const response: any = yield call(requestAuthFetchMe, accessToken);
     if (response?.data?.result?.user?.role?.code == "EMPLOYEE") {
@@ -59,8 +60,6 @@ function* handleAuthFetchMe(): Generator<any> {
       );
     } else if (response?.data?.result?.user?.role?.code == "CANDIDATE") {
       message.error("Đây là tài khoản CANDIDATE.");
-    } else {
-      // logOut();
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);
@@ -71,9 +70,9 @@ function* handleAuthFetchMe(): Generator<any> {
       yield put(
         authUpdateMessageRedux({ messageAuth: error?.response?.data?.message })
       );
-      console.log("🚀 ~ function*handleAuthFetchMe ~ error:", error);
     }
   } finally {
+    yield put(authUpdateLoadingRedux({ loading: false }));
   }
 }
 

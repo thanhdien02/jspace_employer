@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { MailOutlined, UserOutlined, CameraOutlined } from "@ant-design/icons";
 import IconPhone from "../../components/icons/IconPhone";
 import {
-  employerUpdateAvatarEmployer,
-  employerUpdateBackgroundEmployer,
   employerUpdateInformationEmployer,
 } from "../../store/employer/employer-slice";
-import { message, Select, Spin, Upload, UploadProps } from "antd";
+import { Avatar, Select, Spin } from "antd";
 import { dataPosition } from "../../utils/dataFetch";
 import ButtonLoading from "../../components/button/ButtonLoading";
 import IconGroupUser from "../../components/icons/IconGroupUser";
 import InputNumber from "../../components/input/InputNumber";
+import EmployerChangeAccountAvatarPage from "./EmployerChangeAccountAvatarPage";
+import EmpoyerChangeAccountBackgroundPage from "./EmpoyerChangeAccountBackgroundPage";
 interface Inputs {
   name: string;
   phone: string;
@@ -24,6 +24,8 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
   const { loadingEmployer } = useSelector((state: any) => state.employer);
   const dispatch = useDispatch();
   const [employerLogo, setEmployerLogo] = useState("");
+  const [checkChangeAvatar, setCheckChangeAvatar] = useState(false);
+  const [checkChangeBackground, setCheckChangeBackground] = useState(false);
   const [employerBackground, setEmployerBackground] = useState("");
   const {
     register,
@@ -49,43 +51,6 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
     document.title = "Chi tiết tài khoản";
     window.scrollTo(0, 0);
   }, []);
-  const propsBackground: UploadProps = {
-    beforeUpload: (file) => {
-      const isPNG = file.type === "image/png" || "image/jpg";
-      if (!isPNG) {
-        message.error(`${file.name} is not a png file`);
-      }
-      return isPNG || Upload.LIST_IGNORE;
-    },
-    onChange: (info: any) => {
-      dispatch(
-        employerUpdateBackgroundEmployer({
-          file: info.file,
-          employer_id: user?.id,
-        })
-      );
-    },
-    customRequest: () => {},
-  };
-  const propsAvatar: UploadProps = {
-    beforeUpload: (file) => {
-      const isPNG = file.type === "image/png" || "image/jpg";
-      if (!isPNG) {
-        message.error(`${file.name} is not a png file`);
-      }
-      return isPNG || Upload.LIST_IGNORE;
-    },
-    onChange: (info: any) => {
-      dispatch(
-        employerUpdateAvatarEmployer({
-          file: info.file,
-          employer_id: user?.id,
-        })
-      );
-    },
-    customRequest: () => {},
-  };
-
   return (
     <>
       <div className="mx-10 xl:mx-60 p-5 my-5 mt-10 shadow-md rounded-lg bg-white">
@@ -96,12 +61,14 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
           <div className="flex relative pt-5 h-[200px] justify-center">
             <div className="absolute inset-0 bottom-8 bg-blue-100">
               <>
-                <Upload
-                  {...propsBackground}
+                <div
+                  onClick={() =>
+                    setCheckChangeBackground(!checkChangeBackground)
+                  }
                   className="absolute top-2 cursor-pointer left-2 px-2 py-1 rounded-md bg-slate-100 hover:opacity-90 hover:text-primary transition-all"
                 >
-                  <span className="">Chọn ảnh bìa</span>
-                </Upload>
+                  <span className="">Đổi ảnh bìa</span>
+                </div>
 
                 {loadingEmployer ? (
                   <div className="flex bg-gray-200 h-full w-full">
@@ -121,29 +88,50 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
               </>
             </div>
             <div className="flex justify-center self-end ">
-              <Upload {...propsAvatar} className="relative inline-block">
+              <div
+                className="relative inline-block"
+                onClick={() => {
+                  setCheckChangeAvatar(!checkChangeAvatar);
+                }}
+              >
                 {!loadingEmployer ? (
                   <div>
-                    <img
-                      src={
-                        employerLogo
-                          ? employerLogo
-                          : "https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
-                      }
-                      alt=""
-                      className="w-[75px] h-[75px] rounded-full cursor-pointer object-cover"
-                    />
-                    <CameraOutlined
-                      className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
-                      style={{ fontSize: "18px" }}
-                    />
+                    {user?.picture ? (
+                      <>
+                        <img
+                          src={
+                            employerLogo
+                              ? employerLogo
+                              : "https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
+                          }
+                          alt=""
+                          className="w-[80px] h-[80px] rounded-full cursor-pointer object-cover"
+                        />
+                        <CameraOutlined
+                          className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
+                          style={{ fontSize: "18px" }}
+                        />
+                      </>
+                    ) : (
+                      <div className="bg-white rounded-full">
+                        <Avatar
+                          className="mx-auto "
+                          size={80}
+                          icon={<UserOutlined />}
+                        />
+                        <CameraOutlined
+                          className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"
+                          style={{ fontSize: "18px" }}
+                        />
+                      </div>
+                    )}
                   </div>
                 ) : (
-                  <div className="w-[75px] h-[75px] rounded-full flex bg-white">
+                  <div className="w-[80px] h-[80px] rounded-full flex bg-white">
                     <Spin className="m-auto" />
                   </div>
                 )}
-              </Upload>
+              </div>
             </div>
           </div>
           <h4 className="text-center font-semibold text-base">Ảnh đại diện</h4>
@@ -268,6 +256,18 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
           </div>
         </form>
       </div>
+
+      {/* change image */}
+      {checkChangeAvatar && (
+        <EmployerChangeAccountAvatarPage
+          onClick={setCheckChangeAvatar}
+        ></EmployerChangeAccountAvatarPage>
+      )}
+      {checkChangeBackground && (
+        <EmpoyerChangeAccountBackgroundPage
+          onClick={setCheckChangeBackground}
+        ></EmpoyerChangeAccountBackgroundPage>
+      )}
     </>
   );
 };

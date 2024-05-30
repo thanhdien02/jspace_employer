@@ -15,7 +15,7 @@ export const dataSideBar = [
     key: "1",
     icon: <DashboardOutlined />,
     label: "Dashboard",
-    path: "/manage/dashboard",
+    path: "/manage",
   },
   {
     key: "2",
@@ -244,7 +244,7 @@ export const dataHeaderManageJob = [
     className: "w-[100px]",
   },
   {
-    title: "Giới tính",
+    title: "Kinh nghiệm",
     className: "w-[150px]",
   },
   {

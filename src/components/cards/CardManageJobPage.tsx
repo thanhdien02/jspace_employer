@@ -53,7 +53,7 @@ const CardManageJobPage: React.FC<PropComponent> = ({
             : ""}
         </TableRowContent>
         <TableRowContent className="">{item?.quantity}</TableRowContent>
-        <TableRowContent className="">Nhân viên</TableRowContent>
+        <TableRowContent className="">{item?.rank?.code}</TableRowContent>
         <TableRowContent className="">{item?.experience?.code}</TableRowContent>
         <TableRowContent className="">{item?.jobType?.code}</TableRowContent>
         <TableRowContent className="">

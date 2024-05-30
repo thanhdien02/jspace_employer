@@ -53,6 +53,38 @@ export const requestEmployerUpdateAvatar = (
     }
   );
 };
+export const requestEmployerDeleteAvatar = (
+  avatar_id: string,
+  employer_id: string = "",
+  accessToken: string
+) => {
+  if (accessToken === undefined || employer_id == "") return;
+  return axios.delete(
+    `${API}/api/v1/employees/${employer_id}/delete-avatar?avatarId=${avatar_id}`,
+    {
+      headers: {
+        "Content-Type": "multipart/form-datas",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
+export const requestEmployerDeleteBackground = (
+  background_id: string,
+  employer_id: string = "",
+  accessToken: string
+) => {
+  if (accessToken === undefined || employer_id == "") return;
+  return axios.delete(
+    `${API}/api/v1/employees/${employer_id}/delete-background?backgroundId=${background_id}`,
+    {
+      headers: {
+        "Content-Type": "multipart/form-datas",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
 export const requestEmployerConfirmCompanyInListThatForYourCompany = (
   company_id: string,
   accessToken: string
