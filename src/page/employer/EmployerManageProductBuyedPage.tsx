@@ -20,7 +20,6 @@ const EmployerManageProductBuyedPage: React.FC = () => {
     <>
       <div className="mx-16 my-5 bg-white p-10 shadow">
         <HeaderContentManage title="Danh sách dịch vụ đã mua"></HeaderContentManage>
-
         {loadingProduct ? (
           <Skeleton />
         ) : !buyedProducts?.length ? (
@@ -32,7 +31,7 @@ const EmployerManageProductBuyedPage: React.FC = () => {
                 <CardManageProductBuyedPage
                   item={item}
                   key={item?.purchasedProduct?.id}
-                  color="!border-pink-500"
+                  // color="!border-pink-500"
                 ></CardManageProductBuyedPage>
               ))}
           </div>

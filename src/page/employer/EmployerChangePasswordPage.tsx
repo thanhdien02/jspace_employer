@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { KeyOutlined } from "@ant-design/icons";
 import ButtonLoading from "../../components/button/ButtonLoading";
 import IconKey from "../../components/icons/IconKey";
-import VNCurrencyInput from "../../components/input/InputMoney";
 interface Inputs {
   name: string;
   passwordold: string;
@@ -19,7 +18,6 @@ const EmployerChangePasswordPage: React.FC = () => {
   const {
     register,
     handleSubmit,
-    control,
     reset,
     formState: { errors },
   } = useForm<Inputs>();
@@ -127,18 +125,6 @@ const EmployerChangePasswordPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-5">
-              <Controller
-                name="amount"
-                control={control}
-                render={({ field }) => (
-                  <VNCurrencyInput
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  />
-                )}
-              />
-            </div>
             <div className="flex justify-end mt-5">
               <ButtonLoading
                 title="Lưu thông tin"

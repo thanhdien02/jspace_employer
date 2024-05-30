@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import banner from "../../assets/banner-home2.jpg";
 import CardProductAtCommonPage from "../../components/cards/CardProductAtCommonPage";
+import { useDispatch, useSelector } from "react-redux";
+import { productGetProduct } from "../../store/product/product-slice";
 const ProductPage: React.FC = () => {
+  const { products } = useSelector((state: any) => state.product);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(productGetProduct({ page: 1, size: 10 }));
+  }, []);
   return (
     <>
       <div>
@@ -17,10 +24,13 @@ const ProductPage: React.FC = () => {
           dụng của Doanh nghiệp
         </p>
         <div className="grid lg:grid-cols-4 grid-cols-1 gap-5 mt-5">
-          <CardProductAtCommonPage></CardProductAtCommonPage>
-          <CardProductAtCommonPage></CardProductAtCommonPage>
-          <CardProductAtCommonPage></CardProductAtCommonPage>
-          <CardProductAtCommonPage></CardProductAtCommonPage>
+          {products?.length > 0 &&
+            products?.map((item: any) => (
+              <CardProductAtCommonPage
+                key={item?.id}
+                item={item}
+              ></CardProductAtCommonPage>
+            ))}
         </div>
         <div className="h-[200px]"></div>
       </div>

@@ -71,7 +71,7 @@ const EmployerBuyNowProductPage: React.FC<PropComponent> = ({
       <div className={`fixed z-20 inset-0 ${className}`}>
         <div
           onClick={() => onClick(false)}
-          className={`fixed z-10 flex inset-0 bg-black/30 ${className}`}
+          className={`fixed z-10 flex inset-0 bg-black/50 ${className}`}
         ></div>
         <div className="absolute inset-0 z-10 shadow-lg m-auto w-[35%] h-[53%] p-8 bg-white overflow-auto">
           <span
@@ -178,14 +178,14 @@ const EmployerBuyNowProductPage: React.FC<PropComponent> = ({
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
-                    className="px-4 py-2 bg-red-500 text-white font-medium rounded-md hover:opacity-80 transition-all"
+                    className="px-6 py-2 bg-red-500 text-white font-medium rounded-md hover:opacity-80 transition-all"
                     onClick={() => onClick(false)}
                   >
                     Hủy
                   </button>
                   <button
                     type="button"
-                    className="grow w-full px-4 py-2 bg-primary text-white font-medium rounded-md hover:opacity-80 transition-all"
+                    className="grow w-full text-center px-4 py-2 bg-primary text-white font-medium rounded-md hover:opacity-80 transition-all"
                     onClick={handlePayment}
                     disabled={loadingPayment}
                   >
