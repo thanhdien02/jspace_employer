@@ -340,3 +340,29 @@ export const dataCard = [
     price: 40000000,
   },
 ];
+export const dataColor = [
+  {
+    id: 0,
+    color: "border-blue-500",
+  },
+  {
+    id: 1,
+    color: "border-red-500",
+  },
+  {
+    id: 2,
+    color: "border-yellow-500",
+  },
+  {
+    id: 3,
+    color: "border-pink-500",
+  },
+  {
+    id: 4,
+    color: "border-green-500",
+  },
+  {
+    id: 5,
+    color: "border-gray-500",
+  },
+];

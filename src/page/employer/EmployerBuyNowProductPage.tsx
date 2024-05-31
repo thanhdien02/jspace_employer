@@ -22,10 +22,10 @@ const EmployerBuyNowProductPage: React.FC<PropComponent> = ({
   const { loadingPayment, payment } = useSelector(
     (state: any) => state.payment
   );
+  const dispatch = useDispatch();
   const { companyAuth } = useSelector((state: any) => state.auth);
   const [quantity, setQuantity] = useState(1);
   const [sum, setSum] = useState(0);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const body = document.body;
@@ -66,6 +66,7 @@ const EmployerBuyNowProductPage: React.FC<PropComponent> = ({
       })
     );
   };
+
   return (
     <>
       <div className={`fixed z-20 inset-0 ${className}`}>
@@ -151,13 +152,7 @@ const EmployerBuyNowProductPage: React.FC<PropComponent> = ({
                 <div className="mb-4 flex gap-5">
                   <div className="flex items-center gap-2">
                     <p className="text-base font-medium">Số lượng: </p>
-                    <span
-                      className="select-none"
-                      onClick={() => setQuantity(quantity + 1)}
-                    >
-                      <PlusOutlined className="p-1 bg-gray-200 rounded-sm cursor-pointer" />
-                    </span>
-                    <span className="mx-1">{quantity}</span>
+
                     <span
                       className="select-none"
                       onClick={() => {
@@ -165,6 +160,13 @@ const EmployerBuyNowProductPage: React.FC<PropComponent> = ({
                       }}
                     >
                       <MinusOutlined className="p-1 bg-gray-200 rounded-sm cursor-pointer" />
+                    </span>
+                    <span className="mx-1">{quantity}</span>
+                    <span
+                      className="select-none"
+                      onClick={() => setQuantity(quantity + 1)}
+                    >
+                      <PlusOutlined className="p-1 bg-gray-200 rounded-sm cursor-pointer" />
                     </span>
                   </div>
                   <p className="text-base font-medium ">

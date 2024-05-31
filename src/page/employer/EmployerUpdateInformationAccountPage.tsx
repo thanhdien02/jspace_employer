@@ -3,9 +3,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { MailOutlined, UserOutlined, CameraOutlined } from "@ant-design/icons";
 import IconPhone from "../../components/icons/IconPhone";
-import {
-  employerUpdateInformationEmployer,
-} from "../../store/employer/employer-slice";
+import { employerUpdateInformationEmployer } from "../../store/employer/employer-slice";
 import { Avatar, Select, Spin } from "antd";
 import { dataPosition } from "../../utils/dataFetch";
 import ButtonLoading from "../../components/button/ButtonLoading";
@@ -79,10 +77,12 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                     src={
                       employerBackground
                         ? employerBackground
-                        : "https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
+                        : "https://biz.prlog.org/jspace/logo.png"
                     }
                     alt=""
-                    className="w-full h-full object-cover"
+                    className={`w-full h-full ${
+                      employerBackground ? "object-cover" : "object-contain"
+                    }`}
                   />
                 )}
               </>
@@ -99,11 +99,7 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                     {user?.picture ? (
                       <>
                         <img
-                          src={
-                            employerLogo
-                              ? employerLogo
-                              : "https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
-                          }
+                          src={employerLogo}
                           alt=""
                           className="w-[80px] h-[80px] rounded-full cursor-pointer object-cover"
                         />

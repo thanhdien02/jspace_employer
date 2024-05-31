@@ -74,9 +74,9 @@ const EmpoyerChangeAccountBackgroundPage: React.FC<PropComponent> = ({
               />
             ) : (
               <img
-                src="https://th.bing.com/th/id/R.f999ac157eddbd4025eac86107175d52?rik=NcmFW49uub5jIg&pid=ImgRaw&r=0"
+                src="https://biz.prlog.org/jspace/logo.png"
                 alt=""
-                className="mx-auto w-full h-[200px] cursor-pointer object-cover"
+                className="mx-auto w-full max-w-[350px] h-[200px] cursor-pointer object-contain"
               />
             )}
           </div>

@@ -24,7 +24,6 @@ const EmployerManageJobPage: React.FC = () => {
   const [updateJob, setUpdateJob] = useState(false);
   const [candidateApply, setCandidateApply] = useState(false);
   const [jobId, setJobId] = useState("");
-  useEffect(() => {}, [page]);
   const handleSearchJob = debounce((value: any) => {
     console.log("Input value:", value);
   }, 500);

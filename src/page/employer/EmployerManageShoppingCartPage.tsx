@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
 import CardShoppingCartPage from "../../components/cards/CardShoppingCartPage";
-import { Checkbox, CheckboxProps, Empty } from "antd";
+import { Checkbox, CheckboxProps, Empty, Skeleton } from "antd";
 import { dataCard } from "../../utils/dataFetch";
+import { useDispatch, useSelector } from "react-redux";
+import { cartGetCart } from "../../store/cart/cart-slice";
 
 const EmployerManageShoppingCartPage: React.FC = () => {
+  const { companyAuth } = useSelector((state: any) => state.auth);
+  const { carts, loadingCart } = useSelector((state: any) => state.cart);
+  const dispatch = useDispatch();
   const onChange: CheckboxProps["onChange"] = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
@@ -12,15 +17,16 @@ const EmployerManageShoppingCartPage: React.FC = () => {
   const [dataCheck, setDataCheck] = useState<any>([]);
   const [sumCart, setSumCart] = useState(0);
   useEffect(() => {
-    const data: any = dataCard.map((item: any) => ({
-      ...item,
-      checkBox: false,
-    }));
-    setDataCheck(data);
-  }, []);
+    if (carts?.length > 0) {
+      const data: any = carts?.map((item: any) => ({
+        ...item,
+        checkBox: false,
+      }));
+      setDataCheck(data);
+    }
+  }, [carts]);
   useEffect(() => {
     let sum = 0;
-    console.log("🚀 ~ useEffect ~ sum:", sum);
     if (selectCheckAll) {
       dataCheck?.forEach((element: any) => {
         if (element?.checkBox != true) {
@@ -30,19 +36,26 @@ const EmployerManageShoppingCartPage: React.FC = () => {
     }
     dataCheck?.forEach((element: any) => {
       if (element?.checkBox == true) {
-        sum += element?.price * element?.quantity;
+        sum += element?.product?.price * element?.quantity;
       }
     });
     setSumCart(sum);
   }, [dataCheck]);
   const handleSelectAll = () => {
-    const data: any = dataCard.map((item: any) => ({
-      ...item,
-      checkBox: !selectCheckAll,
-    }));
-    setDataCheck(data);
-    setSelectCheckAll(!selectCheckAll);
+    if (carts?.length > 0) {
+      const data: any = carts?.map((item: any) => ({
+        ...item,
+        checkBox: !selectCheckAll,
+      }));
+      setDataCheck(data);
+      setSelectCheckAll(!selectCheckAll);
+    }
   };
+  useEffect(() => {
+    if (companyAuth?.id) {
+      dispatch(cartGetCart({ company_id: companyAuth?.id, page: 1, size: 10 }));
+    }
+  }, [companyAuth]);
   return (
     <>
       <div className="mx-10 my-10  rounded-lg">
@@ -70,7 +83,20 @@ const EmployerManageShoppingCartPage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {dataCheck?.length > 0 &&
+                  {loadingCart ? (
+                    <tr>
+                      <td className="p-5 text-center" colSpan={6}>
+                        <Skeleton active />
+                      </td>
+                    </tr>
+                  ) : dataCheck?.length <= 0 ? (
+                    <tr>
+                      <td className="p-5 text-center " colSpan={6}>
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                      </td>
+                    </tr>
+                  ) : (
+                    dataCheck?.length > 0 &&
                     dataCheck?.map((item: any) => (
                       <CardShoppingCartPage
                         key={item?.id}
@@ -79,7 +105,8 @@ const EmployerManageShoppingCartPage: React.FC = () => {
                         onCheck={setDataCheck}
                         className="even:bg-gray-300/30"
                       ></CardShoppingCartPage>
-                    ))}
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>

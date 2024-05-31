@@ -1,6 +1,8 @@
 import React from "react";
 import IconCart from "../icons/IconCart";
 import IconCheck from "../icons/IconCheck";
+import { useDispatch, useSelector } from "react-redux";
+import { cartAddToCart } from "../../store/cart/cart-slice";
 
 interface PropComponent {
   className?: string;
@@ -16,6 +18,18 @@ const CardListProductPage: React.FC<PropComponent> = ({
   onClick,
   onClickProductId,
 }) => {
+  const { companyAuth } = useSelector((state: any) => state.auth);
+  const { loadingCart } = useSelector((state: any) => state.cart);
+  const dispatch = useDispatch();
+  const handleCartAddToCart = () => {
+    dispatch(
+      cartAddToCart({
+        companyId: companyAuth?.id,
+        productId: item?.id,
+        quantity: 1,
+      })
+    );
+  };
   return (
     <>
       <div
@@ -70,9 +84,19 @@ const CardListProductPage: React.FC<PropComponent> = ({
           <button
             className="flex justify-center item-center gap-2 font-medium px-2 py-2 hover:opacity-80 transition-all rounded-md text-primary border border-primary border-solid"
             type="button"
+            onClick={handleCartAddToCart}
+            disabled={loadingCart}
           >
-            <IconCart classIcon="!w-5 !h-5"></IconCart>
-            <span className="text-start text-nowrap">Thêm vào giỏ</span>
+            {loadingCart ? (
+              <div className="flex ">
+                <span className="m-auto w-5 h-5 rounded-full border-t-transparent border-2 border-solid border-primary  animate-spin"></span>
+              </div>
+            ) : (
+              <>
+                <IconCart classIcon="!w-5 !h-5"></IconCart>
+                <span className="text-start text-nowrap">Thêm vào giỏ</span>
+              </>
+            )}
           </button>
           <button
             className="py-2 rounded-md font-medium bg-primary text-white hover:opacity-80 transition-all"

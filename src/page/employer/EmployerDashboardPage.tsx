@@ -147,7 +147,6 @@ const NumberLineChart = () => {
   };
 
   const data = generateData(timeRange);
-  console.log("🚀 ~ data:", data);
   const options = {
     scales: {
       y: {
