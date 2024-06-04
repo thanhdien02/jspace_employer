@@ -9,7 +9,6 @@ const VNCurrencyInput: React.FC<VNCurrencyInputProps> = ({
   onValueChange,
   className,
 }) => {
-  console.log("🚀 ~ value:", typeof value);
   const formatCurrency = (value: string): string => {
     if (!value || value === undefined) return "";
     // Loại bỏ các ký tự không phải số

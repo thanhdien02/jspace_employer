@@ -1,4 +1,4 @@
-import { Select, Skeleton, Switch } from "antd";
+import { Select, Skeleton, Switch, Tabs, TabsProps } from "antd";
 import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { HomeOutlined } from "@ant-design/icons";
@@ -26,7 +26,22 @@ import {
 import VNCurrencyInput from "../../components/input/InputMoney";
 import InputNumber from "../../components/input/InputNumber";
 import IconClose from "../../components/icons/IconClose";
-import { jobGetJobById } from "../../store/job/job-slice";
+import { jobGetJobById, jobUpdateJob } from "../../store/job/job-slice";
+const handleSalaryUpdate = (dataPosJob: any, salaryType: string) => {
+  let dataPosJobFinal = null;
+  if (salaryType == "more") {
+    dataPosJobFinal = {
+      ...dataPosJob,
+      maxPay: "2147483647",
+    };
+  } else if (salaryType == "up") {
+    dataPosJobFinal = {
+      ...dataPosJob,
+      minPay: "0",
+    };
+  } else return dataPosJob;
+  return dataPosJobFinal;
+};
 interface Inputs {
   title?: string;
   minPay: string;
@@ -67,7 +82,15 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataUpdateCompany: Inputs) => {
-    console.log("🚀 ~ dataUpdateCompany:", dataUpdateCompany);
+    let dataUpdate = handleSalaryUpdate(dataUpdateCompany, selectEnterSalary);
+    console.log("🚀 ~ data:", dataUpdate);
+    dispatch(
+      jobUpdateJob({
+        job_id: jobById?.post?.id,
+        dataUpdateJob: dataUpdate,
+        company_id: jobById?.post?.company?.id,
+      })
+    );
   };
   useEffect(() => {
     const body = document.body;
@@ -86,38 +109,97 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
     dispatch(commonGetExperience());
     dispatch(commonGetSkills());
     dispatch(jobGetJobById({ job_id: jobId }));
+    setValue("newSkills", []);
   }, []);
   useEffect(() => {
-    if (jobById?.id) {
-      setValue("title", jobById?.title);
-      setValue("location", jobById?.location);
-      setValue("experience", jobById?.experience);
-      setValue("jobType", jobById?.jobType);
-      setValue("gender", jobById?.gender);
-      setValue("quantity", jobById?.quantity);
+    if (jobById?.post?.id) {
+      setValue("title", jobById?.post?.title);
+      setValue("location", jobById?.post?.location?.value);
+      setValue("experience", jobById?.post?.experience?.value);
+      setValue("jobType", jobById?.post?.jobType?.value);
+      setValue("gender", jobById?.post?.gender?.value);
+      setValue("quantity", jobById?.post?.quantity);
+      setValue("rank", jobById?.post?.rank?.value);
 
-      setValue("rank", jobById?.rank);
-
-      const lskill = jobById?.skills.map((item: any) => item?.id);
+      // Skills
+      const lskill = jobById?.post?.skills.map((item: any) => item?.id);
       setValue("skillIdList", lskill);
-      setJobDescription(jobById?.description);
+
+      // description
+      setJobDescription(jobById?.post?.description);
+      // salary
       if (
-        jobById?.minPay != "0" &&
-        jobById?.maxPay != "0" &&
-        jobById?.maxPay != "2147483647"
+        jobById?.post?.minPay != "0" &&
+        jobById?.post?.maxPay != "0" &&
+        jobById?.post?.maxPay != "2147483647"
       ) {
-        setValue("minPay", jobById?.minPay.toString());
-        setValue("maxPay", jobById?.maxPay.toString());
+        setValue("minPay", jobById?.post?.minPay.toString());
+        setValue("maxPay", jobById?.post?.maxPay.toString());
         setSelectEnterSalary("between");
-      } else if (jobById?.minPay != "0" && jobById?.maxPay == "2147483647") {
-        setValue("minPay", jobById?.minPay.toString());
+      } else if (
+        jobById?.post?.minPay != "0" &&
+        jobById?.post?.maxPay == "2147483647"
+      ) {
+        setValue("minPay", jobById?.post?.minPay.toString());
         setSelectEnterSalary("more");
-      } else if (jobById?.minPay == "0" && jobById?.maxPay != "0") {
-        setSelectEnterSalary("fix");
-        setValue("maxPay", jobById?.maxPay.toString());
+      } else if (jobById?.post?.minPay == "0" && jobById?.post?.maxPay != "0") {
+        setSelectEnterSalary("up");
+        setValue("maxPay", jobById?.post?.maxPay.toString());
       }
     }
   }, [jobById]);
+  const itemsSkills: TabsProps["items"] = [
+    {
+      key: "1",
+      label: "Kỹ năng",
+      children: (
+        <div className="relative">
+          <IconClipboardDocument className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconClipboardDocument>
+          <Select
+            mode="tags"
+            {...register("skillIdList", {
+              required: true,
+            })}
+            style={{ width: "100%" }}
+            placeholder="Kỹ năng"
+            value={getValues("skillIdList")}
+            fieldNames={{ label: "name", value: "id" }}
+            className="skill select-custom min-h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 border border-stone-200 border-solid w-full rounded-md"
+            options={skills.length > 0 ? skills : []}
+            allowClear
+            onChange={(e) => {
+              console.log("🚀 ~ e:", e);
+              setValue("skillIdList", e);
+              clearErrors("skillIdList");
+            }}
+          />
+        </div>
+      ),
+    },
+    {
+      key: "2",
+      label: "Thêm kỹ năng mới",
+      children: (
+        <div className="relative">
+          <IconClipboardDocument className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconClipboardDocument>
+          <Select
+            mode="tags"
+            style={{ width: "100%" }}
+            placeholder="Kỹ năng mới"
+            value={getValues("newSkills")}
+            fieldNames={{ label: "name", value: "id" }}
+            className="skill select-custom min-h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 border border-stone-200 border-solid w-full rounded-md"
+            options={[]}
+            allowClear
+            onChange={(e) => {
+              setValue("newSkills", e);
+              clearErrors("newSkills");
+            }}
+          />
+        </div>
+      ),
+    },
+  ];
   return (
     <>
       <div className="fixed z-20 inset-0">
@@ -142,7 +224,9 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
                 <Switch
                   className="mt-2"
                   size="default"
-                  value={jobById?.postStatus?.code == "open" ? true : false}
+                  value={
+                    jobById?.post?.postStatus?.code == "open" ? true : false
+                  }
                 />
               </div>
             </div>
@@ -152,42 +236,82 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
             <Skeleton />
           ) : (
             <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
-              <div>
-                <label
-                  htmlFor="title"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Tên công việc <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-2 relative">
-                  <HomeOutlined
-                    style={{
-                      fontSize: "20px",
-                      color: "rgb(156 163 175)",
-                      position: "absolute",
-                      top: "0",
-                      left: "0",
-                      transform: "translate(65%, 60%)",
-                    }}
-                  />
-                  <input
-                    {...register("title", {
-                      required: true,
-                    })}
-                    placeholder="Tên công việc"
-                    type="text"
-                    autoComplete="off"
-                    id="name"
-                    className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
-                  />
+              <div className="grid grid-cols-2 gap-10">
+                <div>
+                  <label
+                    htmlFor="title"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Tên công việc <span className="text-red-500">*</span>
+                  </label>
+                  <div className="mt-2 relative">
+                    <HomeOutlined
+                      style={{
+                        fontSize: "20px",
+                        color: "rgb(156 163 175)",
+                        position: "absolute",
+                        top: "0",
+                        left: "0",
+                        transform: "translate(65%, 60%)",
+                      }}
+                    />
+                    <input
+                      {...register("title", {
+                        required: true,
+                      })}
+                      placeholder="Tên công việc"
+                      type="text"
+                      autoComplete="off"
+                      id="name"
+                      className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
+                    />
+                  </div>
+                  {errors.title?.type == "required" ? (
+                    <p className="text-red-600 mt-1">
+                      *Bạn chưa điền tên công việc
+                    </p>
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                {errors.title?.type == "required" ? (
-                  <p className="text-red-600 mt-1">
-                    *Bạn chưa điền tên công việc
-                  </p>
-                ) : (
-                  <></>
-                )}
+                <div>
+                  <label
+                    htmlFor="gender"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Giới tính <span className="text-red-500">*</span>
+                  </label>
+                  <div className="mt-2 relative">
+                    <IconCog className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconCog>
+                    <Select
+                      {...register("gender", {
+                        required: true,
+                      })}
+                      id="gender"
+                      showSearch
+                      allowClear={true}
+                      value={getValues("gender")}
+                      placeholder="Giới tính"
+                      className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
+                      optionFilterProp="children"
+                      filterOption={(input, option: any) =>
+                        (option?.label ?? "").includes(input)
+                      }
+                      options={genders}
+                      onChange={(e) => {
+                        setValue("gender", e);
+                        clearErrors("gender");
+                      }}
+                    />
+                  </div>
+                  {errors?.gender?.type == "required" ? (
+                    <p className="text-red-600 mt-1">
+                      *Bạn chưa điền giới tính
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
               {/*  */}
               <div className="flex mt-5 gap-10">
@@ -397,6 +521,8 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
                       }
                       onChange={(e) => {
                         setSelectEnterSalary(e);
+                        setValue("minPay", "");
+                        setValue("maxPay", "");
                       }}
                       options={dataEnterSalary}
                     />
@@ -411,7 +537,6 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
                             name="maxPay"
                             rules={{ required: "Bạn chưa điền mức lương" }}
                             control={control}
-                            defaultValue=""
                             render={({ field }) => (
                               <VNCurrencyInput
                                 value={field.value}
@@ -529,75 +654,15 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
                   )}
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-10 mt-5">
+              <div className="gap-10 mt-3">
                 <div>
-                  <label
-                    htmlFor="skillIdList"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Kỹ năng <span className="text-red-500">*</span>
-                  </label>
-                  <div className="mt-2 relative">
-                    <IconClipboardDocument className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconClipboardDocument>
-                    <Select
-                      mode="tags"
-                      {...register("skillIdList", {
-                        required: true,
-                      })}
-                      style={{ width: "100%" }}
-                      placeholder="Kỹ năng"
-                      value={getValues("skillIdList")}
-                      fieldNames={{ label: "name", value: "id" }}
-                      className="skill select-custom min-h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 border border-stone-200 border-solid w-full rounded-md"
-                      options={skills.length > 0 ? skills : []}
-                      allowClear
-                      onChange={(e) => {
-                        console.log("🚀 ~ e:", e);
-                        setValue("skillIdList", e);
-                        clearErrors("skillIdList");
-                      }}
-                    />
-                  </div>
+                  <Tabs
+                    defaultActiveKey="1"
+                    items={itemsSkills}
+                    // onChange={onChange}
+                  />
                   {errors?.skillIdList?.type == "required" ? (
                     <p className="text-red-600 mt-1">*Bạn chưa điền kỹ năng</p>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-                <div>
-                  <label
-                    htmlFor="gender"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Giới tính <span className="text-red-500">*</span>
-                  </label>
-                  <div className="mt-2 relative">
-                    <IconCog className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconCog>
-                    <Select
-                      {...register("gender", {
-                        required: true,
-                      })}
-                      id="gender"
-                      showSearch
-                      allowClear={true}
-                      value={getValues("gender")}
-                      placeholder="Giới tính"
-                      className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
-                      optionFilterProp="children"
-                      filterOption={(input, option: any) =>
-                        (option?.label ?? "").includes(input)
-                      }
-                      options={genders}
-                      onChange={(e) => {
-                        setValue("gender", e);
-                        clearErrors("gender");
-                      }}
-                    />
-                  </div>
-                  {errors?.gender?.type == "required" ? (
-                    <p className="text-red-600 mt-1">
-                      *Bạn chưa điền giới tính
-                    </p>
                   ) : (
                     <></>
                   )}

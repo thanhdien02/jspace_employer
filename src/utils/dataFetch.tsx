@@ -1,6 +1,5 @@
 import {
   UploadOutlined,
-  VideoCameraOutlined,
   UserOutlined,
   DashboardOutlined,
   SwapOutlined,
@@ -34,12 +33,6 @@ export const dataSideBar = [
     icon: <UploadOutlined />,
     label: "Đăng tin",
     path: "/manage/check-work-required",
-  },
-  {
-    key: "5",
-    icon: <VideoCameraOutlined />,
-    label: "Danh sách công ty",
-    path: "/manage/list-company",
   },
   {
     key: "7",
@@ -241,11 +234,11 @@ export const dataHeaderManageJob = [
   },
   {
     title: "Vị trí",
-    className: "w-[100px]",
+    className: "w-[130px]",
   },
   {
     title: "Kinh nghiệm",
-    className: "w-[150px]",
+    className: "w-[180px]",
   },
   {
     title: "TG làm việc",

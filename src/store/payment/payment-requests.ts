@@ -13,3 +13,15 @@ export const requestPatmentRequestPayment = (
     },
   });
 };
+export const requestPatmentRequestPaymentCart = (
+  dataPaymentCart: any,
+  accessToken: string
+) => {
+  if (!accessToken) return;
+  return axios.post(`${API}/api/v1/payment/request-payment-v2`, dataPaymentCart, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

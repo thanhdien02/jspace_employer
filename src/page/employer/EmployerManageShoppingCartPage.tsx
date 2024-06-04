@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
 import CardShoppingCartPage from "../../components/cards/CardShoppingCartPage";
-import { Checkbox, CheckboxProps, Empty, Skeleton } from "antd";
+import { Checkbox, CheckboxProps, Empty, message, Skeleton } from "antd";
 import { dataCard } from "../../utils/dataFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { cartGetCart } from "../../store/cart/cart-slice";
+import { paymentRequestPaymentCart } from "../../store/payment/payment-slice";
+import Loading from "../../components/loading/Loading";
 
 const EmployerManageShoppingCartPage: React.FC = () => {
+  const { loadingPayment, payment } = useSelector(
+    (state: any) => state.payment
+  );
   const { companyAuth } = useSelector((state: any) => state.auth);
   const { carts, loadingCart } = useSelector((state: any) => state.cart);
   const dispatch = useDispatch();
@@ -23,6 +28,8 @@ const EmployerManageShoppingCartPage: React.FC = () => {
         checkBox: false,
       }));
       setDataCheck(data);
+    } else if (carts?.length == 0) {
+      setDataCheck([]);
     }
   }, [carts]);
   useEffect(() => {
@@ -56,6 +63,32 @@ const EmployerManageShoppingCartPage: React.FC = () => {
       dispatch(cartGetCart({ company_id: companyAuth?.id, page: 1, size: 10 }));
     }
   }, [companyAuth]);
+  const handlePaymentCart = () => {
+    if (dataCheck?.length > 0) {
+      let dataPayment = dataCheck
+        ?.filter((item: any) => item.checkBox)
+        .map((item: any) => item?.id);
+      if (dataPayment?.length > 0) {
+        // cartIds
+        dispatch(
+          paymentRequestPaymentCart({
+            cartIds: dataPayment,
+            total: Math.floor(sumCart / 23000),
+          })
+        );
+      } else {
+        message.info("Cần chọn sản phẩm để thành toán.");
+      }
+    } else {
+      message.info("Cần chọn sản phẩm để thành toán.");
+    }
+  };
+  useEffect(() => {
+    if (payment?.links) {
+      const decoded = decodeURI(payment?.links[1]?.href);
+      window.location.href = decoded;
+    }
+  }, [payment?.links]);
   return (
     <>
       <div className="mx-10 my-10  rounded-lg">
@@ -142,16 +175,18 @@ const EmployerManageShoppingCartPage: React.FC = () => {
                   onChange={onChange}
                   className="text-gray-500 font-medium"
                 >
-                  Tôi đồng ý với{" "}
+                  Tôi đồng ý với
                   <span className="text-red-500">Điều khoản dịch vụ</span> của
                   JSPACE
                 </Checkbox>
               </div>
               <button
                 type="button"
+                onClick={handlePaymentCart}
                 className="px-4 py-2 bg-primary rounded-md w-full mt-5 text-white font-medium hover:opacity-90 transition-all"
+                disabled={loadingPayment}
               >
-                Mua hàng
+                {loadingPayment ? <Loading></Loading> : <span>Thanh toán</span>}
               </button>
             </div>
           </div>

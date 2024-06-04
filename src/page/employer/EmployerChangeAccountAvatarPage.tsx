@@ -37,12 +37,14 @@ const EmployerChangeAccountAvatarPage: React.FC<PropComponent> = ({
     customRequest: () => {},
   };
   const handleDeleteAvatar = () => {
-    dispatch(
-      employerDeleteAvatarEmployer({
-        employer_id: user?.id,
-        avatar_id: user?.pictureId,
-      })
-    );
+    if (user?.pictureId) {
+      dispatch(
+        employerDeleteAvatarEmployer({
+          employer_id: user?.id,
+          avatar_id: user?.pictureId,
+        })
+      );
+    }
   };
   return (
     <>
@@ -53,13 +55,12 @@ const EmployerChangeAccountAvatarPage: React.FC<PropComponent> = ({
         <div
           className={`m-auto absolute inset-0 bg-gray-400/50`}
           onClick={() => {
-            onClick(false);
+            if (!loadingEmployer) onClick(false);
           }}
         ></div>
-
         <div className="relative m-auto px-5 min-h-[300px] bg-white z-10 md:min-w-[400px] shadow-md border-solid border border-slate-500/30">
           <IconClose
-            actionCloseLogin={onClick ? onClick : () => {}}
+            actionCloseLogin={onClick && !loadingEmployer ? onClick : () => {}}
             className="absolute top-2 right-2 hover:bg-slate-200 rounded-sm cursor-pointer"
           ></IconClose>
           <div className="p-5 flex mt-5">
@@ -79,15 +80,20 @@ const EmployerChangeAccountAvatarPage: React.FC<PropComponent> = ({
           </div>
           <div className="mt-5 flex gap-5 justify-center font-medium">
             <button
-              className="px-6 py-2 rounded-md text-white bg-red-500"
+              className="px-6 py-2 rounded-md min-w-[150px] text-white bg-red-500"
               type="button"
               onClick={handleDeleteAvatar}
+              disabled={loadingEmployer}
             >
               Xóa ảnh
             </button>
-            <Upload {...propsAvatar} className="relative inline-block">
+            <Upload
+              {...propsAvatar}
+              className="relative inline-block"
+              disabled={loadingEmployer}
+            >
               <button
-                className="px-6 py-2 rounded-md text-white bg-primary"
+                className="px-6 py-2 min-w-[150px] rounded-md text-white bg-primary"
                 type="button"
               >
                 Đổi ảnh

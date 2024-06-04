@@ -36,3 +36,16 @@ export const requestJobGetJobById = (job_id: string, accessToken: string) => {
     },
   });
 };
+export const requestJobUpdateJob = (
+  job_id: string,
+  dataUpdateJob: any,
+  accessToken: string
+) => {
+  if (!accessToken) return;
+  return axios.put(`${API}/api/v1/employees/posts/${job_id}`, dataUpdateJob, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

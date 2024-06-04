@@ -41,12 +41,7 @@ const EmployerBuyNowProductPage: React.FC<PropComponent> = ({
       dispatch(productGetProductById({ product_id: productId }));
     }
   }, []);
-  useEffect(() => {
-    if (payment?.links) {
-      let decodedUrl = decodeURIComponent("");
-      console.log(decodedUrl);
-    }
-  }, [payment]);
+
   useEffect(() => {
     let cal = quantity * productById?.price;
     setSum(cal);

@@ -101,7 +101,7 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
                         <img
                           src={employerLogo}
                           alt=""
-                          className="w-[80px] h-[80px] rounded-full cursor-pointer object-cover"
+                          className="w-[80px] h-[80px] rounded-full cursor-pointer object-cover bg-white"
                         />
                         <CameraOutlined
                           className="absolute bottom-2 right-0 bg-blue-50 p-2 rounded-full cursor-pointer"

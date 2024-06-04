@@ -30,7 +30,7 @@ const EmployerManageJobPage: React.FC = () => {
   useEffect(() => {
     if (companyAuth?.id) {
       dispatch(
-        jobGetPostedJob({ company_id: companyAuth?.id, page: page, size: 8 })
+        jobGetPostedJob({ company_id: companyAuth?.id, page: page, size: 10 })
       );
     }
   }, [companyAuth, page]);

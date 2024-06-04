@@ -16,6 +16,7 @@ const paymentSlice: any = createSlice({
   initialState: init,
   reducers: {
     paymentRequestPayment: () => {},
+    paymentRequestPaymentCart: () => {},
     paymentUpdateLoadingRedux: (state: any, action: any) => ({
       ...state,
       loadingPayment: action.payload.loadingPayment,
@@ -35,5 +36,6 @@ export const {
   paymentUpdateMessageRedux,
   paymentUpdatePaymentRedux,
   paymentRequestPayment,
+  paymentRequestPaymentCart,
 } = paymentSlice.actions;
 export default paymentSlice.reducer;

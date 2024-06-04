@@ -21,8 +21,8 @@ const CardManageJobPage: React.FC<PropComponent> = ({
     <>
       <TableRow className={`${className}`}>
         <TableRowContent className="">{item?.id}</TableRowContent>
-        <TableRowContent className="line-clamp-3">
-          <div className="line-clamp-2">{item?.title}</div>
+        <TableRowContent className="">
+          <div className="line-clamp-2 h-full">{item?.title}</div>
         </TableRowContent>
         <TableRowContent className="">
           {/* Trong khoảng */}
@@ -45,7 +45,8 @@ const CardManageJobPage: React.FC<PropComponent> = ({
               })}`
             : ""}
           {/* Trên */}
-          {item?.minPay != "0" && item?.maxPay == "2147483647"
+          {item?.minPay != "0" &&
+          (item?.maxPay == "2147483647" || item?.maxPay == "0")
             ? `Trên ${item?.minPay.toLocaleString("vi", {
                 style: "currency",
                 currency: "VND",

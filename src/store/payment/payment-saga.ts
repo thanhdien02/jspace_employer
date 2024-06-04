@@ -1,7 +1,8 @@
 import { takeLatest } from "redux-saga/effects";
-import { paymentRequestPayment } from "./payment-slice";
-import { handlePaymentRequestPayment } from "./payment-handlers";
+import { paymentRequestPayment, paymentRequestPaymentCart } from "./payment-slice";
+import { handlePaymentRequestPayment, handlePaymentRequestPaymentCart } from "./payment-handlers";
 
 export default function* authSaga() {
   yield takeLatest(paymentRequestPayment.type, handlePaymentRequestPayment);
+  yield takeLatest(paymentRequestPaymentCart.type, handlePaymentRequestPaymentCart);
 }

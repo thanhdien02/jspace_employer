@@ -12,6 +12,7 @@ import {
   requestJobGetJobById,
   requestJobGetPostedJob,
   requestJobPostJob,
+  requestJobUpdateJob,
 } from "./job-requests";
 
 function* handleJobPostJob(dataPostJob: any): Generator<any> {
@@ -81,10 +82,6 @@ function* handleJobGetPostedJob(dataGetPostedJob: any): Generator<any> {
   }
 }
 function* handleJobGetJobById(dataGetJobById: any): Generator<any> {
-  console.log(
-    "🚀 ~ function*handleJobGetJobById ~ dataGetJobById:",
-    dataGetJobById
-  );
   try {
     yield put(jobUpdateLoadingRedux({ loadingJob: true }));
     const token: Token = getToken();
@@ -107,4 +104,36 @@ function* handleJobGetJobById(dataGetJobById: any): Generator<any> {
     yield put(jobUpdateLoadingRedux({ loadingJob: false }));
   }
 }
-export { handleJobPostJob, handleJobGetPostedJob, handleJobGetJobById };
+function* handleJobUpdateJob(dataUpdateJob: any): Generator<any> {
+  try {
+    yield put(jobUpdateLoadingRedux({ loadingJob: true }));
+    const token: Token = getToken();
+
+    const response: any = yield call(
+      requestJobUpdateJob,
+      dataUpdateJob?.payload?.job_id,
+      dataUpdateJob?.payload?.dataUpdateJob,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      yield call(handleJobGetPostedJob, {
+        payload: {
+          company_id: dataUpdateJob?.payload?.company_id,
+          page: 1,
+          size: 10,
+        },
+      });
+      message.success("Cập nhập thông tin công việc thành công.");
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(jobUpdateLoadingRedux({ loadingJob: false }));
+  }
+}
+export {
+  handleJobPostJob,
+  handleJobGetPostedJob,
+  handleJobGetJobById,
+  handleJobUpdateJob,
+};

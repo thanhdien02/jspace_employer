@@ -26,7 +26,6 @@ function* handleCartAddToCart(dataAddToCart: any): Generator<any> {
 
     if (response?.data?.code == 1000) {
       message.success("Thêm sản phẩm vào giỏ hàng thành công.");
-      // yield put(cartUpdateCartRedux({ carts: response?.data?.reu }));
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);
@@ -74,9 +73,9 @@ function* handleCartDeleteCart(dataDeleteCart: any): Generator<any> {
     if (response?.data?.code == 1000) {
       yield call(handleCartGetCart, {
         payload: {
+          company_id: dataDeleteCart?.payload?.company_id,
           page: 1,
           size: 10,
-          company_id: dataDeleteCart?.payload?.company_id,
         },
       });
       message.success("Xóa sản phẩm ra khỏi giỏ hàng thành công.");

@@ -42,6 +42,22 @@ interface Inputs {
   jobType?: string;
   gender?: string;
 }
+const handleSalaryUpdate = (dataPosJob: any, salaryType: string) => {
+  let dataPosJobFinal = null;
+  if (salaryType == "more") {
+    dataPosJobFinal = {
+      ...dataPosJob,
+      maxPay: "2147483647",
+    };
+  } else if (salaryType == "up") {
+    dataPosJobFinal = {
+      ...dataPosJob,
+      minPay: "0",
+    };
+  } else return dataPosJob;
+  return dataPosJobFinal;
+};
+
 const EmployerPostJobPage: React.FC = () => {
   const { locations, ranks, jobTypes, experiences, genders, skills } =
     useSelector((state: any) => state.common);
@@ -68,45 +84,37 @@ const EmployerPostJobPage: React.FC = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataPosJob: Inputs) => {
-    if (dataPosJob?.minPay == undefined && dataPosJob?.maxPay == undefined) {
+    if (
+      (dataPosJob?.minPay == undefined && dataPosJob?.maxPay == undefined) ||
+      (dataPosJob?.minPay == "" && dataPosJob?.maxPay == "")
+    ) {
       setSelectEnterSalary("NOTFILL");
     } else {
-      if (dataPosJob?.minPay == undefined) {
+      const dataPost = handleSalaryUpdate(dataPosJob, selectEnterSalary);
+      console.log("🚀 ~ dataPost:", dataPost);
+      // use buyed product
+      if (productCurrent) {
         dispatch(
           jobPostJob({
-            ...dataPosJob,
+            ...dataPost,
             companyId: companyAuth?.id,
-            useTrialPost: true,
-            purchasedProductId: null,
-            newSkills: [],
-            minPay: "0",
-          })
-        );
-      } else if (dataPosJob?.maxPay == undefined) {
-        dispatch(
-          jobPostJob({
-            ...dataPosJob,
-            companyId: companyAuth?.id,
-            useTrialPost: true,
-            purchasedProductId: null,
-            newSkills: [],
-            maxPay: "2147483647",
+            useTrialPost: false,
+            purchasedProductId: productCurrent,
           })
         );
       } else {
+        //trial post
         dispatch(
           jobPostJob({
-            ...dataPosJob,
+            ...dataPost,
             companyId: companyAuth?.id,
             useTrialPost: true,
             purchasedProductId: null,
-            newSkills: [],
           })
         );
       }
     }
   };
-
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(commonGetLocation());
@@ -115,6 +123,7 @@ const EmployerPostJobPage: React.FC = () => {
     dispatch(commonGetRank());
     dispatch(commonGetExperience());
     dispatch(commonGetSkills());
+    setValue("newSkills", []);
   }, []);
 
   useEffect(() => {
@@ -138,6 +147,7 @@ const EmployerPostJobPage: React.FC = () => {
       reset();
       setJobDescription("");
       dispatch(jobUpdateMessageRedux({ messageJob: "" }));
+      setValue("newSkills", []);
     }
   }, [messageJob]);
 
@@ -181,18 +191,14 @@ const EmployerPostJobPage: React.FC = () => {
           <IconClipboardDocument className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconClipboardDocument>
           <Select
             mode="tags"
-            {...register("newSkills", {
-              required: true,
-            })}
             style={{ width: "100%" }}
             placeholder="Kỹ năng mới"
             value={getValues("newSkills")}
             fieldNames={{ label: "name", value: "id" }}
             className="skill select-custom min-h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 border border-stone-200 border-solid w-full rounded-md"
-            // options={skills.length > 0 ? skills : []}
+            options={[]}
             allowClear
             onChange={(e) => {
-              console.log("🚀 ~ e:", e);
               setValue("newSkills", e);
               clearErrors("newSkills");
             }}
@@ -207,7 +213,7 @@ const EmployerPostJobPage: React.FC = () => {
       <div className="xl:mx-40 mx-10 my-10 bg-white px-8 py-5 rounded-lg shadow-md">
         <div className="grid grid-cols-2 gap-10 items-center">
           <h2 className="font-bold text-lg my-2 text-gray-800">Đăng tin</h2>
-          {checkSelectProduct && (
+          {checkSelectProduct ? (
             <div className="ml-auto flex gap-2 items-center">
               <span className="font-medium py-2 px-4 rounded-md bg-gray-200">
                 {productCurrent}
@@ -218,6 +224,21 @@ const EmployerPostJobPage: React.FC = () => {
                 onClick={() => setCheckSelectProduct(!checkSelectProduct)}
               >
                 Thay đổi gói bài đăng
+              </button>
+            </div>
+          ) : (
+            <div
+              className={`ml-auto ${companyAuth?.trialPost == 0 && "hidden"}`}
+            >
+              <button
+                type="button"
+                className="px-4 py-2 rounded-md text-white bg-primary font-medium"
+                onClick={() => {
+                  setCheckSelectProduct(!checkSelectProduct);
+                  setProductCurrent(null);
+                }}
+              >
+                Sử dụng gói trial ({companyAuth?.trialPost})
               </button>
             </div>
           )}
@@ -609,6 +630,8 @@ const EmployerPostJobPage: React.FC = () => {
                     }
                     onChange={(e) => {
                       setSelectEnterSalary(e);
+                      setValue("minPay", "");
+                      setValue("maxPay", "");
                     }}
                     options={dataEnterSalary}
                   />

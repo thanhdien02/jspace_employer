@@ -36,12 +36,14 @@ const EmpoyerChangeAccountBackgroundPage: React.FC<PropComponent> = ({
     customRequest: () => {},
   };
   const handleDeleteBackground = () => {
-    dispatch(
-      employerDeleteBackgroundEmployer({
-        employer_id: user?.id,
-        background_id: user?.backgroundId,
-      })
-    );
+    if (user?.backgroundId) {
+      dispatch(
+        employerDeleteBackgroundEmployer({
+          employer_id: user?.id,
+          background_id: user?.backgroundId,
+        })
+      );
+    }
   };
   return (
     <>
@@ -85,10 +87,15 @@ const EmpoyerChangeAccountBackgroundPage: React.FC<PropComponent> = ({
               className="px-6 py-2 rounded-md text-white bg-red-500"
               type="button"
               onClick={handleDeleteBackground}
+              disabled={loadingEmployer}
             >
               Xóa ảnh
             </button>
-            <Upload {...propsBackground} className="">
+            <Upload
+              {...propsBackground}
+              className=""
+              disabled={loadingEmployer}
+            >
               <button
                 className="px-6 py-2 w-[175px] rounded-md text-white bg-primary"
                 type="button"
