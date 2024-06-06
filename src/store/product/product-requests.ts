@@ -32,6 +32,22 @@ export const requestProductGetProductById = (product_id: string) => {
     },
   });
 };
+export const requestProductGetBuyedProductById = (
+  product_id: string,
+  company_id: string,
+  accessToken: string
+) => {
+  if (!accessToken) return;
+  return axios.get(
+    `${API}/api/v1/employees/purchased-products/${product_id}?companyId=${company_id}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
 export const requestProductCreateProduct = (
   dataCreateProduct: any,
   accessToken: string

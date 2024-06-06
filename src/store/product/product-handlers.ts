@@ -3,6 +3,7 @@ import { getToken } from "../../utils/auth";
 
 import { message } from "antd";
 import {
+  productUpdateBuyedProductByIdRedux,
   productUpdateBuyedProductRedux,
   productUpdateLoadingRedux,
   productUpdateMessageRedux,
@@ -13,6 +14,7 @@ import {
 import {
   requestProductCreateProduct,
   requestProductGetBuyedProduct,
+  requestProductGetBuyedProductById,
   requestProductGetProduct,
   requestProductGetProductById,
 } from "./product-requests";
@@ -115,6 +117,39 @@ function* handleProductGetProductById(dataGetProductById: any): Generator<any> {
     );
   }
 }
+function* handleProductGetBuyedProductById(
+  dataGetBuyedProductById: any
+): Generator<any> {
+  try {
+    yield put(
+      productUpdateLoadingRedux({
+        loadingProduct: true,
+      })
+    );
+    const { accessToken } = getToken();
+    const response: any = yield call(
+      requestProductGetBuyedProductById,
+      dataGetBuyedProductById?.payload?.product_id,
+      dataGetBuyedProductById?.payload?.company_id,
+      accessToken
+    );
+    if (response.data.code === 1000) {
+      yield put(
+        productUpdateBuyedProductByIdRedux({
+          buyedproductById: response.data.result,
+        })
+      );
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(
+      productUpdateLoadingRedux({
+        loadingProduct: false,
+      })
+    );
+  }
+}
 function* handleProductCreateProduct(dataCreateProduct: any): Generator<any> {
   try {
     yield put(
@@ -157,4 +192,5 @@ export {
   handleProductCreateProduct,
   handleProductGetProductById,
   handleProductGetBuyedProduct,
+  handleProductGetBuyedProductById,
 };

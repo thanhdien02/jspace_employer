@@ -1,4 +1,4 @@
-import { Select, Tabs, TabsProps } from "antd";
+import { Select, Skeleton, Tabs, TabsProps } from "antd";
 import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { HomeOutlined } from "@ant-design/icons";
@@ -26,7 +26,10 @@ import {
 import { jobPostJob, jobUpdateMessageRedux } from "../../store/job/job-slice";
 import VNCurrencyInput from "../../components/input/InputMoney";
 import InputNumber from "../../components/input/InputNumber";
-import { productGetBuyedProduct } from "../../store/product/product-slice";
+import {
+  productGetBuyedProduct,
+  productGetBuyedProductById,
+} from "../../store/product/product-slice";
 import IconCheck from "../../components/icons/IconCheck";
 interface Inputs {
   title?: string;
@@ -63,7 +66,7 @@ const EmployerPostJobPage: React.FC = () => {
     useSelector((state: any) => state.common);
   const { companyAuth } = useSelector((state: any) => state.auth);
   const { loadingJob, messageJob } = useSelector((state: any) => state.job);
-  const { buyedProducts, productById } = useSelector(
+  const { buyedProducts, buyedproductById, loadingProduct } = useSelector(
     (state: any) => state.product
   );
   const dispatch = useDispatch();
@@ -115,6 +118,17 @@ const EmployerPostJobPage: React.FC = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (productCurrent) {
+      dispatch(
+        productGetBuyedProductById({
+          product_id: productCurrent,
+          company_id: companyAuth?.id,
+        })
+      );
+    }
+  }, [productCurrent]);
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(commonGetLocation());
@@ -216,7 +230,7 @@ const EmployerPostJobPage: React.FC = () => {
           {checkSelectProduct ? (
             <div className="ml-auto flex gap-2 items-center">
               <span className="font-medium py-2 px-4 rounded-md bg-gray-200">
-                {productCurrent}
+                {buyedproductById?.productName}
               </span>
               <button
                 type="button"
@@ -268,79 +282,84 @@ const EmployerPostJobPage: React.FC = () => {
               options={dataSelectProduct ? dataSelectProduct : []}
             />
 
-            {checkSelectProductInfor && (
-              <div className="mt-5">
-                <h4>Thông tin dịch vụ</h4>
-                <div>
-                  <div className="flex items-center gap-5">
-                    <h3 className="text-xl font-semibold text-primary">
-                      {productById?.name}
-                    </h3>
-                    <span className="font-medium text-xl">-</span>
-                    <p className="text-xl font-semibold">
-                      {productById?.price?.toLocaleString("vi", {
-                        style: "currency",
-                        currency: "VND",
-                      })}
-                      <span className="text-red-500">*</span>
-                    </p>
+            {checkSelectProductInfor &&
+              (loadingProduct ? (
+                <div className="py-5">
+                  <Skeleton />
+                </div>
+              ) : (
+                <div className="mt-5">
+                  <h4 className="font-semibold text-lg">Thông tin dịch vụ</h4>
+                  <div className="mt-3">
+                    <div className="flex items-center gap-5">
+                      <h3 className="text-xl font-semibold text-primary">
+                        {buyedproductById?.productName}
+                      </h3>
+                      <span className="font-medium text-xl">-</span>
+                      <p className="text-xl font-semibold">
+                        {buyedproductById?.productPrice?.toLocaleString("vi", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                        <span className="text-red-500">*</span>
+                      </p>
+                    </div>
+                    <ul className="text-base mt-3">
+                      <li className="flex items-center gap-2 mt-2">
+                        <IconCheck
+                          className="text-primary"
+                          classIcon="!w-5 !h-5"
+                        ></IconCheck>
+                        <span className="text-gray-600">
+                          Số lượng bài đăng
+                          <span className="font-bold">
+                            {` ${buyedproductById?.productNumberOfPost} bài đăng`}
+                          </span>
+                        </span>
+                      </li>
+                      <li className="flex items-center gap-2 mt-2">
+                        <IconCheck
+                          className="text-primary"
+                          classIcon="!w-5 !h-5"
+                        ></IconCheck>
+                        <span className="text-gray-600">
+                          Thời gian sử dụng
+                          <span className="font-bold">
+                            {` ${buyedproductById?.productDurationDayNumber} ngày`}
+                          </span>
+                        </span>
+                      </li>
+                      <li className="flex items-center gap-2 mt-2">
+                        <IconCheck
+                          className="text-primary"
+                          classIcon="!w-5 !h-5"
+                        ></IconCheck>
+                        <span className="text-gray-600">
+                          Thời gian mỗi bài đăng
+                          <span className="font-bold">
+                            {` ${buyedproductById?.productPostDuration} ngày`}
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                    <div className="mt-4">
+                      <h4 className="text-base font-medium">Chi tiết</h4>
+                      <p className="max-h-[90px] overflow-auto">
+                        {buyedproductById?.description}
+                      </p>
+                    </div>
                   </div>
-                  <ul className="text-base mt-3">
-                    <li className="flex items-center gap-2 mt-2">
-                      <IconCheck
-                        className="text-primary"
-                        classIcon="!w-5 !h-5"
-                      ></IconCheck>
-                      <span className="text-gray-600">
-                        Số lượng bài đăng
-                        <span className="font-bold">
-                          {` ${productById?.numberOfPost} bài đăng`}
-                        </span>
-                      </span>
-                    </li>
-                    <li className="flex items-center gap-2 mt-2">
-                      <IconCheck
-                        className="text-primary"
-                        classIcon="!w-5 !h-5"
-                      ></IconCheck>
-                      <span className="text-gray-600">
-                        Thời gian sử dụng
-                        <span className="font-bold">
-                          {` ${productById?.durationDayNumber} ngày`}
-                        </span>
-                      </span>
-                    </li>
-                    <li className="flex items-center gap-2 mt-2">
-                      <IconCheck
-                        className="text-primary"
-                        classIcon="!w-5 !h-5"
-                      ></IconCheck>
-                      <span className="text-gray-600">
-                        Thời gian mỗi bài đăng
-                        <span className="font-bold">
-                          {` ${productById?.postDuration} ngày`}
-                        </span>
-                      </span>
-                    </li>
-                  </ul>
-                  <div className="mt-4">
-                    <h4 className="text-base font-medium">Chi tiết</h4>
-                    <p className="max-h-[90px] overflow-auto">
-                      {productById?.description}
-                    </p>
+                  <div className="flex mt-2">
+                    <button
+                      type="button"
+                      onClick={() => setCheckSelectProduct(true)}
+                      className="px-6 py-2 ml-auto font-medium rounded-md bg-primary text-white"
+                    >
+                      Xác nhận
+                    </button>
                   </div>
                 </div>
-                <div className="flex mt-2">
-                  <button
-                    type="button"
-                    onClick={() => setCheckSelectProduct(true)}
-                    className="px-6 py-2 ml-auto font-medium rounded-md bg-primary text-white"
-                  >
-                    Xác nhận
-                  </button>
-                </div>
-              </div>
-            )}
+              ))}
           </div>
         ) : (
           <></>

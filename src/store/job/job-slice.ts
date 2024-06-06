@@ -4,6 +4,7 @@ interface IFile {
   postedJobs: any;
   jobById: any;
   loadingJob?: boolean;
+  loadingJobById?: boolean;
   messageJob?: string;
   paginationPostedJob?: any;
 }
@@ -12,6 +13,7 @@ const init: IFile = {
   postedJobs: {},
   jobById: {},
   loadingJob: false,
+  loadingJobById: false,
   messageJob: "",
   paginationPostedJob: {},
 };
@@ -27,6 +29,10 @@ const jobSlice: any = createSlice({
     jobUpdateLoadingRedux: (state: any, action: any) => ({
       ...state,
       loadingJob: action.payload.loadingJob,
+    }),
+    jobUpdateLoadingByIdRedux: (state: any, action: any) => ({
+      ...state,
+      loadingJobById: action.payload.loadingJobById,
     }),
     jobUpdateJobByIdRedux: (state: any, action: any) => ({
       ...state,
@@ -57,5 +63,6 @@ export const {
   jobUpdatePaginationPostedJobRedux,
   jobGetPostedJob,
   jobUpdateJobByIdRedux,
+  jobUpdateLoadingByIdRedux,
 } = jobSlice.actions;
 export default jobSlice.reducer;

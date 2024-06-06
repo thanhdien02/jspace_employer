@@ -3,6 +3,7 @@ import { getToken, Token } from "../../utils/auth";
 import {
   jobUpdateJobByIdRedux,
   jobUpdateJobRedux,
+  jobUpdateLoadingByIdRedux,
   jobUpdateLoadingRedux,
   jobUpdateMessageRedux,
   jobUpdatePaginationPostedJobRedux,
@@ -26,8 +27,6 @@ function* handleJobPostJob(dataPostJob: any): Generator<any> {
       token?.accessToken
     );
     if (response?.data?.code === 1000) {
-      console.log("🚀 ~ function*handleJobPostJob ~ response:", response);
-
       yield put(
         jobUpdateMessageRedux({
           messageJob: "postsuccess",
@@ -83,7 +82,7 @@ function* handleJobGetPostedJob(dataGetPostedJob: any): Generator<any> {
 }
 function* handleJobGetJobById(dataGetJobById: any): Generator<any> {
   try {
-    yield put(jobUpdateLoadingRedux({ loadingJob: true }));
+    yield put(jobUpdateLoadingByIdRedux({ loadingJobById: true }));
     const token: Token = getToken();
 
     const response: any = yield call(
@@ -101,12 +100,12 @@ function* handleJobGetJobById(dataGetJobById: any): Generator<any> {
   } catch (error: any) {
     message.error(error?.response?.data?.message);
   } finally {
-    yield put(jobUpdateLoadingRedux({ loadingJob: false }));
+    yield put(jobUpdateLoadingByIdRedux({ loadingJobById: false }));
   }
 }
 function* handleJobUpdateJob(dataUpdateJob: any): Generator<any> {
   try {
-    yield put(jobUpdateLoadingRedux({ loadingJob: true }));
+    yield put(jobUpdateLoadingByIdRedux({ loadingJobById: true }));
     const token: Token = getToken();
 
     const response: any = yield call(
@@ -128,7 +127,7 @@ function* handleJobUpdateJob(dataUpdateJob: any): Generator<any> {
   } catch (error: any) {
     message.error(error?.response?.data?.message);
   } finally {
-    yield put(jobUpdateLoadingRedux({ loadingJob: false }));
+    yield put(jobUpdateLoadingByIdRedux({ loadingJobById: false }));
   }
 }
 export {

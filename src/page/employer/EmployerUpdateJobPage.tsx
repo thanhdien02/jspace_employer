@@ -68,7 +68,7 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
 }) => {
   const { locations, ranks, jobTypes, experiences, genders, skills } =
     useSelector((state: any) => state.common);
-  const { loadingJob, jobById } = useSelector((state: any) => state.job);
+  const { loadingJobById, jobById } = useSelector((state: any) => state.job);
   const dispatch = useDispatch();
   const [jobDescription, setJobDescription] = useState("");
   const [selectEnterSalary, setSelectEnterSalary] = useState("");
@@ -232,7 +232,7 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
             </div>
           </div>
 
-          {loadingJob ? (
+          {loadingJobById ? (
             <Skeleton />
           ) : (
             <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
@@ -693,7 +693,7 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
               <div className="flex justify-end mt-10">
                 <ButtonLoading
                   title="Lưu thông tin"
-                  loading={loadingJob}
+                  loading={loadingJobById}
                 ></ButtonLoading>
               </div>
             </form>

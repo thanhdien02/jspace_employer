@@ -8,6 +8,7 @@ import productSaga from "./product/product-saga";
 import paymentSaga from "./payment/payment-saga";
 import cartSaga from "./cart/cart-saga";
 import commonSaga from "./common/common-saga";
+import purchasehistorySaga from "./purchase_history/purchase-history-saga";
 import { all, fork } from "redux-saga/effects";
 export default function* rootSaga(): any {
   yield all([fork(authSaga)]);
@@ -20,4 +21,5 @@ export default function* rootSaga(): any {
   yield all([fork(paymentSaga)]);
   yield all([fork(cartSaga)]);
   yield all([fork(commonSaga)]);
+  yield all([fork(purchasehistorySaga)]);
 }

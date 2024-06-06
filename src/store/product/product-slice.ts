@@ -4,6 +4,7 @@ interface IUser {
   products: any;
   buyedProducts: any;
   productById: any;
+  buyedproductById: any;
   paginationProduct?: any;
   loadingProduct?: boolean;
   messageProduct?: string;
@@ -12,6 +13,7 @@ interface IUser {
 const init: IUser = {
   products: [],
   buyedProducts: [],
+  buyedproductById: {},
   productById: [],
   paginationProduct: {},
   loadingProduct: false,
@@ -26,9 +28,14 @@ const companyrequestreviewSlice: any = createSlice({
     productGetProduct: () => {},
     productGetBuyedProduct: () => {},
     productGetProductById: () => {},
+    productGetBuyedProductById: () => {},
     productUpdateProductByIdRedux: (state: any, action: any) => ({
       ...state,
       productById: action.payload.productById,
+    }),
+    productUpdateBuyedProductByIdRedux: (state: any, action: any) => ({
+      ...state,
+      buyedproductById: action.payload.buyedproductById,
     }),
     productUpdateProductRedux: (state: any, action: any) => ({
       ...state,
@@ -63,5 +70,7 @@ export const {
   productUpdateProductByIdRedux,
   productGetBuyedProduct,
   productUpdateBuyedProductRedux,
+  productGetBuyedProductById,
+  productUpdateBuyedProductByIdRedux,
 } = companyrequestreviewSlice.actions;
 export default companyrequestreviewSlice.reducer;
