@@ -189,7 +189,6 @@ const EmployerPostJobPage: React.FC = () => {
             options={skills.length > 0 ? skills : []}
             allowClear
             onChange={(e) => {
-              console.log("🚀 ~ e:", e);
               setValue("skillIdList", e);
               clearErrors("skillIdList");
             }}
@@ -396,12 +395,10 @@ const EmployerPostJobPage: React.FC = () => {
                     className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
                   />
                 </div>
-                {errors.title?.type == "required" ? (
+                {errors.title?.type == "required" && (
                   <p className="text-red-600 mt-1">
                     *Bạn chưa điền tên công việc
                   </p>
-                ) : (
-                  <></>
                 )}
               </div>
               <div>
@@ -434,10 +431,8 @@ const EmployerPostJobPage: React.FC = () => {
                     }}
                   />
                 </div>
-                {errors?.gender?.type == "required" ? (
+                {errors?.gender?.type == "required" && (
                   <p className="text-red-600 mt-1">*Bạn chưa điền giới tính</p>
-                ) : (
-                  <></>
                 )}
               </div>
             </div>
@@ -473,12 +468,10 @@ const EmployerPostJobPage: React.FC = () => {
                     }}
                     options={experiences}
                   />
-                  {errors?.experience?.type == "required" ? (
+                  {errors?.experience?.type == "required" && (
                     <p className="text-red-600 mt-1">
                       *Bạn chưa điền kinh nghiệm
                     </p>
-                  ) : (
-                    <></>
                   )}
                 </div>
               </div>
@@ -505,12 +498,10 @@ const EmployerPostJobPage: React.FC = () => {
                     )}
                   />
                 </div>
-                {errors?.quantity?.type == "required" ? (
+                {errors?.quantity?.type == "required" && (
                   <p className="text-red-600 mt-1">
                     *Bạn chưa điền số lượng ứng viên cho công việc
                   </p>
-                ) : (
-                  <></>
                 )}
               </div>
             </div>
@@ -545,12 +536,10 @@ const EmployerPostJobPage: React.FC = () => {
                     }}
                   />
                 </div>
-                {errors?.rank?.type == "required" ? (
+                {errors?.rank?.type == "required" && (
                   <p className="text-red-600 mt-1">
                     *Bạn chưa điền vị trí công việc
                   </p>
-                ) : (
-                  <></>
                 )}
               </div>
               <div className="">
@@ -583,10 +572,8 @@ const EmployerPostJobPage: React.FC = () => {
                     }}
                   />
                 </div>
-                {errors?.location?.type == "required" ? (
+                {errors?.location?.type == "required" && (
                   <p className="text-red-600 mt-1">*Bạn chưa điền địa chỉ</p>
-                ) : (
-                  <></>
                 )}
               </div>
             </div>
@@ -622,12 +609,10 @@ const EmployerPostJobPage: React.FC = () => {
                     }}
                   />
                 </div>
-                {errors?.jobType?.type == "required" ? (
+                {errors?.jobType?.type == "required" && (
                   <p className="text-red-600 mt-1">
                     *Bạn chưa điền thời gian làm việc
                   </p>
-                ) : (
-                  <></>
                 )}
               </div>
               <div>
@@ -765,17 +750,15 @@ const EmployerPostJobPage: React.FC = () => {
                     <></>
                   )}
                 </div>
-                {selectEnterSalary == "NOTFILL" ? (
+                {selectEnterSalary == "NOTFILL" && (
                   <p className="text-red-600 mt-1">*Bạn chưa điền mức lương</p>
-                ) : (
-                  <></>
                 )}
                 {errors?.minPay?.type == "required" ||
-                errors?.maxPay?.type == "required" ? (
-                  <p className="text-red-600 mt-1">*Bạn chưa điền mức lương</p>
-                ) : (
-                  <></>
-                )}
+                  (errors?.maxPay?.type == "required" && (
+                    <p className="text-red-600 mt-1">
+                      *Bạn chưa điền mức lương
+                    </p>
+                  ))}
               </div>
             </div>
             <div className="gap-10 mt-3">
@@ -785,10 +768,8 @@ const EmployerPostJobPage: React.FC = () => {
                   items={itemsSkills}
                   onChange={onChange}
                 />
-                {errors?.skillIdList?.type == "required" ? (
+                {errors?.skillIdList?.type == "required" && (
                   <p className="text-red-600 mt-1">*Bạn chưa điền kỹ năng</p>
-                ) : (
-                  <></>
                 )}
               </div>
             </div>

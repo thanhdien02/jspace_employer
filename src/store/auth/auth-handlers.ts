@@ -29,6 +29,7 @@ function* handleAuthLogin(dataLogin: any): Generator<any> {
       yield call(handleAuthFetchMe);
     }
   } catch (error: any) {
+    logOut();
     message.error(error?.response?.data?.message);
   } finally {
     yield put(authUpdateLoadingRedux({ loading: false }));

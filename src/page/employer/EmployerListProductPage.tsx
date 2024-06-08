@@ -22,7 +22,7 @@ const EmployerListProductPage: React.FC = () => {
     <>
       <div className="mx-20 my-5 bg-white px-8 pb-8 py-5 shadow-md">
         <HeaderContentManage title="Danh sách các dịch vụ để tăng khả năng tìm được ứng viên"></HeaderContentManage>
-        <div className="h-[1px] bg-gray-200 w-full my-3"></div>
+        <div className="h-[1px] bg-gray-200 w-full my-3 border-green-500"></div>
         {loadingProduct ? (
           <Skeleton />
         ) : products?.length > 0 ? (

@@ -36,37 +36,72 @@ export const dataSideBar = [
     path: "/manage/check-work-required",
   },
   {
-    key: "7",
+    key: "5",
     icon: <ScheduleOutlined />,
     label: "Quản lí tin tuyển dụng",
     path: "/manage/jobs",
   },
   {
-    key: "8",
+    key: "6",
     icon: <ShoppingOutlined />,
     label: "Dịch vụ đã mua",
     path: "/manage/products-buyed",
   },
   {
-    key: "9",
+    key: "7",
     icon: <ShoppingCartOutlined />,
     label: "Mua dịch vụ",
     path: "/manage/list-products",
   },
 
   {
-    key: "10",
+    key: "8",
     icon: <ProductOutlined />,
     label: "Lịch sử mua hàng",
     path: "/manage/purchase-history",
   },
   {
-    key: "11",
+    key: "9",
     icon: <SwapOutlined />,
     label: "Đổi mật khẩu",
     path: "/manage/change-password",
   },
 ];
+export const dataHeaderManagePurchaseProduct = [
+  {
+    title: "ID",
+    className: "w-[100px]",
+  },
+  {
+    title: "Tên dịch vụ",
+    className: "w-[200px]",
+  },
+  {
+    title: "Tên công ty",
+    className: "w-[200px]",
+  },
+  {
+    title: "Giá tiền",
+    className: "w-[150px]",
+  },
+  {
+    title: "Thời gian mua",
+    className: "w-[150px]",
+  },
+  {
+    title: "Số lượng mua",
+    className: "w-[150px]",
+  },
+  {
+    title: "Tổng tiền",
+    className: "w-[150px]",
+  },
+  {
+    title: "PT thanh toán",
+    className: "w-[150px]",
+  },
+];
+
 export const dataPosition = [
   { value: "truongphong", label: "Trưởng phòng" },
   { value: "nhanvien", label: "Nhân viên" },
@@ -248,7 +283,7 @@ export const dataHeaderManageJob = [
     className: "w-[180px]",
   },
   {
-    title: "TG làm việc",
+    title: "Loại công việc",
     className: "w-[150px]",
   },
   {
@@ -355,14 +390,14 @@ export const dataColor = [
   },
   {
     id: 3,
-    color: "border-pink-500",
+    color: "border-black",
   },
   {
     id: 4,
-    color: "border-green-500",
+    color: "border-red-500",
   },
   {
     id: 5,
-    color: "border-gray-500",
+    color: "border-yellow-500",
   },
 ];

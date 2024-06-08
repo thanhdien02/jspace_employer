@@ -7,5 +7,5 @@ export default axios.create({
     "Cache-Control": "no-cache",
   },
 });
-export const API = "http://34.67.38.44:8081/jspace-service";
+export const API = "http://35.197.133.113:8081/jspace-service";
 // export const API = "https://jspace-ac16c8492293.herokuapp.com/jspace-service";

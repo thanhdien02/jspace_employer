@@ -43,7 +43,7 @@ const EmployerManageJobPage: React.FC = () => {
         <div className="my-5 flex gap-4">
           <Search
             placeholder="Nhập tên công việc"
-            enterButton="Search"
+            enterButton="Tìm kiếm"
             size="large"
             onSearch={(e) => console.log(e)}
             onInput={(e: any) => {
@@ -151,6 +151,7 @@ const EmployerManageJobPage: React.FC = () => {
         {candidateApply ? (
           <EmployerManageCandidateApplyJobPage
             onClick={setCandidateApply}
+            jobId={jobId}
           ></EmployerManageCandidateApplyJobPage>
         ) : (
           <></>

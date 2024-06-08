@@ -59,7 +59,6 @@ function* handleJobGetPostedJob(dataGetPostedJob: any): Generator<any> {
           postedJobs: response.data.result.content,
         })
       );
-
       yield put(
         jobUpdatePaginationPostedJobRedux({
           paginationPostedJob: {

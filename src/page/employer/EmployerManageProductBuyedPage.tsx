@@ -4,6 +4,7 @@ import CardManageProductBuyedPage from "../../components/cards/CardManageProduct
 import { useDispatch, useSelector } from "react-redux";
 import { productGetBuyedProduct } from "../../store/product/product-slice";
 import { Empty, Skeleton } from "antd";
+import { dataColor } from "../../utils/dataFetch";
 
 const EmployerManageProductBuyedPage: React.FC = () => {
   const { companyAuth } = useSelector((state: any) => state.auth);
@@ -27,11 +28,13 @@ const EmployerManageProductBuyedPage: React.FC = () => {
         ) : (
           <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">
             {buyedProducts?.length > 0 &&
-              buyedProducts?.map((item: any) => (
+              buyedProducts?.map((item: any, index: number) => (
                 <CardManageProductBuyedPage
                   item={item}
                   key={item?.purchasedProduct?.id}
-                  // color="!border-pink-500"
+                  color={`${
+                    dataColor[index]?.id == index ? dataColor[index]?.color : ""
+                  }`}
                 ></CardManageProductBuyedPage>
               ))}
           </div>

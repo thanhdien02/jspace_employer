@@ -15,6 +15,7 @@ import ProductPage from "./page/common/ProductPage";
 import EmployerManageShoppingCartPage from "./page/employer/EmployerManageShoppingCartPage";
 import EmployerListProductPage from "./page/employer/EmployerListProductPage";
 import EmployerManageProductBuyedPage from "./page/employer/EmployerManageProductBuyedPage";
+import EmployerManagePurchaseHistoryPage from "./page/employer/EmployerManagePurchaseHistoryPage";
 
 const LayoutEmployerManagement = lazy(
   () => import("./layout/LayoutEmployerManagement")
@@ -122,6 +123,12 @@ function App() {
               path="/manage/products-buyed"
               element={
                 <EmployerManageProductBuyedPage></EmployerManageProductBuyedPage>
+              }
+            ></Route>
+            <Route
+              path="/manage/purchase-history"
+              element={
+                <EmployerManagePurchaseHistoryPage></EmployerManagePurchaseHistoryPage>
               }
             ></Route>
           </Route>

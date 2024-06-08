@@ -1,60 +1,45 @@
 import React, { useState } from "react";
 import TableRow from "../table/TableRow";
 import TableRowContent from "../table/TableRowContent";
-import { Popconfirm, Popover } from "antd";
+import { Popconfirm } from "antd";
 import TextArea from "antd/es/input/TextArea";
 interface PropComponent {
   className?: string;
   onClickUpdateJob?: any;
   onClickListCandidate?: any;
-  dataCandidateApply?: any;
+  item?: any;
 }
 
 const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
   className,
-  dataCandidateApply,
+  item,
 }) => {
-  console.log("🚀 ~ dataCandidateApply:", dataCandidateApply);
   const [updateStatusCV, setUpdateStatusCV] = useState("spending");
   return (
     <>
       <TableRow className={`${className}`}>
         <TableRowContent className="">12</TableRowContent>
         <TableRowContent className="line-clamp-3">
-          <Popover
-            content={
-              <p className="max-w-[300px] font-medium">
-                {" "}
-                Nguyen Thanh Dien Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Commodi repellat quos aspernatur minus, ipsa
-                aperiam eveniet quis deserunt quod recusandae nihil in quasi sit
-                reprehenderit facilis repudiandae? Eligendi, natus deserunt?
-              </p>
-            }
-          >
-            <div className="line-clamp-2">
-              Nguyen Thanh Dien Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Commodi repellat quos aspernatur minus, ipsa
-              aperiam eveniet quis deserunt quod recusandae nihil in quasi sit
-              reprehenderit facilis repudiandae? Eligendi, natus deserunt?
-            </div>
-          </Popover>
+          {item?.candidate?.user?.name}
         </TableRowContent>
         <TableRowContent className="">
-          <div className="line-clamp-2">thanhdien@gmail.com</div>
+          <div className="line-clamp-2 h-full">
+            {item?.candidate?.user?.email}
+          </div>
         </TableRowContent>
         <TableRowContent className="">
-          <div className="line-clamp-2">0907729422</div>
+          <div className="line-clamp-2">{item?.candidate?.user?.phone}</div>
         </TableRowContent>
         <TableRowContent className="">
           <div className="line-clamp-2">
             <div className="flex items-center gap-2 ">
-              <span
-                onClick={() => {}}
+              <a
+                href={item?.resume?.file?.path}
+                target="_blank"
                 className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-primary text-white cursor-pointer"
               >
                 Xem CV
-              </span>
+              </a>
               <span
                 onClick={() => {}}
                 className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-primary text-white cursor-pointer"
@@ -71,7 +56,7 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
               onClick={() => {}}
               className="py-1 px-2 text-sm rounded-sm bg-primary text-white"
             >
-              SPENDING
+              {item?.applyStatus?.code}
             </span>
             <Popconfirm
               className=""

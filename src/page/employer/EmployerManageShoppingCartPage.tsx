@@ -176,7 +176,7 @@ const EmployerManageShoppingCartPage: React.FC = () => {
                   className="text-gray-500 font-medium"
                 >
                   Tôi đồng ý với
-                  <span className="text-red-500">Điều khoản dịch vụ</span> của
+                  <span className="text-red-500"> Điều khoản dịch vụ</span> của
                   JSPACE
                 </Checkbox>
               </div>

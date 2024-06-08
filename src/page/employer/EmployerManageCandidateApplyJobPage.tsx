@@ -1,23 +1,28 @@
 import React, { useEffect } from "react";
 import IconClose from "../../components/icons/IconClose";
 import HeaderTableManageJobPage from "../../components/header/HeaderTableManageJobPage";
-import {
-  dataHeaderManageCandidateApplyJob,
-  dataSideBar,
-} from "../../utils/dataFetch";
+import { dataHeaderManageCandidateApplyJob } from "../../utils/dataFetch";
 import CardManageCandidateApplyJobPage from "../../components/cards/CardManageCandidateApplyJobPage";
 import Table from "../../components/table/Table";
-import { Input, Pagination, Select, Skeleton } from "antd";
+import { Empty, Input, Pagination, Select, Skeleton } from "antd";
 import { debounce } from "ts-debounce";
+import { useDispatch, useSelector } from "react-redux";
+import { candidateGetAppliedCandidate } from "../../store/candidate/candidate-slice";
 const { Search } = Input;
 interface PropComponent {
   className?: string;
+  jobId?: string;
   onClick?: any;
 }
 const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
   className,
+  jobId,
   onClick,
 }) => {
+  const { appliedCandidate, loadingCandidate } = useSelector(
+    (state: any) => state.candidate
+  );
+  const dispatch = useDispatch();
   useEffect(() => {
     const body = document.body;
     if (body) {
@@ -25,6 +30,17 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
       return () => {
         body.style.overflow = "visible";
       };
+    }
+  }, []);
+  useEffect(() => {
+    if (jobId) {
+      dispatch(
+        candidateGetAppliedCandidate({
+          job_id: jobId,
+          page: 0,
+          size: 10,
+        })
+      );
     }
   }, []);
   const handleSearchCandidate = debounce((value: any) => {
@@ -51,7 +67,7 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
           <div className="my-5 flex gap-4">
             <Search
               placeholder="Nhập tên ứng viên"
-              enterButton="Search"
+              enterButton="Tìm kiếm"
               size="large"
               onSearch={(e) => console.log(e)}
               onInput={(e: any) => {
@@ -90,7 +106,7 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
               <HeaderTableManageJobPage
                 dataHeader={dataHeaderManageCandidateApplyJob}
               ></HeaderTableManageJobPage>
-              {false ? (
+              {loadingCandidate ? (
                 <tbody className="">
                   <tr>
                     <td className="p-5 text-center" colSpan={7}>
@@ -100,18 +116,26 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                 </tbody>
               ) : (
                 <tbody>
-                  {dataSideBar?.length > 0 &&
-                    dataSideBar?.map((item: any, index: number) => (
+                  {appliedCandidate?.length <= 0 || !appliedCandidate.length ? (
+                    <tr>
+                      <td className="p-5 text-center " colSpan={7}>
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                      </td>
+                    </tr>
+                  ) : (
+                    appliedCandidate?.length > 0 &&
+                    appliedCandidate?.map((item: any, index: number) => (
                       <CardManageCandidateApplyJobPage
                         key={index}
-                        dataCandidateApply={item}
+                        item={item}
                       ></CardManageCandidateApplyJobPage>
-                    ))}
+                    ))
+                  )}
                 </tbody>
               )}
             </Table>
             <div className="mt-4 flex justify-end">
-              {false ? (
+              {appliedCandidate.length <= 0 ? (
                 <></>
               ) : (
                 <Pagination
