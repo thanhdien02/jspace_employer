@@ -14,7 +14,7 @@ import IconAdd from "../../components/icons/IconAdd";
 import { useNavigate } from "react-router-dom";
 const { Search } = Input;
 const EmployerManageJobPage: React.FC = () => {
-  const { companyAuth } = useSelector((state: any) => state.auth);
+  const { companyAuth, checkAuth } = useSelector((state: any) => state.auth);
   const { loadingJob, postedJobs, paginationPostedJob } = useSelector(
     (state: any) => state.job
   );
@@ -73,7 +73,7 @@ const EmployerManageJobPage: React.FC = () => {
             ]}
           />
           <div
-            onClick={() => navigate("/manage/post-job")}
+            onClick={() => navigate("/manage/check-work-required")}
             className="ml-auto cursor-pointer flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-md font-medium"
           >
             <IconAdd></IconAdd>
@@ -90,7 +90,13 @@ const EmployerManageJobPage: React.FC = () => {
               <HeaderTableManageJobPage
                 dataHeader={dataHeaderManageJob}
               ></HeaderTableManageJobPage>
-              {loadingJob ? (
+              {!checkAuth?.verifiedByCompany ? (
+                <tr>
+                  <td className="p-5 text-center " colSpan={5}>
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  </td>
+                </tr>
+              ) : loadingJob ? (
                 <tbody className="">
                   <tr>
                     <td className="p-5 text-center" colSpan={10}>

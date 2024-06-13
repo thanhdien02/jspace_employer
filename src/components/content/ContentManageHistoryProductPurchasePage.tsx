@@ -1,6 +1,7 @@
 import React from "react";
 import TableRow from "../table/TableRow";
 import TableRowContent from "../table/TableRowContent";
+import { formatDate } from "../../utils/function-common";
 interface PropComponent {
   className?: string;
   item?: any;
@@ -24,7 +25,9 @@ const ContentManageHistoryProductPurchasePage: React.FC<PropComponent> = ({
           currency: "VND",
         })}
       </TableRowContent>
-      <TableRowContent className="">{item?.expiryDate}</TableRowContent>
+      <TableRowContent className="">
+        {formatDate(item?.purchasedDate)}
+      </TableRowContent>
       <TableRowContent className="">{item?.quantity} sản phẩm</TableRowContent>
       <TableRowContent className="">
         {item?.totalPrice?.toLocaleString("vi", {

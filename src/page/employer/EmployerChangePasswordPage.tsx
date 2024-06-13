@@ -28,7 +28,12 @@ const EmployerChangePasswordPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
+  const handleChange = () => {
+    const decoded = decodeURI(
+      "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd\u003d_express-checkout\u0026token\u003dEC-9VK466841L525535F"
+    );
+    console.log("🚀 ~ handleChange ~ decoded:", decoded);
+  };
   return (
     <>
       <div className="xl:mx-60 mx-10 my-5">
@@ -126,6 +131,9 @@ const EmployerChangePasswordPage: React.FC = () => {
             </div>
 
             <div className="flex justify-end mt-5">
+              <button type="button" onClick={handleChange}>
+                Dich
+              </button>
               <ButtonLoading
                 title="Lưu thông tin"
                 loading={false}

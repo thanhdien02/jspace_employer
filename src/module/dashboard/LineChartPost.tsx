@@ -15,24 +15,21 @@ const generateDataPost = (
 ) => {
   let labels: any = [];
   let counts = [];
-  let label = "";
   if (timeframe === "month" && monthlyData) {
     labels = Array.from(
       { length: Object.keys(monthlyData).length },
       (_, i) => i + 1
     );
     counts = labels.map((day: any) => monthlyData[day] || 0);
-    label = "User Registrations per Day in a Month";
   } else if (timeframe === "year" && yearlyData) {
     labels = Array.from({ length: 12 }, (_, i) => `${i + 1}`);
     counts = labels.map((_: any, month: any) => yearlyData[month + 1] || 0);
-    label = "User Registrations per Month in a Year";
   }
   return {
     labels: labels,
     datasets: [
       {
-        label: label,
+        label: "Bài đăng",
         data: counts,
         backgroundColor: "rgba(103, 133, 233, 0.2)",
         borderColor: "#14a6db",

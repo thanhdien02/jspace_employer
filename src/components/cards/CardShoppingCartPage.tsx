@@ -35,13 +35,22 @@ const CardShoppingCartPage: React.FC<PropComponent> = ({
         })
       );
     } else {
-      dispatch(
-        cartUpdateCart({
-          cart_id: data?.id,
-          quantity: data?.quantity - 1,
-          company_id: companyAuth?.id,
-        })
-      );
+      if (data?.quantity != 1)
+        dispatch(
+          cartUpdateCart({
+            cart_id: data?.id,
+            quantity: data?.quantity - 1,
+            company_id: companyAuth?.id,
+          })
+        );
+      else {
+        dispatch(
+          cartDeleteCart({
+            cart_id: data?.id,
+            company_id: companyAuth?.id,
+          })
+        );
+      }
     }
   };
   const handleDeleteCartItem = () => {

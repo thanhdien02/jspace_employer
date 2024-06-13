@@ -32,7 +32,7 @@ const CardManageProductBuyedPage: React.FC<PropComponent> = ({
               classIcon="!w-5 !h-5"
             ></IconCheck>
             <span className="text-gray-600 text-sm">
-              Số lượng bài đăng{" "}
+              Số lượng bài đăng còn lại{" "}
               <span className="font-bold">
                 {" "}
                 {item?.purchasedProduct?.productNumberOfPost} bài đăng
@@ -47,8 +47,9 @@ const CardManageProductBuyedPage: React.FC<PropComponent> = ({
             <span className="text-gray-600 text-sm">
               Thời gian sử dụng{" "}
               <span className="font-bold">
-                {item?.purchasedProduct?.productDurationDayNumber} ngày
-              </span>
+                {item?.purchasedProduct?.productDurationDayNumber}
+              </span>{" "}
+              ngày từ ngày mua
             </span>
           </li>
           <li className="flex gap-2 mt-2">
@@ -60,11 +61,16 @@ const CardManageProductBuyedPage: React.FC<PropComponent> = ({
               Thời gian mỗi bài đăng
               <span className="font-bold">
                 {" "}
-                {item?.purchasedProduct?.productPostDuration} ngày
-              </span>
+                {item?.purchasedProduct?.productPostDuration}
+              </span>{" "}
+              ngày từ ngày đăng
             </span>
           </li>
         </ul>
+        <p className="font-medium text-base my-1">
+          Còn lại <strong className="text-red-500">{item?.remainingDate} ngày</strong> để sử
+          dụng gói sản phẩm
+        </p>
 
         <div className="mb-4">
           <p className="font-medium text-base">* Chi tiết:</p>

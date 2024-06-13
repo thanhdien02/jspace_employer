@@ -155,6 +155,7 @@ const EmployerPostJobPage: React.FC = () => {
       setDataSelectProduct(options);
     }
   }, [buyedProducts]);
+
   // reset form
   useEffect(() => {
     if (messageJob == "postsuccess") {
@@ -162,6 +163,16 @@ const EmployerPostJobPage: React.FC = () => {
       setJobDescription("");
       dispatch(jobUpdateMessageRedux({ messageJob: "" }));
       setValue("newSkills", []);
+
+      // Cập nhật lại số lượng bài đăng nếu chọn gói mua
+      if (productCurrent) {
+        dispatch(
+          productGetBuyedProductById({
+            product_id: productCurrent,
+            company_id: companyAuth?.id,
+          })
+        );
+      }
     }
   }, [messageJob]);
 
@@ -200,7 +211,6 @@ const EmployerPostJobPage: React.FC = () => {
             }
             allowClear
             onChange={(e) => {
-              console.log("🚀 ~ e:", e);
               setValue("skillIdList", e);
               clearErrors("skillIdList");
             }}
@@ -241,7 +251,8 @@ const EmployerPostJobPage: React.FC = () => {
           {checkSelectProduct ? (
             <div className="ml-auto flex gap-2 items-center">
               <span className="font-medium py-2 px-4 rounded-md bg-gray-200">
-                {buyedproductById?.productName}
+                {buyedproductById?.productName} (SLBĐ còn lại{" "}
+                {buyedproductById?.productNumberOfPost})
               </span>
               <button
                 type="button"
@@ -302,7 +313,7 @@ const EmployerPostJobPage: React.FC = () => {
                 <div className="mt-5">
                   <h4 className="font-semibold text-lg">Thông tin dịch vụ</h4>
                   <div className="mt-3">
-                    <div className="flex items-center gap-5">
+                    <div className="flex items-center gap-3">
                       <h3 className="text-xl font-semibold text-primary">
                         {buyedproductById?.productName}
                       </h3>
@@ -322,7 +333,7 @@ const EmployerPostJobPage: React.FC = () => {
                           classIcon="!w-5 !h-5"
                         ></IconCheck>
                         <span className="text-gray-600">
-                          Số lượng bài đăng
+                          Số lượng bài đăng còn lại
                           <span className="font-bold">
                             {` ${buyedproductById?.productNumberOfPost} bài đăng`}
                           </span>
@@ -334,9 +345,13 @@ const EmployerPostJobPage: React.FC = () => {
                           classIcon="!w-5 !h-5"
                         ></IconCheck>
                         <span className="text-gray-600">
-                          Thời gian sử dụng
+                          Thời gian sử dụng của gói
                           <span className="font-bold">
-                            {` ${buyedproductById?.productDurationDayNumber} ngày`}
+                            {` ${buyedproductById?.productDurationDayNumber} ngày `}
+                          </span>
+                          kễ từ ngày mua - Ngày hết hạn:{" "}
+                          <span className="font-bold">
+                            {buyedproductById?.expiryDate}
                           </span>
                         </span>
                       </li>
@@ -348,8 +363,9 @@ const EmployerPostJobPage: React.FC = () => {
                         <span className="text-gray-600">
                           Thời gian mỗi bài đăng
                           <span className="font-bold">
-                            {` ${buyedproductById?.productPostDuration} ngày`}
+                            {` ${buyedproductById?.productPostDuration} ngày `}
                           </span>
+                          kễ từ ngày đăng
                         </span>
                       </li>
                     </ul>
@@ -466,19 +482,26 @@ const EmployerPostJobPage: React.FC = () => {
                     })}
                     allowClear={true}
                     showSearch
-                    fieldNames={{ label: "code", value: "value" }}
                     placeholder="Kinh nghiệm"
                     value={getValues("experience")}
                     className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-3 border border-stone-200 border-solid w-full rounded-md"
                     optionFilterProp="children"
-                    filterOption={(input, option: any) =>
-                      (option?.label ?? "").includes(input)
+                    filterOption={(input: string, option: any) =>
+                      ((option?.label ?? "") as string)
+                        .toLowerCase()
+                        .includes((input ?? "").toLowerCase())
+                    }
+                    options={
+                      experiences?.length > 0 &&
+                      experiences.map((item: any) => ({
+                        label: item?.code,
+                        value: item?.value,
+                      }))
                     }
                     onChange={(e) => {
                       setValue("experience", e);
                       clearErrors("experience");
                     }}
-                    options={experiences}
                   />
                   {errors?.experience?.type == "required" && (
                     <p className="text-red-600 mt-1">
@@ -528,20 +551,32 @@ const EmployerPostJobPage: React.FC = () => {
                 <div className="mt-2 relative">
                   <IconLink className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconLink>
                   <Select
+                    {...register("rank", {
+                      required: true,
+                    })}
                     showSearch
                     placeholder="Vị trí"
                     allowClear={true}
                     value={getValues("rank")}
-                    fieldNames={{ label: "code", value: "value" }}
                     className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                     optionFilterProp="children"
-                    filterOption={(input, option: any) =>
-                      (option?.label ?? "").includes(input)
+                    // fieldNames={{ label: "code", value: "value" }}
+                    // filterOption={(input, option: any) =>
+                    //   (option?.label ?? "").includes(input)
+                    // }
+                    // options={ranks}
+                    filterOption={(input: string, option: any) =>
+                      ((option?.label ?? "") as string)
+                        .toLowerCase()
+                        .includes((input ?? "").toLowerCase())
                     }
-                    {...register("rank", {
-                      required: true,
-                    })}
-                    options={ranks}
+                    options={
+                      ranks?.length > 0 &&
+                      ranks.map((item: any) => ({
+                        label: item?.code,
+                        value: item?.value,
+                      }))
+                    }
                     onChange={(e) => {
                       setValue("rank", e);
                       clearErrors("rank");

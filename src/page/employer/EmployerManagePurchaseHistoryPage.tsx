@@ -22,13 +22,13 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
     loadingPurchaseHistory,
     paginationPurchaseHistory,
   } = useSelector((state: any) => state.purchasehistory);
-  const { companyAuth } = useSelector((state: any) => state.auth);
+  const { companyAuth, checkAuth } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   const [productName, setProductName] = useState("");
   const [page, setPage] = useState(1);
+  const [size] = useState(10);
   const [value, setValue] = useState(1);
   const onChange = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
@@ -40,20 +40,19 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
       dispatch(
         purchasehistoryGetPurchaseHistory({
           page: page,
-          size: 10,
+          size: size,
           company_id: companyAuth?.id,
-          productName: "",
+          productName: productName,
         })
       );
     }
   }, [companyAuth]);
-
   const handleSearchProductName = debounce((value: any) => {
     setPage(1);
     dispatch(
       purchasehistoryGetPurchaseHistory({
         page: page,
-        size: 10,
+        size: size,
         company_id: companyAuth?.id,
         productName: value?.target?.value,
       })
@@ -65,7 +64,7 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
     dispatch(
       purchasehistoryGetPurchaseHistory({
         page: e,
-        size: 10,
+        size: size,
         company_id: companyAuth?.id,
         productName: productName,
       })
@@ -102,7 +101,13 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
             dataHeader={dataHeaderManagePurchaseProduct}
           ></HeaderTableManage>
           <tbody>
-            {loadingPurchaseHistory ? (
+            {!checkAuth?.verifiedByCompany ? (
+              <tr>
+                <td className="p-5 text-center" colSpan={7}>
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                </td>
+              </tr>
+            ) : loadingPurchaseHistory ? (
               <tr>
                 <td className="p-5 text-center" colSpan={8}>
                   <Skeleton active />
@@ -127,9 +132,7 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
         </Table>
 
         <div className="mt-4 flex justify-end">
-          {purchasehistorys.length <= 0 ? (
-            <></>
-          ) : (
+          {purchasehistorys.length > 0 && (
             <Pagination
               total={paginationPurchaseHistory?.totalElements}
               onChange={handleChangePage}

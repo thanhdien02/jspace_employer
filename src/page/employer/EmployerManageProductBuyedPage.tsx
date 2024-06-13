@@ -7,7 +7,7 @@ import { Empty, Skeleton } from "antd";
 import { dataColor } from "../../utils/dataFetch";
 
 const EmployerManageProductBuyedPage: React.FC = () => {
-  const { companyAuth } = useSelector((state: any) => state.auth);
+  const { companyAuth, checkAuth } = useSelector((state: any) => state.auth);
   const { loadingProduct, buyedProducts } = useSelector(
     (state: any) => state.product
   );
@@ -21,7 +21,9 @@ const EmployerManageProductBuyedPage: React.FC = () => {
     <>
       <div className="mx-16 my-5 bg-white p-10 shadow">
         <HeaderContentManage title="Danh sách dịch vụ đã mua"></HeaderContentManage>
-        {loadingProduct ? (
+        {!checkAuth?.verifiedByCompany ? (
+          <Empty />
+        ) : loadingProduct ? (
           <Skeleton />
         ) : !buyedProducts?.length ? (
           <Empty />

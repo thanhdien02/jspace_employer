@@ -150,21 +150,21 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
   }, [files]);
   useEffect(() => {
     if (companyId && companyId !== "updatecompany") {
-      setValue("name", company?.name, { shouldValidate: true });
-      setValue("phone", company?.phone, { shouldValidate: true });
-      setValue("email", company?.email, { shouldValidate: true });
-      setValue("address", company?.address, { shouldValidate: true });
-      setValue("companyLink", company?.companyLink, {
+      setValue("name", company?.company?.name, { shouldValidate: true });
+      setValue("phone", company?.company?.phone, { shouldValidate: true });
+      setValue("email", company?.company?.email, { shouldValidate: true });
+      setValue("address", company?.company?.address, { shouldValidate: true });
+      setValue("companyLink", company?.company?.companyLink, {
         shouldValidate: true,
       });
-      setValue("description", company?.description, {
+      setValue("description", company?.company?.description, {
         shouldValidate: true,
       });
-      setValue("companySize", company?.companySize);
-      setCompanySize(company?.companySize);
-      setCompanyDescription(company?.description);
-      setCompanyLogo(company?.logo);
-      setCompanyBackground(company?.background);
+      setValue("companySize", company?.company?.companySize);
+      setCompanySize(company?.company?.companySize);
+      setCompanyDescription(company?.company?.description);
+      setCompanyLogo(company?.company?.logo);
+      setCompanyBackground(company?.company?.background);
 
       setDisableAll(true);
     }
@@ -359,7 +359,6 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                 </label>
                 <div className="relative">
                   <Select
-                    // defaultValue="1-9 nhân viên"
                     {...register("companySize", {
                       required: true,
                     })}

@@ -32,7 +32,6 @@ function* handleJobPostJob(dataPostJob: any): Generator<any> {
           messageJob: "postsuccess",
         })
       );
-
       message.success("Đăng tin thành công.");
     }
   } catch (error: any) {
@@ -70,8 +69,7 @@ function* handleJobGetPostedJob(dataGetPostedJob: any): Generator<any> {
           },
         })
       );
-
-      message.success("Tải công việc thành công.");
+      // message.success("Tải công việc thành công.");
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);

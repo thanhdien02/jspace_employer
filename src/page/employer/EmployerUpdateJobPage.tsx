@@ -163,12 +163,23 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
             style={{ width: "100%" }}
             placeholder="Kỹ năng"
             value={getValues("skillIdList")}
-            fieldNames={{ label: "name", value: "id" }}
+            filterOption={(input: string, option: any) =>
+              ((option?.label ?? "") as string)
+                .toLowerCase()
+                .includes((input ?? "").toLowerCase())
+            }
+            // fieldNames={{ label: "name", value: "id" }}
             className="skill select-custom min-h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 border border-stone-200 border-solid w-full rounded-md"
-            options={skills.length > 0 ? skills : []}
+            // options={skills.length > 0 ? skills : []}
+            options={
+              skills.length > 0 &&
+              skills.map((item: any) => ({
+                label: item?.name,
+                value: item?.id,
+              }))
+            }
             allowClear
             onChange={(e) => {
-              console.log("🚀 ~ e:", e);
               setValue("skillIdList", e);
               clearErrors("skillIdList");
             }}
@@ -331,19 +342,32 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
                       })}
                       allowClear={true}
                       showSearch
-                      fieldNames={{ label: "code", value: "value" }}
                       placeholder="Kinh nghiệm"
                       value={getValues("experience")}
                       className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-3 border border-stone-200 border-solid w-full rounded-md"
                       optionFilterProp="children"
-                      filterOption={(input, option: any) =>
-                        (option?.label ?? "").includes(input)
+                      // fieldNames={{ label: "code", value: "value" }}
+                      // filterOption={(input, option: any) =>
+                      //   (option?.label ?? "").includes(input)
+                      // }
+                      // options={experiences}
+
+                      filterOption={(input: string, option: any) =>
+                        ((option?.label ?? "") as string)
+                          .toLowerCase()
+                          .includes((input ?? "").toLowerCase())
+                      }
+                      options={
+                        experiences?.length > 0 &&
+                        experiences.map((item: any) => ({
+                          label: item?.code,
+                          value: item?.value,
+                        }))
                       }
                       onChange={(e) => {
                         setValue("experience", e);
                         clearErrors("experience");
                       }}
-                      options={experiences}
                     />
                     {errors?.experience?.type == "required" ? (
                       <p className="text-red-600 mt-1">
@@ -398,19 +422,31 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
                     <IconLink className="absolute top-0 left-0 translate-x-[50%] translate-y-[40%] text-gray-400"></IconLink>
                     <Select
                       showSearch
-                      placeholder="Vị trí"
-                      allowClear={true}
-                      value={getValues("rank")}
-                      fieldNames={{ label: "code", value: "value" }}
-                      className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
-                      optionFilterProp="children"
-                      filterOption={(input, option: any) =>
-                        (option?.label ?? "").includes(input)
-                      }
                       {...register("rank", {
                         required: true,
                       })}
-                      options={ranks}
+                      placeholder="Vị trí"
+                      allowClear={true}
+                      value={getValues("rank")}
+                      className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
+                      optionFilterProp="children"
+                      // fieldNames={{ label: "code", value: "value" }}
+                      // filterOption={(input, option: any) =>
+                      //   (option?.label ?? "").includes(input)
+                      // }
+                      // options={ranks}
+                      filterOption={(input: string, option: any) =>
+                        ((option?.label ?? "") as string)
+                          .toLowerCase()
+                          .includes((input ?? "").toLowerCase())
+                      }
+                      options={
+                        ranks?.length > 0 &&
+                        ranks.map((item: any) => ({
+                          label: item?.code,
+                          value: item?.value,
+                        }))
+                      }
                       onChange={(e) => {
                         setValue("rank", e);
                         clearErrors("rank");
@@ -440,15 +476,24 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
                       })}
                       showSearch
                       value={getValues("location")}
-                      fieldNames={{ label: "province", value: "value" }}
+                      // fieldNames={{ label: "province", value: "value" }}
                       allowClear={true}
                       placeholder="Địa chỉ"
                       className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                       optionFilterProp="children"
-                      filterOption={(input, option: any) =>
-                        (option?.label ?? "").includes(input)
+                      filterOption={(input: string, option: any) =>
+                        ((option?.label ?? "") as string)
+                          .toLowerCase()
+                          .includes((input ?? "").toLowerCase())
                       }
-                      options={locations}
+                      options={
+                        locations?.length > 0 &&
+                        locations.map((item: any) => ({
+                          label: item?.province,
+                          value: item?.value,
+                        }))
+                      }
+                      // options={locations}
                       onChange={(e) => {
                         setValue("location", e);
                         clearErrors("location");
@@ -480,14 +525,26 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
                       showSearch
                       value={getValues("jobType")}
                       allowClear={true}
-                      fieldNames={{ label: "code", value: "value" }}
                       placeholder="Loại công việc"
                       className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                       optionFilterProp="children"
-                      filterOption={(input, option: any) =>
-                        (option?.label ?? "").includes(input)
+                      // fieldNames={{ label: "code", value: "value" }}
+                      // filterOption={(input, option: any) =>
+                      //   (option?.label ?? "").includes(input)
+                      // }
+                      // options={jobTypes}
+                      filterOption={(input: string, option: any) =>
+                        ((option?.label ?? "") as string)
+                          .toLowerCase()
+                          .includes((input ?? "").toLowerCase())
                       }
-                      options={jobTypes}
+                      options={
+                        jobTypes?.length > 0 &&
+                        jobTypes.map((item: any) => ({
+                          label: item?.code,
+                          value: item?.value,
+                        }))
+                      }
                       onChange={(e) => {
                         setValue("jobType", e);
                         clearErrors("jobType");

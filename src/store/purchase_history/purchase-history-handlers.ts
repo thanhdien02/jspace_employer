@@ -44,7 +44,7 @@ function* handlePurchaseHistoryGetPurchaseHistory(
           },
         })
       );
-      message.success("Thành công");
+      // message.success("Thành công");
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);

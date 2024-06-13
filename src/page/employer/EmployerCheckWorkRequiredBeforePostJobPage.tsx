@@ -1,4 +1,4 @@
-import { Popover, Progress, Tooltip } from "antd";
+import { Button, message, Modal, Popover, Progress, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -36,10 +36,28 @@ const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
         progress += 33.33;
       }
     }
-
     setProccessCheckIdentification(progress);
   }, [checkAuth]);
 
+  //
+  const [openConfirmSendMail, setOpenConfirmSendMail] = useState(false);
+
+  const showModalConfirmSendMail = () => {
+    if (checkAuth?.hasCompany && checkAuth?.companyVerified) {
+      setOpenConfirmSendMail(true);
+    } else {
+      message.info(
+        "Vui lòng điền thông tin công ty trước khi yêu cầu xác nhận."
+      );
+    }
+  };
+
+  const handleOkConfirmSendMail = () => {
+    setOpenConfirmSendMail(false);
+  };
+  const handleCancelConfirmSendMail = () => {
+    setOpenConfirmSendMail(false);
+  };
   return (
     <>
       {check ? (
@@ -93,9 +111,9 @@ const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
                   Cập nhật thông tin công ty
                 </span>
               </NavLink>
-              <NavLink
-                to="/manage/"
-                className="flex items-center gap-2 border border-gray-200 border-solid p-4 shadow-sm rounded-md hover:text-primary  hover:bg-blue-50 transition-all"
+              <span
+                onClick={showModalConfirmSendMail}
+                className="flex items-center gap-2 cursor-pointer border border-gray-200 border-solid p-4 shadow-sm rounded-md hover:text-primary  hover:bg-blue-50 transition-all"
               >
                 {checkAuth?.verifiedByCompany ? (
                   <IconCheck></IconCheck>
@@ -105,7 +123,8 @@ const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
                 <Popover
                   content={
                     <p className="max-w-[300px] font-medium">
-                      Nhấn vào để gửi thông báo đến email công ty xác nhận.
+                      Nhấn vào để gửi thông báo đến công ty yêu cầu xác nhận là
+                      nhân viên của công ty.
                     </p>
                   }
                 >
@@ -113,7 +132,31 @@ const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
                     Xác thực là thành viên của công ty
                   </span>
                 </Popover>
-              </NavLink>
+              </span>
+              {/* modal confirm */}
+              <Modal
+                open={openConfirmSendMail}
+                title="Gửi yêu cầu xác nhận tài khoản của công ty"
+                onOk={handleOkConfirmSendMail}
+                onCancel={handleCancelConfirmSendMail}
+                footer={[
+                  <Button key="back" onClick={handleCancelConfirmSendMail}>
+                    Hủy
+                  </Button>,
+                  <Button
+                    key="submit"
+                    type="primary"
+                    onClick={handleOkConfirmSendMail}
+                  >
+                    Gửi
+                  </Button>,
+                ]}
+              >
+                <p>
+                  Yêu cầu của bạn sẽ được gửi đến email của công ty. Vui lòng
+                  chờ sự xác nhận của công ty.
+                </p>
+              </Modal>
             </div>
             <div className="mt-4 text-gray-500 font-medium text-xs px-5">
               <p>

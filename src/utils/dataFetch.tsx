@@ -241,7 +241,7 @@ export const dataGender: any = [
 export const dataEnterSalary: any = [
   {
     value: "between",
-    label: "Mức lương trong khoản",
+    label: "Mức lương trong khoảng",
   },
   {
     value: "more",
