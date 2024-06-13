@@ -184,11 +184,23 @@ const EmployerPostJobPage: React.FC = () => {
             style={{ width: "100%" }}
             placeholder="Kỹ năng"
             value={getValues("skillIdList")}
-            fieldNames={{ label: "name", value: "id" }}
+            filterOption={(input: string, option: any) =>
+              ((option?.label ?? "") as string)
+                .toLowerCase()
+                .includes((input ?? "").toLowerCase())
+            }
+            // fieldNames={{ label: "name", value: "id" }}
             className="skill select-custom min-h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 border border-stone-200 border-solid w-full rounded-md"
-            options={skills.length > 0 ? skills : []}
+            options={
+              skills.length > 0 &&
+              skills.map((item: any) => ({
+                label: item?.name,
+                value: item?.id,
+              }))
+            }
             allowClear
             onChange={(e) => {
+              console.log("🚀 ~ e:", e);
               setValue("skillIdList", e);
               clearErrors("skillIdList");
             }}
@@ -557,15 +569,23 @@ const EmployerPostJobPage: React.FC = () => {
                     })}
                     showSearch
                     value={getValues("location")}
-                    fieldNames={{ label: "province", value: "value" }}
+                    // fieldNames={{ label: "province", value: "value" }}
                     allowClear={true}
                     placeholder="Địa chỉ"
                     className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                     optionFilterProp="children"
-                    filterOption={(input, option: any) =>
-                      (option?.label ?? "").includes(input)
+                    filterOption={(input: string, option: any) =>
+                      ((option?.label ?? "") as string)
+                        .toLowerCase()
+                        .includes((input ?? "").toLowerCase())
                     }
-                    options={locations}
+                    options={
+                      locations?.length > 0 &&
+                      locations.map((item: any) => ({
+                        label: item?.province,
+                        value: item?.value,
+                      }))
+                    }
                     onChange={(e) => {
                       setValue("location", e);
                       clearErrors("location");
@@ -595,14 +615,22 @@ const EmployerPostJobPage: React.FC = () => {
                     showSearch
                     value={getValues("jobType")}
                     allowClear={true}
-                    fieldNames={{ label: "code", value: "value" }}
+                    // fieldNames={{ label: "code", value: "value" }}
                     placeholder="Loại công việc"
                     className="select-custom h-11 focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-10 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
                     optionFilterProp="children"
-                    filterOption={(input, option: any) =>
-                      (option?.label ?? "").includes(input)
+                    filterOption={(input: string, option: any) =>
+                      ((option?.label ?? "") as string)
+                        .toLowerCase()
+                        .includes((input ?? "").toLowerCase())
                     }
-                    options={jobTypes}
+                    options={
+                      jobTypes?.length > 0 &&
+                      jobTypes.map((item: any) => ({
+                        label: item?.code,
+                        value: item?.value,
+                      }))
+                    }
                     onChange={(e) => {
                       setValue("jobType", e);
                       clearErrors("jobType");
@@ -639,31 +667,7 @@ const EmployerPostJobPage: React.FC = () => {
                     }}
                     options={dataEnterSalary}
                   />
-                  {selectEnterSalary == "fix" ? (
-                    <div className="flex flex-col gap-2 mt-3">
-                      <label
-                        htmlFor=""
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      ></label>
-                      <div className="relative">
-                        <Controller
-                          name="maxPay"
-                          rules={{ required: "Bạn chưa điền mức lương" }}
-                          control={control}
-                          render={({ field }) => (
-                            <VNCurrencyInput
-                              value={field.value}
-                              onValueChange={field.onChange}
-                              className="!pr-12"
-                            />
-                          )}
-                        />
-                        <span className="absolute font-medium top-1/2 right-2 -translate-y-1/2">
-                          VND
-                        </span>
-                      </div>
-                    </div>
-                  ) : selectEnterSalary == "between" ? (
+                  {selectEnterSalary == "between" ? (
                     <div className="grid grid-cols-2 mt-5 gap-5">
                       <div className="relative">
                         <Controller

@@ -8,6 +8,7 @@ import jobReducer from "./job/job-slice";
 import paymentReducer from "./payment/payment-slice";
 import productReducer from "./product/product-slice";
 import cartReducer from "./cart/cart-slice";
+import dashboardReducer from "./dashboard/dashboard-slice";
 import candidateReducer from "./candidate/candidate-slice";
 import purchasehistoryReducer from "./purchase_history/purchase-history-slice";
 import { combineReducers } from "@reduxjs/toolkit";
@@ -22,6 +23,7 @@ export const reducer: any = combineReducers({
   job: jobReducer,
   payment: paymentReducer,
   cart: cartReducer,
+  dashboard: dashboardReducer,
   candidate: candidateReducer,
   purchasehistory: purchasehistoryReducer,
   product: productReducer,

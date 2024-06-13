@@ -240,10 +240,6 @@ export const dataGender: any = [
 ];
 export const dataEnterSalary: any = [
   {
-    value: "fix",
-    label: "Mức lương cố định",
-  },
-  {
     value: "between",
     label: "Mức lương trong khoản",
   },
@@ -399,5 +395,69 @@ export const dataColor = [
   {
     id: 5,
     color: "border-yellow-500",
+  },
+];
+export const dataMonth: any = [
+  {
+    value: "1",
+    label: "Tháng 1",
+  },
+  {
+    value: "2",
+    label: "Tháng 2",
+  },
+  {
+    value: "3",
+    label: "Tháng 3",
+  },
+  {
+    value: "4",
+    label: "Tháng 4",
+  },
+  {
+    value: "5",
+    label: "Tháng 5",
+  },
+  {
+    value: "6",
+    label: "Tháng 6",
+  },
+  {
+    value: "7",
+    label: "Tháng 7",
+  },
+  {
+    value: "9",
+    label: "Tháng 9",
+  },
+  {
+    value: "10",
+    label: "Tháng 10",
+  },
+  {
+    value: "11",
+    label: "Tháng 11",
+  },
+  {
+    value: "12",
+    label: "Tháng 12",
+  },
+];
+export const dataYear: any = [
+  {
+    value: "2022",
+    label: "Năm 2022",
+  },
+  {
+    value: "2023",
+    label: "Năm 2023",
+  },
+  {
+    value: "2024",
+    label: "Năm 2024",
+  },
+  {
+    value: "2025",
+    label: "Năm 2025",
   },
 ];

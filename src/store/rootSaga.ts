@@ -7,6 +7,7 @@ import jobSaga from "./job/job-saga";
 import productSaga from "./product/product-saga";
 import paymentSaga from "./payment/payment-saga";
 import cartSaga from "./cart/cart-saga";
+import dashboardSaga from "./dashboard/dashboard-saga";
 import commonSaga from "./common/common-saga";
 import candidateSaga from "./candidate/candidate-saga";
 import purchasehistorySaga from "./purchase_history/purchase-history-saga";
@@ -21,6 +22,7 @@ export default function* rootSaga(): any {
   yield all([fork(productSaga)]);
   yield all([fork(paymentSaga)]);
   yield all([fork(cartSaga)]);
+  yield all([fork(dashboardSaga)]);
   yield all([fork(commonSaga)]);
   yield all([fork(candidateSaga)]);
   yield all([fork(purchasehistorySaga)]);
