@@ -134,7 +134,7 @@ function App() {
           </Route>
           <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
           <Route
-            path="/register"
+            path="/register/:registerMail"
             element={<RegisterPage></RegisterPage>}
           ></Route>
         </Routes>

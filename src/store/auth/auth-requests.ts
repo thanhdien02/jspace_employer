@@ -5,6 +5,19 @@ export const requestAuthRegister = (dataRole: string, dataRegister: any) => {
     ...dataRegister,
   });
 };
+export const requestAuthRegisterV2 = (dataRegister: any) => {
+  return axios.post(
+    `${API}/api/v1/auth/users/register-v2`,
+    {
+      ...dataRegister,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};
 
 export const requestAuthGetAllRoles = () => {
   return axios.get(`${API}/api/v1/auth/roles`);
@@ -12,6 +25,11 @@ export const requestAuthGetAllRoles = () => {
 
 export const requestAuthLogin = (dataLogin: any) => {
   return axios.post(`${API}/api/v1/auth/users/login`, {
+    ...dataLogin,
+  });
+};
+export const requestAuthLoginWithEmailAndPassword = (dataLogin: any) => {
+  return axios.post(`${API}/api/v1/auth/users/login-v2`, {
     ...dataLogin,
   });
 };

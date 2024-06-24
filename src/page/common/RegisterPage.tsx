@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import IconKey from "../../components/icons/IconKey";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import logo from "../../assets/logo3.png";
-import bg from "../../assets/banner-home5.jpg";
-
+import { message, Spin } from "antd";
+import { authRegister } from "../../store/auth/auth-slice";
+import { LoadingOutlined } from "@ant-design/icons";
 interface PropComponent {
   className?: string;
   claseNameOverlay?: string;
@@ -17,25 +18,37 @@ interface Inputs {
   confirmpassword?: string;
 }
 const RegisterPage: React.FC<PropComponent> = ({ className = "" }) => {
+  const { loading, accessToken, user } = useSelector(
+    (state: any) => state.auth
+  );
+  const { registerMail } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (dataLogin: Inputs) => {
-    console.log("🚀 ~ dataUpdadeCandidate:", dataLogin);
+  const onSubmit: SubmitHandler<Inputs> = (dataRegister: Inputs) => {
+    if (dataRegister?.confirmpassword === dataRegister?.password) {
+      dispatch(
+        authRegister({
+          email: registerMail,
+          password: dataRegister?.password,
+          roleCode: "EMPLOYEE",
+        })
+      );
+    } else {
+      message.error("Mật khẩu không trùng nhau");
+    }
   };
-  const { loading } = useSelector((state: any) => state.auth);
-
+  useEffect(() => {
+    if (accessToken != "" && user?.role?.code == "EMPLOYEE") {
+      navigate("/manage");
+    }
+  }, [accessToken]);
   return (
     <>
-      <div className="">
-        <img
-          src={bg}
-          className="fixed inset-0 lg:object-contain object-top object-contain"
-          alt=""
-        />
-      </div>
       <div
         className={`flex fixed inset-0 transition-all z-20 bg-gray-100/20 ${className}`}
       >
@@ -45,18 +58,16 @@ const RegisterPage: React.FC<PropComponent> = ({ className = "" }) => {
             className="lg:p-10 p-4 rounded-lg my-5 min-h-[250px] max-w-[650px] border-solid"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="flex justify-center flex-col items-center gap-2 mb-5">
-              <NavLink to="/" className="block">
+            <div className="absolute top-10 left-10 ">
+              <NavLink to="/" className="block ">
                 <img src={logo} alt="" className="max-w-[50px]" />
               </NavLink>
-              <h1 className="text-center text-primary font-bold text-2xl tracking-wider">
-                JSPACE
-              </h1>
             </div>
-            <div className="mt-5 bg-white border border-solid border-gray-200 lg:p-10 p-5 rounded-lg shadow-sm">
+            <div className=" bg-white border border-solid border-gray-200 lg:p-10 p-5 rounded-lg shadow-sm">
               <div className="w-full">
                 <h4 className="mb-2 text-base font-semibold">
-                  Hãy nhập mật khẩu để đăng ký ?
+                  Hãy nhập mật khẩu để đăng ký{" "}
+                  <span className="text-primary">JSPACE</span> ?
                 </h4>
                 <div className="mt-5">
                   <label
@@ -71,12 +82,12 @@ const RegisterPage: React.FC<PropComponent> = ({ className = "" }) => {
                       {...register("password", {
                         required: true,
                         maxLength: 50,
-                        minLength: 5,
+                        minLength: 6,
                       })}
                       type="password"
                       placeholder="*************"
                       autoComplete="off"
-                      className="focus:border-solid placeholder:text-sm h-full focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-2 border border-stone-200 border-solid w-full rounded-md"
+                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-2 border border-stone-200 border-solid w-full rounded-md"
                     />
                     <p className="text-red-600 text-sm py-2">
                       {" "}
@@ -85,14 +96,14 @@ const RegisterPage: React.FC<PropComponent> = ({ className = "" }) => {
                         : errors?.password?.type === "maxLength"
                         ? "*Mật khẩu không được quá 50 ký tự"
                         : errors?.password?.type === "minLength"
-                        ? "*Mật khẩu không được ít hơn 5 ký tự"
+                        ? "*Mật khẩu không được ít hơn 6 ký tự"
                         : ""}
                     </p>
                   </div>
                 </div>
                 <div className="">
                   <label
-                    htmlFor="password"
+                    htmlFor="confirmpassword"
                     className="block text-sm font-medium leading-6 text-gray-600"
                   >
                     Xác nhận
@@ -100,26 +111,26 @@ const RegisterPage: React.FC<PropComponent> = ({ className = "" }) => {
                   <div className="mt-2 relative">
                     <IconKey className="absolute placeholder:text-sm top-0 left-0 translate-x-[50%] text-gray-400 translate-y-[50%] !w-5 !h-5"></IconKey>
                     <input
-                      {...register("password", {
+                      {...register("confirmpassword", {
                         required: true,
                         maxLength: 40,
-                        minLength: 8,
+                        minLength: 6,
                       })}
                       placeholder="*************"
-                      id="password"
-                      name="password"
+                      id="confirmpassword"
+                      name="confirmpassword"
                       type="password"
-                      autoComplete="password"
-                      className="h-full focus:border-solid  focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-2 border border-stone-200 border-solid w-full rounded-md"
+                      autoComplete="confirmpassword"
+                      className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-2 border border-stone-200 border-solid w-full rounded-md"
                     />
                     <p className="text-red-600 text-sm py-2">
                       {" "}
-                      {errors?.password?.type === "required"
+                      {errors?.confirmpassword?.type === "required"
                         ? "*Bạn chưa điền mật khẩu xác nhận."
-                        : errors?.password?.type === "maxLength"
+                        : errors?.confirmpassword?.type === "maxLength"
                         ? "*Mật khẩu không được quá 40 ký tự"
-                        : errors?.password?.type === "minLength"
-                        ? "*Mật khẩu không được ít hơn 8 ký tự"
+                        : errors?.confirmpassword?.type === "minLength"
+                        ? "*Mật khẩu không được ít hơn 6 ký tự"
                         : ""}
                     </p>
                   </div>
@@ -132,13 +143,23 @@ const RegisterPage: React.FC<PropComponent> = ({ className = "" }) => {
                   type="submit"
                   className="bg-primary font-medium text-white px-4 py-2 w-full !hover:bg-primary rounded-lg flex gap-3 justify-center items-center hover:opacity-80 !transition-all"
                 >
-                  Đăng ký
+                  {loading ? (
+                    <Spin
+                      indicator={
+                        <LoadingOutlined style={{ color: "white" }} spin />
+                      }
+                    />
+                  ) : (
+                    "Đăng ký"
+                  )}
                 </button>
               </div>
               <p className="text-sm text-gray-500 mt-5">
-                Bằng việc xác nhận, bạn đồng ý với các Điều khoản dịch vụ và
-                Chính sách quyền riêng tư của ITviec liên quan đến thông tin
-                riêng tư của bạn.
+                Bằng việc xác nhận, bạn đồng ý với các{" "}
+                <span className="text-red-500">Điều khoản</span> dịch vụ và
+                Chính sách quyền riêng tư của{" "}
+                <span className="text-red-500">JSPACE</span> liên quan đến thông
+                tin riêng tư của bạn.
               </p>
             </div>
           </form>

@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import IconCart from "../../components/icons/IconCart";
 import { UserOutlined } from "@ant-design/icons";
+import HeaderNotificationPage from "./HeaderNotificationPage";
 interface PropComponent {
   collapsed?: any;
   setCollapsed?: any;
@@ -77,13 +78,15 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
 
           {notifications ? (
             <>
-              <div className="absolute right-0 z-20 w-[280px] min-h-[150px] bg-white shadow-md top-[120%]">
+              {/* <div className="absolute right-0 z-20 w-[280px] min-h-[150px] bg-white shadow-md top-[120%]">
                 <div className="px-3 my-3 font-medium">Thông báo</div>
                 <div className="bg-gray-200 w-full h-[1px]"></div>
                 <div className="max-h-[200px] overflow-auto">
-                  <p className="m-3 text-gray-500">Không có thông báo !</p>
+                  <HeaderNotificationPage></HeaderNotificationPage>
+        
                 </div>
-              </div>
+              </div> */}
+              <HeaderNotificationPage></HeaderNotificationPage>
               <div
                 onClick={() => setNotifications(!notifications)}
                 className="fixed inset-0 z-10 bg-transparent cursor-pointer"

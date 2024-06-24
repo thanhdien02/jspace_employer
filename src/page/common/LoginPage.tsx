@@ -1,13 +1,19 @@
 import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Checkbox, CheckboxProps } from "antd";
+import { Checkbox, CheckboxProps, Spin } from "antd";
 import logo from "../../assets/logo3.png";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import IconClose from "../../components/icons/IconClose";
-import { authLogin, authUpdateLoadingRedux } from "../../store/auth/auth-slice";
+import { LoadingOutlined } from "@ant-design/icons";
+import {
+  authLogin,
+  authLoginWithEmailPassword,
+  authUpdateLoadingRedux,
+  authUpdateMessageRedux,
+} from "../../store/auth/auth-slice";
 import { getToken } from "../../utils/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { GoogleOutlined, UserOutlined } from "@ant-design/icons";
@@ -33,10 +39,17 @@ const LoginPage: React.FC<PropComponent> = ({
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataLogin: Inputs) => {
     console.log("🚀 ~ dataUpdadeCandidate:", dataLogin);
+    if (dataLogin?.email && dataLogin?.password)
+      dispatch(
+        authLoginWithEmailPassword({
+          email: dataLogin?.email,
+          password: dataLogin?.password,
+        })
+      );
   };
-  const { loading, accessToken, user } = useSelector(
-    (state: any) => state.auth
-  );
+  const { loading, accessToken, user, messageAuth, loadingEmailPassword } =
+    useSelector((state: any) => state.auth);
+  const [email, setEmail] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const login: any = useGoogleLogin({
@@ -52,6 +65,7 @@ const LoginPage: React.FC<PropComponent> = ({
           }
         );
         dispatch(authLogin(dataEmail.data));
+        setEmail(dataEmail?.data?.email);
       } catch (error) {}
     },
   });
@@ -63,6 +77,12 @@ const LoginPage: React.FC<PropComponent> = ({
       elementBody.style.overflow = "visible";
     };
   }, []);
+  useEffect(() => {
+    if (messageAuth == "register") {
+      navigate(`/register/${email}`);
+      dispatch(authUpdateMessageRedux({ messageAuth: "" }));
+    }
+  }, [messageAuth]);
 
   useEffect(() => {
     if (accessToken != "" && user?.role?.code == "EMPLOYEE") {
@@ -209,11 +229,19 @@ const LoginPage: React.FC<PropComponent> = ({
           </div>
           <div className="flex w-full mt-5">
             <button
-              disabled={loading}
+              disabled={loadingEmailPassword}
               type="submit"
               className="bg-primary text-white px-4 py-2 w-full !hover:bg-primary rounded-lg flex gap-3 justify-center items-center hover:opacity-80 !transition-all"
             >
-              Đăng nhập
+              {loadingEmailPassword ? (
+                <Spin
+                  indicator={
+                    <LoadingOutlined style={{ color: "white" }} spin />
+                  }
+                />
+              ) : (
+                "Đăng nhập"
+              )}
             </button>
           </div>
           <div className="flex py-1">

@@ -6,6 +6,7 @@ interface IAuth {
   checkAuth?: any;
   accessToken: string;
   loading?: boolean;
+  loadingEmailPassword?: boolean;
   messageAuth?: string;
 }
 
@@ -15,6 +16,7 @@ const init: IAuth = {
   checkAuth: {},
   accessToken: "",
   loading: false,
+  loadingEmailPassword: false,
   messageAuth: "",
 };
 const authSlice: any = createSlice({
@@ -28,6 +30,9 @@ const authSlice: any = createSlice({
     authLogin: (state: any) => ({
       ...state,
     }),
+    authLoginWithEmailPassword: (state: any) => ({
+      ...state,
+    }),
     authLogout: (state: any) => ({
       ...state,
     }),
@@ -37,6 +42,10 @@ const authSlice: any = createSlice({
     authUpdateLoadingRedux: (state: any, action: any) => ({
       ...state,
       loading: action.payload.loading,
+    }),
+    authUpdateEmailPasswordLoadingRedux: (state: any, action: any) => ({
+      ...state,
+      loadingEmailPassword: action.payload.loadingEmailPassword,
     }),
     authUpdateCheckAuthRedux: (state: any, action: any) => ({
       ...state,
@@ -85,5 +94,7 @@ export const {
   authUpdateCheckAuthRedux,
   authUpdateCompanyAuthRedux,
   authUpdateMessageRedux,
+  authLoginWithEmailPassword,
+  authUpdateEmailPasswordLoadingRedux,
 } = authSlice.actions;
 export default authSlice.reducer;

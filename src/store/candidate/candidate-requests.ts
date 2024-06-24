@@ -18,3 +18,22 @@ export const requestCandidateGetAppliedCandidate = (
     }
   );
 };
+export const requestEmployerUpdateStatusAppliedCandidate = (
+  postId?: string,
+  candidateId?: string,
+  applyStatus?: string,
+  notification?: string,
+  accessToken?: string
+) => {
+  if (!accessToken) return;
+  return axios.put(
+    `${API}/api/v1/employees/posts/update-apply-status`,
+    { postId, candidateId, applyStatus, notification },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};

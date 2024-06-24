@@ -2,6 +2,7 @@ import { call, put } from "redux-saga/effects";
 import { getToken, logOut, saveToken } from "../../utils/auth";
 import {
   authUpdateCheckAuthRedux,
+  authUpdateEmailPasswordLoadingRedux,
   authUpdateFetchRedux,
   authUpdateLoadingRedux,
   authUpdateMessageRedux,
@@ -10,7 +11,7 @@ import {
   requestAuthFetchMe,
   requestAuthLogin,
   requestAuthRefresh,
-  requestAuthRegister,
+  requestAuthRegisterV2,
 } from "./auth-requests";
 import { message } from "antd";
 
@@ -20,7 +21,8 @@ function* handleAuthLogin(dataLogin: any): Generator<any> {
 
     yield put(authUpdateLoadingRedux({ loading: true }));
     if (response?.data?.result?.accessToken === "") {
-      yield call(handleAuthRegister, { ...dataLogin.payload });
+      // yield call(handleAuthRegister, { ...dataLogin.payload });
+      yield put(authUpdateMessageRedux({ messageAuth: "register" }));
     } else {
       saveToken(
         response?.data?.result?.accessToken,
@@ -33,6 +35,30 @@ function* handleAuthLogin(dataLogin: any): Generator<any> {
     message.error(error?.response?.data?.message);
   } finally {
     yield put(authUpdateLoadingRedux({ loading: false }));
+  }
+}
+function* handleAuthLoginWithEmailPassword(dataLogin: any): Generator<any> {
+  try {
+    const response: any = yield call(requestAuthLogin, dataLogin.payload);
+
+    yield put(
+      authUpdateEmailPasswordLoadingRedux({ loadingEmailPassword: true })
+    );
+    if (response?.data?.result?.accessToken === "") {
+    } else {
+      saveToken(
+        response?.data?.result?.accessToken,
+        response?.data?.result?.refreshToken
+      );
+      yield call(handleAuthFetchMe);
+    }
+  } catch (error: any) {
+    logOut();
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(
+      authUpdateEmailPasswordLoadingRedux({ loadingEmailPassword: false })
+    );
   }
 }
 function* handleAuthFetchMe(): Generator<any> {
@@ -81,11 +107,9 @@ function* handleAuthRegister(dataRegister: any): Generator<any> {
   try {
     yield put(authUpdateLoadingRedux({ loading: true }));
     const response: any = yield call(
-      requestAuthRegister,
-      "EMPLOYEE",
-      dataRegister
+      requestAuthRegisterV2,
+      dataRegister?.payload
     );
-    console.log(response?.result?.accessToken);
     if (response?.result?.accessToken != "") {
       saveToken(
         response?.data?.result?.accessToken,
@@ -99,6 +123,28 @@ function* handleAuthRegister(dataRegister: any): Generator<any> {
     yield put(authUpdateLoadingRedux({ loading: false }));
   }
 }
+
+// function* handleAuthRegister(dataRegister: any): Generator<any> {
+//   try {
+//     yield put(authUpdateLoadingRedux({ loading: true }));
+//     const response: any = yield call(
+//       requestAuthRegister,
+//       "EMPLOYEE",
+//       dataRegister
+//     );
+//     if (response?.result?.accessToken != "") {
+//       saveToken(
+//         response?.data?.result?.accessToken,
+//         response?.data?.result?.refreshToken
+//       );
+//       yield call(handleAuthFetchMe);
+//     }
+//   } catch (error: any) {
+//     message.error(error?.response?.data?.message);
+//   } finally {
+//     yield put(authUpdateLoadingRedux({ loading: false }));
+//   }
+// }
 
 function* handleAuthRefrestToken(): Generator<any> {
   try {
@@ -134,4 +180,5 @@ export {
   handleAuthFetchMe,
   handleAuthRegister,
   handleAuthRefrestToken,
+  handleAuthLoginWithEmailPassword,
 };

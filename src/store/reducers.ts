@@ -5,6 +5,7 @@ import commonReducer from "./common/common-slice";
 import companyReducer from "./company/company-slice";
 import fileReducer from "./file/file-slice";
 import jobReducer from "./job/job-slice";
+import notificationReducer from "./notification/notification-slice";
 import paymentReducer from "./payment/payment-slice";
 import productReducer from "./product/product-slice";
 import cartReducer from "./cart/cart-slice";
@@ -27,4 +28,5 @@ export const reducer: any = combineReducers({
   candidate: candidateReducer,
   purchasehistory: purchasehistoryReducer,
   product: productReducer,
+  notification: notificationReducer,
 });

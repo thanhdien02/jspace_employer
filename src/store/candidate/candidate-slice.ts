@@ -18,6 +18,7 @@ const candidateSlice: any = createSlice({
   initialState: init,
   reducers: {
     candidateGetAppliedCandidate: () => {},
+    candidateUpdateStatusAppliedCandidate: () => {},
     candidateUpdateAppliedCandidateRedux: (state: any, action: any) => ({
       ...state,
       appliedCandidate: action.payload.appliedCandidate,
@@ -42,5 +43,6 @@ export const {
   candidateUpdateMessageRedux,
   candidatePaginationRedux,
   candidateUpdateAppliedCandidateRedux,
+  candidateUpdateStatusAppliedCandidate,
 } = candidateSlice.actions;
 export default candidateSlice.reducer;

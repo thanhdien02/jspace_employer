@@ -3,6 +3,8 @@ import TableRow from "../table/TableRow";
 import TableRowContent from "../table/TableRowContent";
 import { Popconfirm } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import { useDispatch } from "react-redux";
+import { candidateUpdateStatusAppliedCandidate } from "../../store/candidate/candidate-slice";
 interface PropComponent {
   className?: string;
   onClickUpdateJob?: any;
@@ -14,7 +16,12 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
   className,
   item,
 }) => {
-  const [updateStatusCV, setUpdateStatusCV] = useState("spending");
+  const dispatch = useDispatch();
+  const [updateStatusCV, setUpdateStatusCV] = useState("progress");
+  const [notification, setNotification] = useState<any>(null);
+  const handleChangeApproveNotification = (e: any) => {
+    setNotification(e?.target?.value);
+  };
   return (
     <>
       <TableRow className={`${className}`}>
@@ -54,7 +61,13 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
           <div className="flex items-center gap-2 ">
             <span
               onClick={() => {}}
-              className="py-1 px-2 text-sm rounded-sm bg-primary text-white"
+              className={`py-1 px-2 text-sm rounded-sm bg-primary text-white ${
+                item?.applyStatus?.value == "REJECT"
+                  ? "bg-red-500"
+                  : item?.applyStatus?.value == "APPROVE"
+                  ? "bg-green-500"
+                  : ""
+              }`}
             >
               {item?.applyStatus?.code}
             </span>
@@ -69,12 +82,12 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                 >
                   <div className="flex gap-2 mt-1">
                     <span
-                      onClick={() => setUpdateStatusCV("spending")}
+                      onClick={() => setUpdateStatusCV("progress")}
                       className={`p-1 cursor-pointer hover:opacity-80 transition-all text-white bg-primary rounded-sm text-xs px-2 ${
-                        updateStatusCV == "spending" ? "" : "opacity-40"
+                        updateStatusCV == "progress" ? "" : "opacity-40"
                       }`}
                     >
-                      SPENDING
+                      PROGRESS
                     </span>
                     <span
                       onClick={() => setUpdateStatusCV("reject")}
@@ -95,13 +108,19 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                   </div>
                   {updateStatusCV == "reject" ? (
                     <div className="mt-2">
-                      <TextArea rows={4} placeholder="Lý do từ chối hồ sơ" />
+                      <TextArea
+                        rows={4}
+                        placeholder="Lý do từ chối hồ sơ"
+                        onChange={() => {}}
+                      />
                     </div>
                   ) : updateStatusCV == "approve" ? (
                     <div className="mt-2">
                       <TextArea
                         rows={4}
+                        value={notification}
                         placeholder="Thông tin buổi phỏng vấn"
+                        onChange={handleChangeApproveNotification}
                       />
                     </div>
                   ) : (
@@ -112,11 +131,20 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
               okText="Đồng ý"
               cancelText="Không"
               onConfirm={() => {
+                let applyStatus = null;
                 if (updateStatusCV == "reject") {
-                  <div className="fixed inset-0 bg-red-200 z-30">
-                    Xin chao{" "}
-                  </div>;
+                  applyStatus = "REJECT";
+                } else if (updateStatusCV == "approve") {
+                  applyStatus = "APPROVE";
                 }
+                dispatch(
+                  candidateUpdateStatusAppliedCandidate({
+                    postId: item?.post?.id,
+                    candidateId: item?.candidate?.user?.id,
+                    applyStatus: applyStatus,
+                    notification: notification,
+                  })
+                );
               }}
               onCancel={() => {}}
             >
