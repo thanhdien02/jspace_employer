@@ -18,7 +18,7 @@ export const requestPatmentRequestPaymentCart = (
   accessToken: string
 ) => {
   if (!accessToken) return;
-  return axios.post(`${API}/api/v1/payment/request-payment-v2`, dataPaymentCart, {
+  return axios.post(`${API}/api/v1/paypal/create-order`, dataPaymentCart, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,

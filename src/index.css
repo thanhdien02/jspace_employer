@@ -11,12 +11,10 @@
 body {
   overflow: visible;
 }
-
 ::-webkit-scrollbar {
   width: 6px;
   height: 4px;
 }
-
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
@@ -148,4 +146,9 @@ body {
   opacity: 0;
   transform: scale(1);
   transition: opacity 200ms, transform 200ms;
+}
+
+/* select */
+.select .ant-select-selector {
+  padding: 5px 10px !important;
 }

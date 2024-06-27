@@ -7,6 +7,7 @@ import {
   ShoppingCartOutlined,
   ShoppingOutlined,
   ProductOutlined,
+  GroupOutlined,
 } from "@ant-design/icons";
 import IconBuilding from "../components/icons/IconBuilding";
 
@@ -62,9 +63,49 @@ export const dataSideBar = [
   },
   {
     key: "9",
+    icon: <GroupOutlined />,
+    label: "Tìm kiếm ứng viên",
+    path: "/manage/candidates",
+  },
+  {
+    key: "10",
     icon: <SwapOutlined />,
     label: "Đổi mật khẩu",
     path: "/manage/change-password",
+  },
+];
+export const dataSalary: any = [
+  {
+    value: "0-2000000",
+    label: "Dưới 2 triệu",
+  },
+  {
+    value: "2000000-5000000",
+    label: "Từ 2 - 5 triệu",
+  },
+  {
+    value: "6000000-10000000",
+    label: "Từ 6 - 10 triệu",
+  },
+  {
+    value: "11000000-20000000",
+    label: "Từ 11 - 20 triệu",
+  },
+  {
+    value: "21000000-30000000",
+    label: "Từ 21 - 30 triệu",
+  },
+  {
+    value: "31000000-40000000",
+    label: "Từ 31 - 40 triệu",
+  },
+  {
+    value: "41000000-50000000",
+    label: "Từ 41 - 50 triệu",
+  },
+  {
+    value: "51000000-999000000",
+    label: "Trên 50 triệu",
   },
 ];
 export const dataHeaderManagePurchaseProduct = [

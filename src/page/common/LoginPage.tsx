@@ -7,7 +7,6 @@ import logo from "../../assets/logo3.png";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import IconClose from "../../components/icons/IconClose";
-import { LoadingOutlined } from "@ant-design/icons";
 import {
   authLogin,
   authLoginWithEmailPassword,
@@ -16,7 +15,12 @@ import {
 } from "../../store/auth/auth-slice";
 import { getToken } from "../../utils/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { GoogleOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  EyeOutlined,
+  GoogleOutlined,
+  LoadingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import IconKey from "../../components/icons/IconKey";
 interface PropComponent {
   className?: string;
@@ -38,7 +42,6 @@ const LoginPage: React.FC<PropComponent> = ({
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataLogin: Inputs) => {
-    console.log("🚀 ~ dataUpdadeCandidate:", dataLogin);
     if (dataLogin?.email && dataLogin?.password)
       dispatch(
         authLoginWithEmailPassword({
@@ -50,6 +53,7 @@ const LoginPage: React.FC<PropComponent> = ({
   const { loading, accessToken, user, messageAuth, loadingEmailPassword } =
     useSelector((state: any) => state.auth);
   const [email, setEmail] = useState(null);
+  const [showpassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const login: any = useGoogleLogin({
@@ -191,6 +195,12 @@ const LoginPage: React.FC<PropComponent> = ({
                 Mật khẩu
               </label>
               <div className="mt-2 relative">
+                <div
+                  onClick={() => setShowPassword(!showpassword)}
+                  className="absolute top-1/2 right-1 -translate-y-[50%] cursor-pointer flex  h-full text-center px-2 text-sm rounded-r-md"
+                >
+                  <EyeOutlined className="hover:text-primary transition-all text-base" />
+                </div>
                 <IconKey className="absolute top-0 left-0 translate-x-[50%] text-gray-400 translate-y-[50%] !w-5 !h-5"></IconKey>
                 <input
                   {...register("password", {
@@ -201,21 +211,21 @@ const LoginPage: React.FC<PropComponent> = ({
                   placeholder="*************"
                   id="password"
                   name="password"
-                  type="password"
+                  type={showpassword ? "text" : "password"}
                   autoComplete="password"
                   className="h-full focus:border-solid  focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-2 border border-stone-200 border-solid w-full rounded-md"
                 />
-                <p className="text-red-600 text-sm py-2">
-                  {" "}
-                  {errors?.password?.type === "required"
-                    ? "*Bạn chưa điền mật khẩu."
-                    : errors?.password?.type === "maxLength"
-                    ? "*Mật khẩu không được quá 40 ký tự"
-                    : errors?.password?.type === "minLength"
-                    ? "*Mật khẩu không được ít hơn 8 ký tự"
-                    : ""}
-                </p>
               </div>
+              <p className="text-red-600 text-sm py-2">
+                {" "}
+                {errors?.password?.type === "required"
+                  ? "*Bạn chưa điền mật khẩu."
+                  : errors?.password?.type === "maxLength"
+                  ? "*Mật khẩu không được quá 40 ký tự"
+                  : errors?.password?.type === "minLength"
+                  ? "*Mật khẩu không được ít hơn 8 ký tự"
+                  : ""}
+              </p>
             </div>
             <div className="w-full">
               <Checkbox

@@ -10,6 +10,7 @@ import {
 import {
   requestAuthFetchMe,
   requestAuthLogin,
+  requestAuthLoginWithEmailAndPassword,
   requestAuthRefresh,
   requestAuthRegisterV2,
 } from "./auth-requests";
@@ -39,7 +40,10 @@ function* handleAuthLogin(dataLogin: any): Generator<any> {
 }
 function* handleAuthLoginWithEmailPassword(dataLogin: any): Generator<any> {
   try {
-    const response: any = yield call(requestAuthLogin, dataLogin.payload);
+    const response: any = yield call(
+      requestAuthLoginWithEmailAndPassword,
+      dataLogin.payload
+    );
 
     yield put(
       authUpdateEmailPasswordLoadingRedux({ loadingEmailPassword: true })

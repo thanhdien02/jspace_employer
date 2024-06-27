@@ -78,14 +78,6 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
 
           {notifications ? (
             <>
-              {/* <div className="absolute right-0 z-20 w-[280px] min-h-[150px] bg-white shadow-md top-[120%]">
-                <div className="px-3 my-3 font-medium">Thông báo</div>
-                <div className="bg-gray-200 w-full h-[1px]"></div>
-                <div className="max-h-[200px] overflow-auto">
-                  <HeaderNotificationPage></HeaderNotificationPage>
-        
-                </div>
-              </div> */}
               <HeaderNotificationPage></HeaderNotificationPage>
               <div
                 onClick={() => setNotifications(!notifications)}

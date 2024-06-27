@@ -16,6 +16,7 @@ import EmployerManageShoppingCartPage from "./page/employer/EmployerManageShoppi
 import EmployerListProductPage from "./page/employer/EmployerListProductPage";
 import EmployerManageProductBuyedPage from "./page/employer/EmployerManageProductBuyedPage";
 import EmployerManagePurchaseHistoryPage from "./page/employer/EmployerManagePurchaseHistoryPage";
+import EmployerFindCandidatePage from "./page/employer/EmployerFindCandidatePage";
 
 const LayoutEmployerManagement = lazy(
   () => import("./layout/LayoutEmployerManagement")
@@ -88,7 +89,6 @@ function App() {
                 <EmployerListCompanyForAccountSelectPage></EmployerListCompanyForAccountSelectPage>
               }
             ></Route>
-            <Route path="/manage/candidates" element={<></>}></Route>
             <Route
               path="/manage/change-password"
               element={
@@ -130,6 +130,10 @@ function App() {
               element={
                 <EmployerManagePurchaseHistoryPage></EmployerManagePurchaseHistoryPage>
               }
+            ></Route>
+            <Route
+              path="/manage/candidates"
+              element={<EmployerFindCandidatePage></EmployerFindCandidatePage>}
             ></Route>
           </Route>
           <Route path="*" element={<PageNotFound></PageNotFound>}></Route>

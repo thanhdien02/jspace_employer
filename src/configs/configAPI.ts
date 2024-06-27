@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://jspace.space/jspace-service",
   headers: {
     "Content-Type": "application/json",
     "Cache-Control": "no-cache",

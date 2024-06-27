@@ -72,7 +72,7 @@ const EmployerManageShoppingCartPage: React.FC = () => {
         // cartIds
         dispatch(
           paymentRequestPaymentCart({
-            cartIds: dataPayment,
+            cart_ids: dataPayment,
             total: Math.floor(sumCart / 23000),
           })
         );

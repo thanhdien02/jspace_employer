@@ -61,12 +61,12 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
           <div className="flex items-center gap-2 ">
             <span
               onClick={() => {}}
-              className={`py-1 px-2 text-sm rounded-sm bg-primary text-white ${
+              className={`py-1 px-2 text-sm rounded-sm text-white ${
                 item?.applyStatus?.value == "REJECT"
                   ? "bg-red-500"
                   : item?.applyStatus?.value == "APPROVE"
                   ? "bg-green-500"
-                  : ""
+                  : "bg-primary"
               }`}
             >
               {item?.applyStatus?.code}
