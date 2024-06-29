@@ -14,23 +14,13 @@ import { NavLink } from "react-router-dom";
 import IconCheck from "../../components/icons/IconCheck";
 import IconText from "../../components/icons/IconText";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
-import {
-  commonGetExperience,
-  commonGetJobType,
-  commonGetLocation,
-  commonGetRank,
-  commonGetSkills,
-} from "../../store/common/common-slice";
-import { dataSalary } from "../../utils/dataFetch";
+import { commonGetLocation } from "../../store/common/common-slice";
 import CardFindCandidatePage from "../../components/cards/CardFindCandidatePage";
 
-const EmployerFindCandidatePage: React.FC = () => {
+const EmployerManageCandidateFollowedCompanyPage: React.FC = () => {
   const { user, checkAuth } = useSelector((state: any) => state.auth);
-  const { locations, experiences } = useSelector((state: any) => state.common);
+  const { locations } = useSelector((state: any) => state.common);
   const [location, setLocation] = useState<any>(null);
-  const [experience, setExperience] = useState<any>(null);
-  const [salary, setSalary] = useState<any>(null);
-  // const [rank, setRank] = useState<any>(null);
   const dispatch = useDispatch();
   const [proccessCheckIdentification, setProccessCheckIdentification] =
     useState(0);
@@ -88,19 +78,9 @@ const EmployerFindCandidatePage: React.FC = () => {
   // get commont
   useEffect(() => {
     dispatch(commonGetLocation());
-    dispatch(commonGetJobType());
-    dispatch(commonGetRank());
-    dispatch(commonGetExperience());
-    dispatch(commonGetSkills());
   }, []);
   const handleChangeLocation = (value: any) => {
     setLocation(value);
-  };
-  const handleChangeExperience = (value: any) => {
-    setExperience(value);
-  };
-  const handleChangeSalary = (value: any) => {
-    setSalary(value);
   };
 
   return (
@@ -215,15 +195,10 @@ const EmployerFindCandidatePage: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="xl:mx-28 mx-10 my-5">
-          <HeaderContentManage title="Tìm kiếm ứng viên"></HeaderContentManage>
+        <div className="xl:mx-32 mx-10 my-5">
+          <HeaderContentManage title="Danh sách ứng viên theo dõi công ty"></HeaderContentManage>
           <div className="bg-white shadow-md p-7 rounded-md">
             <div className="flex gap-5 items-center">
-              {/* <input
-                type="text"
-                placeholder=""
-                className="outline-none border border-solid border-gray-200 rounded-md px-5 py-2"
-              /> */}
               <Select
                 showSearch
                 allowClear
@@ -246,65 +221,26 @@ const EmployerFindCandidatePage: React.FC = () => {
                 onChange={handleChangeLocation}
               />
 
-              <Select
-                showSearch
-                allowClear
-                className="select w-[20%] text-base rounded-lg h-full bg-white"
-                optionFilterProp="children"
-                value={experience}
-                onChange={handleChangeExperience}
-                placeholder="Kinh nghiệm"
-                filterOption={(input: string, option: any) =>
-                  ((option?.label ?? "") as string)
-                    .toLowerCase()
-                    .includes((input ?? "").toLowerCase())
-                }
-                options={
-                  experiences?.length > 0 &&
-                  experiences.map((item: any) => ({
-                    label: item?.code,
-                    value: item?.value,
-                  }))
-                }
-              />
-              <Select
-                showSearch
-                allowClear
-                placeholder="Mức lương"
-                className="select w-[20%] text-base rounded-lg h-full bg-white"
-                optionFilterProp="children"
-                filterOption={(input, option: any) =>
-                  (option?.label ?? "").includes(input)
-                }
-                onChange={handleChangeSalary}
-                value={salary}
-                options={dataSalary}
-              />
               <button
                 type="button"
                 className="px-3 py-2 bg-primary rounded-md text-white font-medium hover:opacity-80 transition-all"
               >
                 Tìm kiếm
               </button>
-              <div className="mt-4 flex justify-end">
-                {true && (
-                  <Pagination
-                    total={40}
-                    // onChange={handleChangePage}
-                    className="inline-block"
-                    current={1}
-                    pageSize={10}
-                  />
-                )}
-              </div>
             </div>
-            <div className="mt-8 grid lg:grid-cols-3 grid-cols-1 gap-7">
+            <div className="mt-8 grid grid-cols-3 gap-5">
               <CardFindCandidatePage></CardFindCandidatePage>
-              <CardFindCandidatePage></CardFindCandidatePage>
-              <CardFindCandidatePage></CardFindCandidatePage>
-              <CardFindCandidatePage></CardFindCandidatePage>
-              <CardFindCandidatePage></CardFindCandidatePage>
-              <CardFindCandidatePage></CardFindCandidatePage>
+            </div>
+            <div className="mt-4 flex justify-end">
+              {true && (
+                <Pagination
+                  total={50}
+                  // onChange={handleChangePage}
+                  className="inline-block"
+                  current={1}
+                  pageSize={10}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -313,4 +249,4 @@ const EmployerFindCandidatePage: React.FC = () => {
   );
 };
 
-export default EmployerFindCandidatePage;
+export default EmployerManageCandidateFollowedCompanyPage;

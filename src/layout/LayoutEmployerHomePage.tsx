@@ -66,15 +66,15 @@ const LayoutEmployerHomePage: React.FC = () => {
       </CSSTransition>
 
       <HomeHeader setCheckLogin={setCheckLogin}></HomeHeader>
-      <div className="p-2">
+      <div className="">
         <Outlet></Outlet>
       </div>
       <a
         href="https://m.me/267479709792373"
         target="_blank"
-        className="fixed z-30 flex md:right-10 right-5 md:w-16 md:h-16 w-14 h-14 md:bottom-10 bottom-20 bg-primary rounded-full"
+        className="fixed z-30 flex md:right-10 right-5 md:w-16 md:h-16 w-14 h-14 md:bottom-10 bottom-20 border-2 border-solid bg-blue-50 border-primary rounded-full hover:opacity-80 transition-all"
       >
-        <CommentOutlined className="m-auto text-3xl text-white" />
+        <CommentOutlined className="m-auto text-3xl text-primary" />
       </a>
       <CSSTransition
         in={checkScrolltoTop}

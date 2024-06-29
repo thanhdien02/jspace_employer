@@ -56,8 +56,7 @@ const EmployerManageJobPage: React.FC = () => {
           <Select
             allowClear
             size={"large"}
-            defaultValue="Tất cả"
-            placeholder="Lựa chọn"
+            placeholder="Lọc theo thời gian"
             className="custom-base"
             onChange={() => {}}
             style={{ width: 200 }}
@@ -69,6 +68,24 @@ const EmployerManageJobPage: React.FC = () => {
               {
                 value: "5nam",
                 label: "Bài đăng hết hạn",
+              },
+            ]}
+          />
+          <Select
+            allowClear
+            size={"large"}
+            placeholder="Trạng thái bài đăng"
+            className="custom-base"
+            onChange={() => {}}
+            style={{ width: 200 }}
+            options={[
+              {
+                value: "current",
+                label: "Bài đăng đang đóng",
+              },
+              {
+                value: "5nam",
+                label: "Bài đăng đang mở",
               },
             ]}
           />

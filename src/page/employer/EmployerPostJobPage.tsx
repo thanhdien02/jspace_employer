@@ -256,7 +256,7 @@ const EmployerPostJobPage: React.FC = () => {
               </span>
               <button
                 type="button"
-                className="px-3 py-2 rounded-md text-white bg-primary font-medium"
+                className="px-3 py-2 rounded-md text-white bg-primary font-medium hover:opacity-80 transition-all"
                 onClick={() => setCheckSelectProduct(!checkSelectProduct)}
               >
                 Thay đổi gói bài đăng
@@ -380,7 +380,7 @@ const EmployerPostJobPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setCheckSelectProduct(true)}
-                      className="px-6 py-2 ml-auto font-medium rounded-md bg-primary text-white"
+                      className="px-6 py-2 ml-auto font-medium rounded-md bg-primary text-white text-base hover:opacity-80 transition-all"
                     >
                       Xác nhận
                     </button>

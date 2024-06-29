@@ -99,7 +99,6 @@ const LayoutEmployerManagement: React.FC = () => {
               theme="light"
               mode="inline"
               className=""
-              // defaultSelectedKeys={["1"]}
               items={dataSideBar}
               onClick={handleChangeSibar}
             />

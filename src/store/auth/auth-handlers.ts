@@ -58,7 +58,8 @@ function* handleAuthLoginWithEmailPassword(dataLogin: any): Generator<any> {
     }
   } catch (error: any) {
     logOut();
-    message.error(error?.response?.data?.message);
+    // message.error(error?.response?.data?.message);
+    message.error("Tên tài khoản hoặc mật khẩu không chính xác !");
   } finally {
     yield put(
       authUpdateEmailPasswordLoadingRedux({ loadingEmailPassword: false })

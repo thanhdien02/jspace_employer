@@ -17,6 +17,7 @@ import EmployerListProductPage from "./page/employer/EmployerListProductPage";
 import EmployerManageProductBuyedPage from "./page/employer/EmployerManageProductBuyedPage";
 import EmployerManagePurchaseHistoryPage from "./page/employer/EmployerManagePurchaseHistoryPage";
 import EmployerFindCandidatePage from "./page/employer/EmployerFindCandidatePage";
+import EmployerManageCandidateFollowedCompanyPage from "./page/employer/EmployerManageCandidateFollowedCompanyPage";
 
 const LayoutEmployerManagement = lazy(
   () => import("./layout/LayoutEmployerManagement")
@@ -134,6 +135,12 @@ function App() {
             <Route
               path="/manage/candidates"
               element={<EmployerFindCandidatePage></EmployerFindCandidatePage>}
+            ></Route>
+            <Route
+              path="/manage/candidates-followed"
+              element={
+                <EmployerManageCandidateFollowedCompanyPage></EmployerManageCandidateFollowedCompanyPage>
+              }
             ></Route>
           </Route>
           <Route path="*" element={<PageNotFound></PageNotFound>}></Route>

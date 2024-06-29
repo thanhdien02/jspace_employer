@@ -42,7 +42,7 @@ function* handleCandidateGetAppliedCandidate(
           },
         })
       );
-      message.success("Load dữ liệu candidate thành công");
+      // message.success("Load dữ liệu candidate thành công");
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);
@@ -64,6 +64,9 @@ function* handleEmployerUpdateStatusAppliedCandidate(
       dataEmployerUpdateAppliedCandidate?.payload?.notification,
       accessToken
     );
+    yield call(handleCandidateGetAppliedCandidate, {
+      payload: { job_id: dataEmployerUpdateAppliedCandidate?.payload?.postId },
+    });
     if (response?.data?.code === 1000) {
       message.success("Cập nhật thành công.");
     }

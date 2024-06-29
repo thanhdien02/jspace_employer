@@ -18,9 +18,13 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
 }) => {
   const dispatch = useDispatch();
   const [updateStatusCV, setUpdateStatusCV] = useState("progress");
-  const [notification, setNotification] = useState<any>(null);
+  const [notificationApprove, setNotificationApprove] = useState<any>(null);
+  const [notificationReject, setNotificationReject] = useState<any>(null);
   const handleChangeApproveNotification = (e: any) => {
-    setNotification(e?.target?.value);
+    setNotificationApprove(e?.target?.value);
+  };
+  const handleChangeRejectNotification = (e: any) => {
+    setNotificationReject(e?.target?.value);
   };
   return (
     <>
@@ -61,7 +65,7 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
           <div className="flex items-center gap-2 ">
             <span
               onClick={() => {}}
-              className={`py-1 px-2 text-sm rounded-sm text-white ${
+              className={`py-1 px-2 text-sm rounded-sm text-white min-w-[70px] text-center ${
                 item?.applyStatus?.value == "REJECT"
                   ? "bg-red-500"
                   : item?.applyStatus?.value == "APPROVE"
@@ -72,7 +76,6 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
               {item?.applyStatus?.code}
             </span>
             <Popconfirm
-              className=""
               title="Các lựa chọn cập nhật"
               description={
                 <div
@@ -81,14 +84,6 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                   }`}
                 >
                   <div className="flex gap-2 mt-1">
-                    <span
-                      onClick={() => setUpdateStatusCV("progress")}
-                      className={`p-1 cursor-pointer hover:opacity-80 transition-all text-white bg-primary rounded-sm text-xs px-2 ${
-                        updateStatusCV == "progress" ? "" : "opacity-40"
-                      }`}
-                    >
-                      PROGRESS
-                    </span>
                     <span
                       onClick={() => setUpdateStatusCV("reject")}
                       className={`p-1 cursor-pointer  hover:opacity-80 transition-all text-white bg-red-500 rounded-sm text-xs px-2 ${
@@ -110,15 +105,16 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                     <div className="mt-2">
                       <TextArea
                         rows={4}
+                        value={notificationReject}
                         placeholder="Lý do từ chối hồ sơ"
-                        onChange={() => {}}
+                        onChange={handleChangeRejectNotification}
                       />
                     </div>
                   ) : updateStatusCV == "approve" ? (
                     <div className="mt-2">
                       <TextArea
                         rows={4}
-                        value={notification}
+                        value={notificationApprove}
                         placeholder="Thông tin buổi phỏng vấn"
                         onChange={handleChangeApproveNotification}
                       />
@@ -131,11 +127,14 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
               okText="Đồng ý"
               cancelText="Không"
               onConfirm={() => {
-                let applyStatus = null;
+                let applyStatus = null,
+                  notification = null;
                 if (updateStatusCV == "reject") {
                   applyStatus = "REJECT";
+                  notification = notificationReject;
                 } else if (updateStatusCV == "approve") {
                   applyStatus = "APPROVE";
+                  notification = notificationApprove;
                 }
                 dispatch(
                   candidateUpdateStatusAppliedCandidate({
@@ -146,7 +145,9 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                   })
                 );
               }}
-              onCancel={() => {}}
+              onCancel={() => {
+                setUpdateStatusCV("");
+              }}
             >
               <span
                 onClick={() => {}}

@@ -56,7 +56,7 @@ const HomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
         <div className="">
           <div className="flex justify-center items-center gap-1">
             <button
-              className="md:px-4 md:py-3 py-2 px-3 font-medium text-sm md:text-base hover:opacity-80 transition-all bg-primary text-white rounded-md"
+              className="md:px-4 md:py-3 py-2 px-3 font-medium text-sm md:text-base hover:opacity-80 transition-all bg-white text-primary rounded-md border border-solid border-primary"
               onClick={handleLogin}
             >
               Đăng tuyển & Tìm CV
