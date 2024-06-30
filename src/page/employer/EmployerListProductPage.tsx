@@ -4,15 +4,14 @@ import CardListProductPage from "../../components/cards/CardListProductPage";
 import { useDispatch, useSelector } from "react-redux";
 import { productGetProduct } from "../../store/product/product-slice";
 import { Empty, Pagination, Skeleton } from "antd";
-import EmployerBuyNowProductPage from "./EmployerBuyNowProductPage";
 import { dataColor } from "../../utils/dataFetch";
 
 const EmployerListProductPage: React.FC = () => {
   const { loadingProduct, products, paginationProduct } = useSelector(
     (state: any) => state.product
   );
-  const [checkBuyNow, setCheckBuyNow] = useState(false);
-  const [productId, setProductId] = useState("");
+  // const [checkBuyNow, setCheckBuyNow] = useState(false);
+  // const [productId, setProductId] = useState("");
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,8 +30,6 @@ const EmployerListProductPage: React.FC = () => {
               <CardListProductPage
                 key={item?.id}
                 item={item}
-                onClick={setCheckBuyNow}
-                onClickProductId={setProductId}
                 color={`${
                   dataColor[index]?.id == index ? dataColor[index]?.color : ""
                 }`}
@@ -45,9 +42,7 @@ const EmployerListProductPage: React.FC = () => {
           </div>
         )}
         <div className="mt-4 flex justify-end">
-          {products.length <= 0 ? (
-            <></>
-          ) : (
+          {products.length > 0 && (
             <Pagination
               total={paginationProduct?.totalElements}
               onChange={(e) => setPage(e)}
@@ -59,14 +54,12 @@ const EmployerListProductPage: React.FC = () => {
         </div>
 
         {/* by now */}
-        {checkBuyNow ? (
+        {/* {checkBuyNow && (
           <EmployerBuyNowProductPage
             productId={productId}
             onClick={setCheckBuyNow}
           ></EmployerBuyNowProductPage>
-        ) : (
-          <></>
-        )}
+        )} */}
       </div>
     </>
   );

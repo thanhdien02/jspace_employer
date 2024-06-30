@@ -247,7 +247,7 @@ const EmployerPostJobPage: React.FC = () => {
     <>
       <div className="xl:mx-40 mx-10 my-10 bg-white px-8 py-5 rounded-lg shadow-md">
         <div className="grid grid-cols-2 gap-10 items-center">
-          <h2 className="font-bold text-lg my-2 text-gray-800">Đăng tin</h2>
+          <h2 className="font-bold text-xl my-2 text-gray-800">Đăng tin</h2>
           {checkSelectProduct ? (
             <div className="ml-auto flex gap-2 items-center">
               <span className="font-medium py-2 px-4 rounded-md bg-gray-200">

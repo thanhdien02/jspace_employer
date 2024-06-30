@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Avatar, Layout, Menu, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "../utils/auth";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, LoadingOutlined } from "@ant-design/icons";
 import {
   authFetchMe,
   authLogout,
@@ -17,6 +17,7 @@ const LayoutEmployerManagement: React.FC = () => {
   const { user, messageAuth, loading } = useSelector(
     (state: any) => state.auth
   );
+  const { loadingPayment } = useSelector((state: any) => state.payment);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -108,6 +109,19 @@ const LayoutEmployerManagement: React.FC = () => {
           <Outlet></Outlet>
         </Layout>
       </Layout>
+
+      {loadingPayment && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-20">
+          <div className="flex flex-col gap-4">
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />}
+            />
+            <p className="text-white font-sans text-base font-medium">
+              Thanh toán đang được xử lí
+            </p>
+          </div>
+        </div>
+      )}
     </>
   );
 };

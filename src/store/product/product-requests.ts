@@ -13,10 +13,11 @@ export const requestProductGetProduct = (
 };
 export const requestProductGetBuyedProduct = (
   company_id: string = "1",
+  durationFilter: string = "unexpired",
   accessToken: string
 ) => {
   return axios.get(
-    `${API}/api/v1/employees/purchased-products?companyId=${company_id}`,
+    `${API}/api/v1/employees/purchased-products?companyId=${company_id}&durationFilter=${durationFilter}`,
     {
       headers: {
         "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import IconCart from "../icons/IconCart";
 import IconCheck from "../icons/IconCheck";
 import { useDispatch, useSelector } from "react-redux";
 import { cartAddToCart } from "../../store/cart/cart-slice";
+import { useNavigate } from "react-router-dom";
 
 interface PropComponent {
   className?: string;
@@ -15,12 +16,11 @@ const CardListProductPage: React.FC<PropComponent> = ({
   className,
   color,
   item,
-  onClick,
-  onClickProductId,
 }) => {
   const { companyAuth } = useSelector((state: any) => state.auth);
   const { loadingCart } = useSelector((state: any) => state.cart);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleCartAddToCart = () => {
     dispatch(
       cartAddToCart({
@@ -33,7 +33,7 @@ const CardListProductPage: React.FC<PropComponent> = ({
   return (
     <>
       <div
-        className={`flex flex-col gap-2 w-full p-4 min-h-[250px] bg-white rounded-t-md shadow-md !border-t-[6px] border-solid border-primary ${color} ${className}`}
+        className={`flex flex-col gap-2 w-full p-4 min-h-[250px] bg-white shadow-md !border-t-[6px] border-solid border-primary hover:shadow-xl transition-all ${color} ${className}`}
       >
         <h3 className="font-semibold text-xl">{item?.name}</h3>
         <p className="text-primary text-xl font-medium">
@@ -78,7 +78,7 @@ const CardListProductPage: React.FC<PropComponent> = ({
 
         <div className="mb-4">
           <p className="font-medium text-base">* Chi tiết:</p>
-          <p className="text-gray-500">{item?.description}</p>
+          <p className="text-gray-500 line-clamp-3">{item?.description}</p>
         </div>
         <div className="mt-auto grid grid-cols-2 gap-2 items-center">
           <button
@@ -102,8 +102,8 @@ const CardListProductPage: React.FC<PropComponent> = ({
             className="py-2 rounded-md font-medium bg-primary text-white hover:opacity-80 transition-all"
             type="button"
             onClick={() => {
-              onClickProductId(item?.id);
-              onClick(true);
+              handleCartAddToCart();
+              navigate("/manage/shopping-cart");
             }}
           >
             Mua ngay

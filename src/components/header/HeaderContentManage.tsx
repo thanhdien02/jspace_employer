@@ -7,9 +7,7 @@ const HeaderContentManage: React.FC<PropComponent> = ({ className, title }) => {
   return (
     <>
       <div>
-        <h2
-          className={`font-bold text-lg my-3 text-gray-800 mb-5 ${className}`}
-        >
+        <h2 className={`font-bold text-2xl text-gray-800 mb-8 ${className}`}>
           {title}
         </h2>
       </div>

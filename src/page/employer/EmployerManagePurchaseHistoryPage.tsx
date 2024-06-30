@@ -51,7 +51,7 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
     setPage(1);
     dispatch(
       purchasehistoryGetPurchaseHistory({
-        page: page,
+        page: 1,
         size: size,
         company_id: companyAuth?.id,
         productName: value?.target?.value,
@@ -78,8 +78,7 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
           <Input
             placeholder="Nhập tên dịch vụ"
             size="large"
-            onInput={handleSearchProductName}
-            // value={productName}
+            onChange={handleSearchProductName}
             className="w-[20%]"
             allowClear
           />

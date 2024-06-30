@@ -70,6 +70,7 @@ function* handleProductGetBuyedProduct(dataGetProduct: any): Generator<any> {
     const response: any = yield call(
       requestProductGetBuyedProduct,
       dataGetProduct?.payload?.company_id,
+      dataGetProduct?.payload?.durationFilter,
       accessToken
     );
     if (response.data.code === 1000) {

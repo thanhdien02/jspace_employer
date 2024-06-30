@@ -89,6 +89,24 @@ const EmployerManageJobPage: React.FC = () => {
               },
             ]}
           />
+          <Select
+            allowClear
+            size={"large"}
+            placeholder="Còn hạn & hết hạn"
+            className="custom-base"
+            onChange={() => {}}
+            style={{ width: 200 }}
+            options={[
+              {
+                value: "current",
+                label: "Còn hạn",
+              },
+              {
+                value: "5nam",
+                label: "Hết hạn",
+              },
+            ]}
+          />
           <div
             onClick={() => navigate("/manage/check-work-required")}
             className="ml-auto cursor-pointer flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-md font-medium"
