@@ -30,6 +30,16 @@ const CardListProductPage: React.FC<PropComponent> = ({
       })
     );
   };
+  const handleBuyNow = () => {
+    dispatch(
+      cartAddToCart({
+        companyId: companyAuth?.id,
+        productId: item?.id,
+        quantity: 1,
+      })
+    );
+    navigate("/manage/shopping-cart");
+  };
   return (
     <>
       <div
@@ -101,10 +111,7 @@ const CardListProductPage: React.FC<PropComponent> = ({
           <button
             className="py-2 rounded-md font-medium bg-primary text-white hover:opacity-80 transition-all"
             type="button"
-            onClick={() => {
-              handleCartAddToCart();
-              navigate("/manage/shopping-cart");
-            }}
+            onClick={handleBuyNow}
           >
             Mua ngay
           </button>

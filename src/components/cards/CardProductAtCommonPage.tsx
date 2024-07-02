@@ -13,12 +13,12 @@ const CardProductAtCommonPage: React.FC<PropComponent> = ({
       <div
         className={`border border-gray-200 border-solid rounded-md ${className}`}
       >
-        <div className="px-4 py-3 bg-gray-800 rounded-t-md border-t-4 border-solid border-primary">
+        <div className="px-4 py-3 bg-gray-800">
           <h2 className="text-white font-semibold">{item?.name}</h2>
         </div>
         <div className="p-5  ">
           <div className="">
-            <h3 className="text-primary text-xl font-bold">
+            <h3 className="text-red-500 text-xl font-bold">
               {item?.price?.toLocaleString("vi", {
                 style: "currency",
                 currency: "VND",
@@ -27,7 +27,7 @@ const CardProductAtCommonPage: React.FC<PropComponent> = ({
             <p className="text-sm mt-1">* Giá trên chưa bao gồm VAT</p>
           </div>
           <button
-            className="w-full mt-3 px-4 py-2 rounded-md font-medium bg-primary text-white"
+            className="w-full mt-3 px-4 py-2 rounded-md font-medium bg-white text-primary border border-solid border-primary hover:opacity-80 transition-all"
             type="button"
             onClick={() =>
               (window.location.href = "https://m.me/267479709792373")

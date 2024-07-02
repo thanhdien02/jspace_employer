@@ -217,7 +217,7 @@ const EmployerFindCandidatePage: React.FC = () => {
       ) : (
         <div className="xl:mx-28 mx-10 my-5">
           <HeaderContentManage title="Tìm kiếm ứng viên"></HeaderContentManage>
-          <div className="bg-white shadow-md p-7 rounded-md">
+          <div className="bg-white shadow-md p-7 rounded-md ">
             <div className="flex gap-5 items-center">
               {/* <input
                 type="text"
@@ -271,7 +271,7 @@ const EmployerFindCandidatePage: React.FC = () => {
                 showSearch
                 allowClear
                 placeholder="Mức lương"
-                className="select w-[20%] text-base rounded-lg h-full bg-white"
+                className="select w-[15%] text-base rounded-lg h-full bg-white"
                 optionFilterProp="children"
                 filterOption={(input, option: any) =>
                   (option?.label ?? "").includes(input)
@@ -286,7 +286,7 @@ const EmployerFindCandidatePage: React.FC = () => {
               >
                 Tìm kiếm
               </button>
-              <div className="mt-4 flex justify-end">
+              <div className="ml-auto flex justify-end">
                 {true && (
                   <Pagination
                     total={40}

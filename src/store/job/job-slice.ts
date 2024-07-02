@@ -23,6 +23,7 @@ const jobSlice: any = createSlice({
   reducers: {
     jobGetJobById: () => {},
     jobUpdateJob: () => {},
+    jobUpdateJobStatus: () => {},
     jobGetJobFilter: () => {},
     jobGetPostedJob: () => {},
     jobPostJob: () => {},
@@ -64,5 +65,6 @@ export const {
   jobGetPostedJob,
   jobUpdateJobByIdRedux,
   jobUpdateLoadingByIdRedux,
+  jobUpdateJobStatus,
 } = jobSlice.actions;
 export default jobSlice.reducer;

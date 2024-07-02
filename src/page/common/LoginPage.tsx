@@ -145,7 +145,7 @@ const LoginPage: React.FC<PropComponent> = ({
                 htmlFor="email"
                 className="block text-sm font-medium leading-6 text-gray-600"
               >
-                Tài khoản
+                Email
               </label>
               <div className="mt-2 relative">
                 <UserOutlined

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TableRow from "../table/TableRow";
 import TableRowContent from "../table/TableRowContent";
-import { Popconfirm } from "antd";
+import { message, Popconfirm } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useDispatch } from "react-redux";
 import { candidateUpdateStatusAppliedCandidate } from "../../store/candidate/candidate-slice";
@@ -47,12 +47,17 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
               <a
                 href={item?.resume?.file?.path}
                 target="_blank"
-                className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-primary text-white cursor-pointer"
+                className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-white text-primary border border-solid border-primary cursor-pointer"
               >
                 Xem CV
               </a>
               <span
-                onClick={() => {}}
+                onClick={() => {
+                  downloadFile(
+                    item?.resume?.file?.path,
+                    item?.resume?.file?.name
+                  );
+                }}
                 className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-primary text-white cursor-pointer"
               >
                 Tải về
@@ -174,3 +179,28 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
 };
 
 export default CardManageCandidateApplyJobPage;
+
+async function downloadFile(url: string, nameFile: string) {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const fileHandle: FileSystemFileHandle = await (
+      window as any
+    ).showSaveFilePicker({
+      suggestedName: nameFile,
+      types: [
+        {
+          description: "File",
+          accept: { "*/*": [".pdf", ".txt", ".jpg", ".png"] },
+        },
+      ],
+    });
+    const writable = await fileHandle.createWritable();
+    await writable.write(blob);
+    await writable.close();
+
+    message.success("Tải xuống thành công !");
+  } catch (error) {
+    console.error("Error downloading file:", error);
+  }
+}

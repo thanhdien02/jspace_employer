@@ -13,9 +13,10 @@ const EmployerListProductPage: React.FC = () => {
   // const [checkBuyNow, setCheckBuyNow] = useState(false);
   // const [productId, setProductId] = useState("");
   const [page, setPage] = useState(1);
+  const [size] = useState(6);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(productGetProduct({ page: page, size: 6 }));
+    dispatch(productGetProduct({ page: page, size: size }));
   }, [page]);
   return (
     <>

@@ -19,7 +19,6 @@ import {
   companyUpdateLogoCompany,
 } from "../../store/company/company-slice";
 import { useParams } from "react-router-dom";
-import bg from "../../assets/bg-login.jpg";
 import { employerConfirmCompanyEmployer } from "../../store/employer/employer-slice";
 import {
   fileUpdateMessageRedux,
@@ -195,7 +194,11 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                 </div>
               ) : (
                 <img
-                  src={companyBackground ? companyBackground : bg}
+                  src={
+                    companyBackground
+                      ? companyBackground
+                      : "https://biz.prlog.org/jspace/logo.png"
+                  }
                   alt=""
                   className="w-full h-full object-cover"
                 />
@@ -214,7 +217,11 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                 </div>
               ) : (
                 <img
-                  src={companyLogo ? companyLogo : bg}
+                  src={
+                    companyLogo
+                      ? companyLogo
+                      : "https://biz.prlog.org/jspace/logo.png"
+                  }
                   alt=""
                   className="w-[75px] h-[75px] object-cover rounded-full cursor-pointer bg-white"
                 />

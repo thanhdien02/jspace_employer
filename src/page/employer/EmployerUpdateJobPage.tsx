@@ -26,7 +26,11 @@ import {
 import VNCurrencyInput from "../../components/input/InputMoney";
 import InputNumber from "../../components/input/InputNumber";
 import IconClose from "../../components/icons/IconClose";
-import { jobGetJobById, jobUpdateJob } from "../../store/job/job-slice";
+import {
+  jobGetJobById,
+  jobUpdateJob,
+  jobUpdateJobStatus,
+} from "../../store/job/job-slice";
 const handleSalaryUpdate = (dataPosJob: any, salaryType: string) => {
   let dataPosJobFinal = null;
   if (salaryType == "more") {
@@ -83,7 +87,6 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataUpdateCompany: Inputs) => {
     let dataUpdate = handleSalaryUpdate(dataUpdateCompany, selectEnterSalary);
-    console.log("🚀 ~ data:", dataUpdate);
     dispatch(
       jobUpdateJob({
         job_id: jobById?.post?.id,
@@ -236,8 +239,21 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
                   className="mt-2"
                   size="default"
                   value={
-                    jobById?.post?.postStatus?.code == "open" ? true : false
+                    jobById?.post?.postStatus?.value == "OPEN" ? true : false
                   }
+                  onChange={() => {
+                    let status = "";
+                    if (jobById?.post?.postStatus?.value == "OPEN")
+                      status = "CLOSE";
+                    else status = "OPEN";
+                    dispatch(
+                      jobUpdateJobStatus({
+                        job_id: jobId,
+                        job_status: status,
+                        company_id: jobById?.post?.company?.id,
+                      })
+                    );
+                  }}
                 />
               </div>
             </div>

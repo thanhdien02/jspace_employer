@@ -12,13 +12,20 @@ export const requestJobPostJob = (dataPost: any, accessToken: string) => {
 };
 export const requestJobGetPostedJob = (
   company_id: string,
+  title: string = "",
+  postStatus: string = "",
+  duration: string = "",
   page: string = "1",
   size: string = "10",
   accessToken: string
 ) => {
   if (!accessToken) return;
   return axios.get(
-    `${API}/api/v1/employees/posts?companyId=${company_id}&page=${page}&size=${size}`,
+    `${API}/api/v1/employees/posts?companyId=${company_id}&${
+      title ? `title=${title}&` : ""
+    }${postStatus ? `postStatus=${postStatus}&` : ""}${
+      duration ? `duration=${duration}&` : ""
+    }page=${page}&size=${size}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -48,4 +55,21 @@ export const requestJobUpdateJob = (
       Authorization: `Bearer ${accessToken}`,
     },
   });
+};
+export const requestJobUpdateJobStatus = (
+  job_id: string,
+  job_status: any,
+  accessToken: string
+) => {
+  if (!accessToken) return;
+  return axios.put(
+    `${API}/api/v1/employees/posts/${job_id}/status?postStatus=${job_status}`,
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 };

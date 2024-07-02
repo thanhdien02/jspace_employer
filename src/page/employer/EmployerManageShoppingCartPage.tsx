@@ -4,7 +4,10 @@ import CardShoppingCartPage from "../../components/cards/CardShoppingCartPage";
 import { Checkbox, CheckboxProps, Empty, message, Skeleton } from "antd";
 import { dataCard } from "../../utils/dataFetch";
 import { useDispatch, useSelector } from "react-redux";
-import { cartGetCart } from "../../store/cart/cart-slice";
+import {
+  cartGetCart,
+  cartUpdateMessageRedux,
+} from "../../store/cart/cart-slice";
 import { paymentRequestPaymentCart } from "../../store/payment/payment-slice";
 import Loading from "../../components/loading/Loading";
 
@@ -13,7 +16,9 @@ const EmployerManageShoppingCartPage: React.FC = () => {
     (state: any) => state.payment
   );
   const { companyAuth } = useSelector((state: any) => state.auth);
-  const { carts, loadingCart } = useSelector((state: any) => state.cart);
+  const { carts, loadingCart, messageCart } = useSelector(
+    (state: any) => state.cart
+  );
   const dispatch = useDispatch();
   const onChange: CheckboxProps["onChange"] = (e) => {
     console.log(`checked = ${e.target.checked}`);
@@ -63,6 +68,12 @@ const EmployerManageShoppingCartPage: React.FC = () => {
       dispatch(cartGetCart({ company_id: companyAuth?.id, page: 1, size: 10 }));
     }
   }, [companyAuth]);
+  useEffect(() => {
+    if (messageCart == "addtocart") {
+      dispatch(cartGetCart({ company_id: companyAuth?.id, page: 1, size: 10 }));
+      dispatch(cartUpdateMessageRedux({ messageCart: "" }));
+    }
+  }, [messageCart]);
   const handlePaymentCart = () => {
     if (dataCheck?.length > 0) {
       let dataPayment = dataCheck

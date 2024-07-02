@@ -1,7 +1,6 @@
 import {
   UploadOutlined,
   UserOutlined,
-  DashboardOutlined,
   SwapOutlined,
   ScheduleOutlined,
   ShoppingCartOutlined,
@@ -9,13 +8,14 @@ import {
   ProductOutlined,
   GroupOutlined,
   WifiOutlined,
+  AppstoreOutlined,
 } from "@ant-design/icons";
 import IconBuilding from "../components/icons/IconBuilding";
 
 export const dataSideBar = [
   {
     key: "1",
-    icon: <DashboardOutlined />,
+    icon: <AppstoreOutlined />,
     label: "Thống kê",
     path: "/manage",
   },

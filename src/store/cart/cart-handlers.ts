@@ -4,6 +4,7 @@ import { message } from "antd";
 import {
   cartUpdateCartRedux,
   cartUpdateLoadingRedux,
+  cartUpdateMessageRedux,
   cartUpdatePaginationRedux,
 } from "./cart-slice";
 import {
@@ -26,6 +27,7 @@ function* handleCartAddToCart(dataAddToCart: any): Generator<any> {
 
     if (response?.data?.code == 1000) {
       message.success("Thêm sản phẩm vào giỏ hàng thành công.");
+      yield put(cartUpdateMessageRedux({ messageCart: "addtocart" }));
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);

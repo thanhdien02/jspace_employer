@@ -21,16 +21,72 @@ const EmployerManageJobPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [postStatus, setPostStatus] = useState("");
+  const [duration, setDuration] = useState("");
+  const [size] = useState(10);
   const [updateJob, setUpdateJob] = useState(false);
   const [candidateApply, setCandidateApply] = useState(false);
   const [jobId, setJobId] = useState("");
   const handleSearchJob = debounce((value: any) => {
-    console.log("Input value:", value);
+    if (companyAuth?.id) {
+      dispatch(
+        jobGetPostedJob({
+          company_id: companyAuth?.id,
+          title: value,
+          postStatus: postStatus,
+          duration: duration,
+          page: 1,
+          size: size,
+        })
+      );
+    }
+    setPage(1);
+    setTitle(value);
   }, 500);
+  const handleChangeDuration = (e: any) => {
+    if (companyAuth?.id) {
+      dispatch(
+        jobGetPostedJob({
+          company_id: companyAuth?.id,
+          title: title,
+          postStatus: postStatus,
+          duration: e,
+          page: 1,
+          size: size,
+        })
+      );
+    }
+    setPage(1);
+    setDuration(e);
+  };
+  const handleChangePostStatus = (e: any) => {
+    if (companyAuth?.id) {
+      dispatch(
+        jobGetPostedJob({
+          company_id: companyAuth?.id,
+          title: title,
+          postStatus: e,
+          duration: duration,
+          page: 1,
+          size: size,
+        })
+      );
+    }
+    setPage(1);
+    setPostStatus(e);
+  };
   useEffect(() => {
     if (companyAuth?.id) {
       dispatch(
-        jobGetPostedJob({ company_id: companyAuth?.id, page: page, size: 10 })
+        jobGetPostedJob({
+          company_id: companyAuth?.id,
+          title: title,
+          postStatus: postStatus,
+          duration: duration,
+          page: page,
+          size: size,
+        })
       );
     }
   }, [companyAuth, page]);
@@ -46,7 +102,7 @@ const EmployerManageJobPage: React.FC = () => {
             enterButton="Tìm kiếm"
             size="large"
             onSearch={(e) => console.log(e)}
-            onInput={(e: any) => {
+            onChange={(e: any) => {
               handleSearchJob(e?.target?.value);
             }}
             className="w-[30%]"
@@ -76,15 +132,15 @@ const EmployerManageJobPage: React.FC = () => {
             size={"large"}
             placeholder="Trạng thái bài đăng"
             className="custom-base"
-            onChange={() => {}}
+            onChange={handleChangePostStatus}
             style={{ width: 200 }}
             options={[
               {
-                value: "current",
+                value: "CLOSE",
                 label: "Bài đăng đang đóng",
               },
               {
-                value: "5nam",
+                value: "OPEN",
                 label: "Bài đăng đang mở",
               },
             ]}
@@ -94,16 +150,16 @@ const EmployerManageJobPage: React.FC = () => {
             size={"large"}
             placeholder="Còn hạn & hết hạn"
             className="custom-base"
-            onChange={() => {}}
+            onChange={handleChangeDuration}
             style={{ width: 200 }}
             options={[
               {
-                value: "current",
-                label: "Còn hạn",
+                value: "unexpired",
+                label: "Còn hạn đăng tuyển",
               },
               {
-                value: "5nam",
-                label: "Hết hạn",
+                value: "expired",
+                label: "Hết hạn đăng tuyển",
               },
             ]}
           />
@@ -152,7 +208,7 @@ const EmployerManageJobPage: React.FC = () => {
                     postedJobs?.map((item: any) => (
                       <CardManageJobPage
                         className="even:bg-gray-300/50"
-                        key={item?.id}
+                        key={item?.post?.id}
                         item={item}
                         onClickUpdateJob={setUpdateJob}
                         onClickListCandidate={setCandidateApply}
@@ -181,13 +237,11 @@ const EmployerManageJobPage: React.FC = () => {
         </div>
 
         {/* update job */}
-        {updateJob ? (
+        {updateJob && (
           <EmployerUpdateJobPage
             onClick={setUpdateJob}
             jobId={jobId}
           ></EmployerUpdateJobPage>
-        ) : (
-          <></>
         )}
         {candidateApply ? (
           <EmployerManageCandidateApplyJobPage
