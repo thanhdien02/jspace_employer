@@ -51,8 +51,8 @@ function* handlePaymentRequestPaymentCart(
         intent: "sale",
         paymentMethod: "paypal",
         currency: "USD",
-        cancelUrl: "http://localhost:5173/manage/products-buyed",
-        successUrl: "http://localhost:5173/manage/products-buyed",
+        cancelUrl: "https://jspace-employer.vercel.app/manage/products-buyed",
+        successUrl: "https://jspace-employer.vercel.app/manage/products-buyed",
       },
       token?.accessToken
     );

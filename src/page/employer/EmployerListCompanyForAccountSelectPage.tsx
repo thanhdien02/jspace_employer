@@ -37,7 +37,7 @@ const EmployerListCompanyForAccountSelectPage: React.FC = () => {
           <div className="flex gap-5 !py-10 !px-20">
             <Search
               placeholder="Nhập tên công ty"
-              enterButton="Search"
+              enterButton="Tìm kiếm"
               size="large"
               onSearch={(e) => console.log(e)}
               onInput={(e: any) => {
@@ -52,7 +52,7 @@ const EmployerListCompanyForAccountSelectPage: React.FC = () => {
                 className="flex gap-1 items-centerfont-semibold bg-gray-200 rounded-lg px-3 py-2 border border-gray-300 border-solid min-w-[150px]"
               >
                 <IconAdd></IconAdd>
-                <span>Tạo mới công ty</span>
+                <span className="font-medium">Tạo mới công ty</span>
               </button>
             </div>
           </div>
