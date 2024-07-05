@@ -52,7 +52,7 @@ const EmployerListCompanyForAccountSelectPage: React.FC = () => {
                 className="flex gap-1 items-centerfont-semibold bg-gray-200 rounded-lg px-3 py-2 border border-gray-300 border-solid min-w-[150px]"
               >
                 <IconAdd></IconAdd>
-                <span className="font-medium">Tạo mới công ty</span>
+                <span className="">Tạo mới công ty</span>
               </button>
             </div>
           </div>

@@ -27,6 +27,8 @@ const CardManageJobPage: React.FC<PropComponent> = ({
         <TableRowContent className="">
           <div className="line-clamp-2 h-full">{item?.post?.title}</div>
         </TableRowContent>
+        <TableRowContent className="">{item?.post?.openDate}</TableRowContent>
+        <TableRowContent className="">{item?.post?.closeDate}</TableRowContent>
         <TableRowContent className="">
           {/* Trong khoảng */}
           {item?.post?.minPay != "0" &&
@@ -69,13 +71,12 @@ const CardManageJobPage: React.FC<PropComponent> = ({
             {item?.post?.skills?.length > 0 &&
               item?.post?.skills?.map((item: any, index: number) => (
                 <span key={index} className="ml-2">
-                  {item?.post?.name}
+                  {item?.name}
                 </span>
               ))}
           </div>
         </TableRowContent>
-        <TableRowContent className="">{item?.post?.openDate}</TableRowContent>
-        <TableRowContent className="">{item?.post?.closeDate}</TableRowContent>
+
         {/*  */}
         <TableRowContent className="absolute right-60 z-10">
           <Popconfirm
@@ -108,7 +109,7 @@ const CardManageJobPage: React.FC<PropComponent> = ({
               onClickUpdateJob(true);
               onClickSetJobId(item?.post?.id);
             }}
-            className="py-1 px-2 text-sm rounded-sm bg-primary text-white cursor-pointer"
+            className="py-1 px-2 text-sm rounded-sm bg-white text-primary font-medium cursor-pointer border border-solid border-primary"
           >
             Chỉnh sửa
           </span>
@@ -120,16 +121,14 @@ const CardManageJobPage: React.FC<PropComponent> = ({
                 onClickListCandidate(true);
                 onClickSetJobId(item?.post?.id);
               }}
-              className="py-1 px-2 text-sm rounded-sm bg-primary text-white cursor-pointer"
+              className="py-1 px-2 text-sm rounded-sm bg-gray-200 shadow text-primary cursor-pointer font-medium"
             >
               Xem ứng viên
             </span>
-            {true ? (
+            {item?.appliedCandidate != "0" && (
               <span className="absolute flex bg-green-100 rounded-lg h-6 w-6 -top-4 -right-3 text-green-500 font-medium">
                 <span className="m-auto">{item?.appliedCandidate}</span>
               </span>
-            ) : (
-              ""
             )}
           </div>
         </TableRowContent>

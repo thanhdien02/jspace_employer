@@ -72,12 +72,12 @@ const EmployerManageProductBuyedPage: React.FC = () => {
     <>
       <div className="mx-16 my-5 bg-white p-10 shadow">
         <HeaderContentManage title="Danh sách dịch vụ đã mua"></HeaderContentManage>
-        <div className="flex gap-5 items-center mb-5">
+        <div className="flex gap-5 mb-5">
           <Select
             showSearch
             allowClear
             placeholder="Sản phẩn còn hạn & hết hạn"
-            className="select w-[20%] text-base rounded-lg h-full bg-white"
+            className="select select-filter w-[20%] text-base rounded-lg h-full bg-white"
             optionFilterProp="children"
             filterOption={(input: string, option: any) =>
               ((option?.label ?? "") as string)
@@ -93,7 +93,7 @@ const EmployerManageProductBuyedPage: React.FC = () => {
 
           <button
             type="button"
-            className="px-3 py-2 bg-primary rounded-md text-white font-medium hover:opacity-80 transition-all"
+            className="px-3 py-2 bg-primary rounded text-white font-medium hover:opacity-80 transition-all"
           >
             Tìm kiếm
           </button>

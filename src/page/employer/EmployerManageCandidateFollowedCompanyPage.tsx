@@ -198,7 +198,7 @@ const EmployerManageCandidateFollowedCompanyPage: React.FC = () => {
         <div className="xl:mx-32 mx-10 my-5">
           <HeaderContentManage title="Danh sách ứng viên theo dõi công ty"></HeaderContentManage>
           <div className="bg-white shadow-md p-7 rounded-md">
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-5">
               <Select
                 showSearch
                 allowClear

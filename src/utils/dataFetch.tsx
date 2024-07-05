@@ -311,6 +311,14 @@ export const dataHeaderManageJob = [
     className: "w-[400px] ",
   },
   {
+    title: "Ngày đăng",
+    className: "w-[150px]",
+  },
+  {
+    title: "Ngày kết thúc",
+    className: "w-[150px]",
+  },
+  {
     title: "Mức lương",
     className: "w-[250px]",
   },
@@ -320,7 +328,7 @@ export const dataHeaderManageJob = [
   },
   {
     title: "Vị trí",
-    className: "w-[130px]",
+    className: "w-[150px]",
   },
   {
     title: "Kinh nghiệm",
@@ -334,14 +342,7 @@ export const dataHeaderManageJob = [
     title: "Kỹ năng",
     className: "w-[400px]",
   },
-  {
-    title: "Ngày đăng",
-    className: "w-[150px]",
-  },
-  {
-    title: "Ngày kết thúc",
-    className: "w-[150px]",
-  },
+
   {
     title: "TT bài đăng",
     className: "absolute right-56 z-10",

@@ -47,7 +47,7 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
               <a
                 href={item?.resume?.file?.path}
                 target="_blank"
-                className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-white text-primary border border-solid border-primary cursor-pointer"
+                className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-white text-primary border border-solid border-primary cursor-pointer text-nowrap"
               >
                 Xem CV
               </a>
@@ -58,7 +58,7 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                     item?.resume?.file?.name
                   );
                 }}
-                className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-primary text-white cursor-pointer"
+                className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-gray-200 text-primary border border-solid border-transparent font-medium text-nowrap cursor-pointer"
               >
                 Tải về
               </span>
@@ -156,7 +156,7 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
             >
               <span
                 onClick={() => {}}
-                className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-primary text-white cursor-pointer"
+                className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-gray-200 text-primary shadow font-medium cursor-pointer"
               >
                 Cập nhật
               </span>

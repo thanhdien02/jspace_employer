@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { debounce } from "ts-debounce";
 import { purchasehistoryGetPurchaseHistory } from "../../store/purchase_history/purchase-history-slice";
-import {
-  Empty,
-  Input,
-  Pagination,
-  Radio,
-  RadioChangeEvent,
-  Skeleton,
-} from "antd";
+import { Empty, Pagination, Skeleton } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "../../components/table/Table";
 import ContentManageHistoryProductPurchasePage from "../../components/content/ContentManageHistoryProductPurchasePage";
 import HeaderTableManage from "../../components/header/HeaderTableManage";
 import { dataHeaderManagePurchaseProduct } from "../../utils/dataFetch";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
-
+import InputSearch from "../../components/input/InputSearch";
+import { SearchOutlined } from "@ant-design/icons";
 const EmployerManagePurchaseHistoryPage: React.FC = () => {
   const {
     purchasehistorys,
@@ -27,11 +21,6 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
   const [productName, setProductName] = useState("");
   const [page, setPage] = useState(1);
   const [size] = useState(10);
-  const [value, setValue] = useState(1);
-  const onChange = (e: RadioChangeEvent) => {
-    setValue(e.target.value);
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -75,25 +64,14 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
       <div className="m-10 mt-5">
         <HeaderContentManage title="Lịch sử mua hàng"></HeaderContentManage>
         <div className="mb-5 flex items-center gap-5">
-          <Input
-            placeholder="Nhập tên dịch vụ"
-            size="large"
-            onChange={handleSearchProductName}
-            className="w-[20%]"
-            allowClear
-          />
-          <Radio.Group
-            className="font-medium"
-            onChange={onChange}
-            value={value}
-          >
-            <Radio className="select-none" value={1}>
-              Giá tiền cao nhất
-            </Radio>
-            <Radio className="select-none" value={2}>
-              Thời gian lâu nhất
-            </Radio>
-          </Radio.Group>
+          <div className="relative">
+            <InputSearch
+              placeholder="Nhập tên dịch vụ"
+              onChange={handleSearchProductName}
+              className="pr-10 w-[280px]"
+            ></InputSearch>
+            <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+          </div>
         </div>
         <Table>
           <HeaderTableManage

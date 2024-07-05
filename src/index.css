@@ -75,6 +75,10 @@ body {
   color: white;
 }
 /* select */
+.select-filter > .ant-select-selector {
+  border-radius: 4px !important;
+}
+
 .select-custom > .ant-select-selector {
   border: none !important;
 }

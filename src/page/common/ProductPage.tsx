@@ -46,7 +46,6 @@ const ProductPage: React.FC = () => {
               ))}
           </div>
         )}
-        <div className="h-[200px]"></div>
       </div>
     </>
   );

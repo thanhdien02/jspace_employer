@@ -218,12 +218,7 @@ const EmployerFindCandidatePage: React.FC = () => {
         <div className="xl:mx-28 mx-10 my-5">
           <HeaderContentManage title="Tìm kiếm ứng viên"></HeaderContentManage>
           <div className="bg-white shadow-md p-7 rounded-md ">
-            <div className="flex gap-5 items-center">
-              {/* <input
-                type="text"
-                placeholder=""
-                className="outline-none border border-solid border-gray-200 rounded-md px-5 py-2"
-              /> */}
+            <div className="flex gap-5">
               <Select
                 showSearch
                 allowClear

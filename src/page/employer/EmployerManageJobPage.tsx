@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { debounce } from "ts-debounce";
+import { SearchOutlined } from "@ant-design/icons";
 import TitleContent from "../../components/title/TitleContent";
-import { Empty, Input, Pagination, Select, Skeleton } from "antd";
+import { Empty, Pagination, Select, Skeleton } from "antd";
 import Table from "../../components/table/Table";
 import CardManageJobPage from "../../components/cards/CardManageJobPage";
 import HeaderTableManageJobPage from "../../components/header/HeaderTableManageJobPage";
@@ -12,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { jobGetPostedJob } from "../../store/job/job-slice";
 import IconAdd from "../../components/icons/IconAdd";
 import { useNavigate } from "react-router-dom";
-const { Search } = Input;
+import InputSearch from "../../components/input/InputSearch";
 const EmployerManageJobPage: React.FC = () => {
   const { companyAuth, checkAuth } = useSelector((state: any) => state.auth);
   const { loadingJob, postedJobs, paginationPostedJob } = useSelector(
@@ -97,23 +98,21 @@ const EmployerManageJobPage: React.FC = () => {
           Danh sách công việc đã đăng
         </TitleContent>
         <div className="my-5 flex gap-4">
-          <Search
-            placeholder="Nhập tên công việc"
-            enterButton="Tìm kiếm"
-            size="large"
-            onSearch={(e) => console.log(e)}
-            onChange={(e: any) => {
-              handleSearchJob(e?.target?.value);
-            }}
-            className="w-[30%]"
-            loading={false}
-            allowClear
-          />
+          <div className="relative">
+            <InputSearch
+              placeholder="Nhập tên công việc"
+              onChange={(e: any) => {
+                handleSearchJob(e?.target?.value);
+              }}
+              className="pr-10 w-[280px]"
+            ></InputSearch>
+            <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+          </div>
           <Select
             allowClear
             size={"large"}
             placeholder="Lọc theo thời gian"
-            className="custom-base"
+            className="custom-base select-filter"
             onChange={() => {}}
             style={{ width: 200 }}
             options={[
@@ -131,7 +130,7 @@ const EmployerManageJobPage: React.FC = () => {
             allowClear
             size={"large"}
             placeholder="Trạng thái bài đăng"
-            className="custom-base"
+            className="custom-base select-filter"
             onChange={handleChangePostStatus}
             style={{ width: 200 }}
             options={[
@@ -149,7 +148,7 @@ const EmployerManageJobPage: React.FC = () => {
             allowClear
             size={"large"}
             placeholder="Còn hạn & hết hạn"
-            className="custom-base"
+            className="custom-base select-filter"
             onChange={handleChangeDuration}
             style={{ width: 200 }}
             options={[
@@ -165,11 +164,11 @@ const EmployerManageJobPage: React.FC = () => {
           />
           <div
             onClick={() => navigate("/manage/check-work-required")}
-            className="ml-auto cursor-pointer flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-md font-medium"
+            className="ml-auto cursor-pointer flex items-center gap-2 px-4 py-2 text-base bg-white text-primary rounded font-medium shadow border border-primary border-solid"
           >
             <IconAdd></IconAdd>
             <button type="button" className="">
-              Đăng tin
+              ĐĂNG TIN
             </button>
           </div>
         </div>
@@ -182,13 +181,15 @@ const EmployerManageJobPage: React.FC = () => {
                 dataHeader={dataHeaderManageJob}
               ></HeaderTableManageJobPage>
               {!checkAuth?.verifiedByCompany ? (
-                <tr>
-                  <td className="p-5 text-center " colSpan={5}>
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                  </td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td className="p-5 text-center " colSpan={5}>
+                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    </td>
+                  </tr>
+                </tbody>
               ) : loadingJob ? (
-                <tbody className="">
+                <tbody>
                   <tr>
                     <td className="p-5 text-center" colSpan={10}>
                       <Skeleton active />
@@ -223,9 +224,7 @@ const EmployerManageJobPage: React.FC = () => {
           </div>
         </div>
         <div className="mt-4 flex justify-end">
-          {postedJobs.length <= 0 ? (
-            <></>
-          ) : (
+          {postedJobs.length > 0 && (
             <Pagination
               total={paginationPostedJob?.totalElements}
               onChange={(e) => setPage(e)}
@@ -243,13 +242,11 @@ const EmployerManageJobPage: React.FC = () => {
             jobId={jobId}
           ></EmployerUpdateJobPage>
         )}
-        {candidateApply ? (
+        {candidateApply && (
           <EmployerManageCandidateApplyJobPage
             onClick={setCandidateApply}
             jobId={jobId}
           ></EmployerManageCandidateApplyJobPage>
-        ) : (
-          <></>
         )}
       </div>
     </>

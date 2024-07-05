@@ -8,6 +8,20 @@ import {
 import { dataMonth, dataYear } from "../../utils/dataFetch";
 import { Line } from "react-chartjs-2";
 
+const options = {
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+    },
+  },
+};
 const generateDataPost = (
   timeframe: "month" | "year",
   monthlyData: any,
@@ -120,16 +134,20 @@ const LineChartPost = () => {
       <div className="w-full">
         <div className="flex gap-2">
           <button
-            className={`ml-2 min-w-[80px] px-3 py-1 rounded-md ${
-              timeframe == "month" ? "bg-primary text-white" : "bg-gray-200"
+            className={`ml-2 min-w-[80px] px-3 py-1 rounded ${
+              timeframe == "month"
+                ? "bg-white text-primary border border-solid border-primary"
+                : "bg-gray-200"
             } `}
             onClick={() => handleTimeRangeChange("month")}
           >
             Tháng
           </button>
           <button
-            className={`ml-2 min-w-[80px] px-3 py-1 rounded-md ${
-              timeframe == "year" ? "bg-primary text-white" : "bg-gray-200"
+            className={`ml-2 min-w-[80px] px-3 py-1 rounded ${
+              timeframe == "year"
+                ? "bg-white text-primary border border-solid border-primary"
+                : "bg-gray-200"
             } `}
             onClick={() => handleTimeRangeChange("year")}
           >
@@ -165,7 +183,7 @@ const LineChartPost = () => {
           )}
         </div>
         <div className="w-full mt-3">
-          {data?.labels?.length > 0 && <Line data={data} />}
+          {data?.labels?.length > 0 && <Line data={data} options={options} />}
         </div>
       </div>
     </>

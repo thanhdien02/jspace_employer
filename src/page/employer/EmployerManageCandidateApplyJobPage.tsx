@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import IconClose from "../../components/icons/IconClose";
 import HeaderTableManageJobPage from "../../components/header/HeaderTableManageJobPage";
 import { dataHeaderManageCandidateApplyJob } from "../../utils/dataFetch";
 import CardManageCandidateApplyJobPage from "../../components/cards/CardManageCandidateApplyJobPage";
 import Table from "../../components/table/Table";
-import { Empty, Input, Pagination, Select, Skeleton } from "antd";
+import { Empty, Pagination, Select, Skeleton } from "antd";
 import { debounce } from "ts-debounce";
 import { useDispatch, useSelector } from "react-redux";
+import { SearchOutlined } from "@ant-design/icons";
 import { candidateGetAppliedCandidate } from "../../store/candidate/candidate-slice";
-const { Search } = Input;
+import InputSearch from "../../components/input/InputSearch";
 interface PropComponent {
   className?: string;
   jobId?: string;
@@ -19,10 +20,11 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
   jobId,
   onClick,
 }) => {
-  const { appliedCandidate, loadingCandidate } = useSelector(
-    (state: any) => state.candidate
-  );
+  const { appliedCandidate, loadingCandidate, paginationCandidate } =
+    useSelector((state: any) => state.candidate);
   const dispatch = useDispatch();
+  const [page, setPage] = useState(0);
+  const [size] = useState(10);
   useEffect(() => {
     const body = document.body;
     if (body) {
@@ -37,8 +39,8 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
       dispatch(
         candidateGetAppliedCandidate({
           job_id: jobId,
-          page: 0,
-          size: 10,
+          page: page,
+          size: size,
         })
       );
     }
@@ -47,6 +49,16 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
     console.log("Input value:", value);
   }, 500);
 
+  const handleChangePage = (e: any) => {
+    dispatch(
+      candidateGetAppliedCandidate({
+        job_id: jobId,
+        page: e,
+        size: size,
+      })
+    );
+    setPage(e);
+  };
   return (
     <>
       <div className="fixed z-20 inset-0">
@@ -65,38 +77,36 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
             Danh sách ứng viên đã ứng tuyển
           </h2>
           <div className="my-5 flex gap-4">
-            <Search
-              placeholder="Nhập tên ứng viên"
-              enterButton="Tìm kiếm"
-              size="large"
-              onSearch={(e) => console.log(e)}
-              onInput={(e: any) => {
-                handleSearchCandidate(e?.target?.value);
-              }}
-              className="w-[30%]"
-              loading={false}
-              allowClear
-            />
+            <div className="relative">
+              <InputSearch
+                placeholder="Nhập tên ứng viên"
+                onChange={(e: any) => {
+                  handleSearchCandidate(e?.target?.value);
+                }}
+                className="pr-10 w-[280px]"
+              ></InputSearch>
+              <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+            </div>
+
             <Select
               allowClear
               size={"large"}
-              defaultValue="Tất cả"
-              placeholder="Lọc theo"
-              className="custom-base"
+              placeholder="Tình trạng"
+              className="custom-base select-filter"
               onChange={() => {}}
               style={{ width: 200 }}
               options={[
                 {
-                  value: "current",
-                  label: "Tình trạng Spending",
+                  value: "PROGRESS",
+                  label: "Progress",
                 },
                 {
-                  value: "5nam",
-                  label: "Tình trạng Reject",
+                  value: "REJECT",
+                  label: "Reject",
                 },
                 {
-                  value: "5nam",
-                  label: "Tình trạng Approve",
+                  value: "APPROVE",
+                  label: "Approve",
                 },
               ]}
             />
@@ -107,7 +117,7 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                 dataHeader={dataHeaderManageCandidateApplyJob}
               ></HeaderTableManageJobPage>
               {loadingCandidate ? (
-                <tbody className="">
+                <tbody>
                   <tr>
                     <td className="p-5 text-center" colSpan={7}>
                       <Skeleton active />
@@ -135,15 +145,13 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
               )}
             </Table>
             <div className="mt-4 flex justify-end">
-              {appliedCandidate.length <= 0 ? (
-                <></>
-              ) : (
+              {appliedCandidate.length > 0 && (
                 <Pagination
-                  total={50}
-                  onChange={() => {}}
+                  total={paginationCandidate?.totalElements}
+                  onChange={handleChangePage}
                   className="inline-block"
-                  current={1}
-                  pageSize={10}
+                  current={page}
+                  pageSize={paginationCandidate?.pageSize}
                 />
               )}
             </div>
