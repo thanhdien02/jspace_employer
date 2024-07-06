@@ -113,7 +113,7 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
             <Pagination
               total={paginationPurchaseHistory?.totalElements}
               onChange={handleChangePage}
-              className="inline-block"
+              className="inline-block panigation"
               current={page}
               pageSize={paginationPurchaseHistory?.pageSize}
             />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import banner from "../../assets/banner-home5.jpg";
+import banner from "../../assets/Banner1.svg";
 import IconArrowRight from "../../components/icons/IconArrowRight";
 import LoginPage from "./LoginPage";
 import { CSSTransition } from "react-transition-group";
@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
             claseNameOverlay="opacity-40"
           ></LoginPage>
         </CSSTransition>
-        <div className="relative w-[60%] flex mx-auto mt-1">
+        <div className="relative md:w-[60%] flex mx-auto mt-1">
           <div className="mt-5 absolute top-2 left-1/2 -translate-x-[50%] flex flex-col">
             <h2 className="md:text-4xl text-xl font-bold text-center leading-snug md:w-[600px] w-[300px] max-w-full">
               Đăng tin tuyển dụng, tìm kiếm ứng viên hiệu quả
@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
             <img
               src={banner}
               alt=""
-              className="w-full object-cover h-[500px] object-center mt-36"
+              className="w-full object-cover h-[500px] object-center lg:mt-36 mt-16"
             />
           ) : (
             <div className="mt-36 w-full object-contain">

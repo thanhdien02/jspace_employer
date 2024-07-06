@@ -228,7 +228,7 @@ const EmployerManageJobPage: React.FC = () => {
             <Pagination
               total={paginationPostedJob?.totalElements}
               onChange={(e) => setPage(e)}
-              className="inline-block"
+              className="inline-block panigation"
               current={page}
               pageSize={paginationPostedJob?.pageSize}
             />

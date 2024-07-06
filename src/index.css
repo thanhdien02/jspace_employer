@@ -156,3 +156,11 @@ body {
 .select .ant-select-selector {
   padding: 5px 10px !important;
 }
+.panigation .ant-pagination-item-link {
+  background: #1967d2 !important;
+  color: white !important;
+  font-weight: 700 !important;
+}
+.panigation .ant-pagination-item-link:hover {
+  opacity: 0.8 !important;
+}

@@ -47,7 +47,7 @@ const EmployerListProductPage: React.FC = () => {
             <Pagination
               total={paginationProduct?.totalElements}
               onChange={(e) => setPage(e)}
-              className="inline-block"
+              className="inline-block panigation"
               current={page}
               pageSize={paginationProduct?.pageSize}
             />

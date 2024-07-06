@@ -5,8 +5,8 @@ const LayoutHomeUserFooter: React.FC = () => {
   return (
     <>
       <footer className="w-primary max-w-full mx-auto pt-10">
-        <div className="flex gap-10 justify-between">
-          <div className="flex flex-col w-[34%] gap-2">
+        <div className="flex lg:gap-10 gap-3 justify-between flex-wrap md:px-20 lg:px-0 px-5">
+          <div className="flex flex-col lg:w-[34%] gap-2">
             <div className="flex items-center gap-3">
               <img
                 src={logo}
@@ -46,25 +46,25 @@ const LayoutHomeUserFooter: React.FC = () => {
             <div className="flex flex-col gap-1">
               <NavLink
                 to="/"
-                className="hover:underline transition-all text-sm"
+                className="hover:underline transition-all text-sm text-[#6A6E78]"
               >
                 Trang chủ
               </NavLink>
               <NavLink
                 to="/jobs"
-                className="hover:underline transition-all text-sm"
+                className="hover:underline transition-all text-sm text-[#6A6E78]"
               >
                 Tìm việc
               </NavLink>
               <NavLink
                 to="/companys"
-                className="hover:underline transition-all text-sm"
+                className="hover:underline transition-all text-sm text-[#6A6E78]"
               >
                 Công ty
               </NavLink>
               <NavLink
                 to="/"
-                className="hover:underline transition-all text-sm"
+                className="hover:underline transition-all text-sm text-[#6A6E78]"
               >
                 Hỗ trợ
               </NavLink>
@@ -75,33 +75,33 @@ const LayoutHomeUserFooter: React.FC = () => {
             <ul className="flex flex-col gap-1">
               <NavLink
                 to="/"
-                className="hover:underline transition-all text-sm"
+                className="hover:underline transition-all text-sm text-[#6A6E78]"
               >
                 Gói tuyển dụng
               </NavLink>
               <NavLink
                 to="/"
-                className="hover:underline transition-all text-sm"
+                className="hover:underline transition-all text-sm text-[#6A6E78]"
               >
                 Tìm ứng viên
               </NavLink>
               <NavLink
                 to="/"
-                className="hover:underline transition-all text-sm"
+                className="hover:underline transition-all text-sm text-[#6A6E78]"
               >
                 Đăng tin
               </NavLink>
               <NavLink
                 to="/"
-                className="hover:underline transition-all text-sm"
+                className="hover:underline transition-all text-sm text-[#6A6E78]"
               >
                 Dịch vụ
               </NavLink>
             </ul>
           </div>
-          <div className="w-[30%]">
+          <div className="lg:w-[30%]">
             <h2 className="font-semibold uppercase">Thông tin liên hệ</h2>
-            <p className="mt-5 text-sm">
+            <p className="mt-5 text-sm text-[#6A6E78]">
               Nhập email của bạn để chúng tôi có thể thông báo những thông tin
               mới nhất.
             </p>
@@ -113,7 +113,7 @@ const LayoutHomeUserFooter: React.FC = () => {
                 placeholder="join@gmail.com"
               />
               <button
-                className="px-6 py-2 rounded bg-gray-300 font-medium hover:opacity-80 transition-all"
+                className="px-6 py-2 rounded bg-primary text-white font-medium hover:opacity-80 transition-all"
                 type="button"
               >
                 Gửi

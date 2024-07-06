@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { KeyOutlined } from "@ant-design/icons";
 import ButtonLoading from "../../components/button/ButtonLoading";
 import IconKey from "../../components/icons/IconKey";
+import ExportExcel from "../../components/export/ExportExcel";
+import { Checkbox } from "antd";
 interface Inputs {
   name: string;
   passwordold: string;
@@ -18,10 +20,16 @@ const EmployerChangePasswordPage: React.FC = () => {
     reset,
     formState: { errors },
   } = useForm<Inputs>();
+  const [showpassword, setShowpassword] = useState(false);
   const onSubmit: SubmitHandler<Inputs> = (dataPassword: Inputs) => {
     console.log("🚀 ~ dataPassword:", dataPassword);
     reset();
   };
+  const data = [
+    { name: "John", age: 28, city: "New York" },
+    { name: "Jane", age: 22, city: "San Francisco" },
+    { name: "Peter", age: 35, city: "Chicago" },
+  ];
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -44,7 +52,7 @@ const EmployerChangePasswordPage: React.FC = () => {
                   <input
                     {...register("passwordold", {})}
                     placeholder="Mật khẩu cũ"
-                    type="password"
+                    type={showpassword ? "text" : "password"}
                     id="passwordold"
                     autoComplete="off"
                     className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-12 py-3 border border-stone-200 border-solid w-full rounded-md"
@@ -76,7 +84,7 @@ const EmployerChangePasswordPage: React.FC = () => {
                       required: true,
                     })}
                     placeholder="Mật khẩu mới"
-                    type="password"
+                    type={showpassword ? "text" : "password"}
                     autoComplete="off"
                     id="passwordnew"
                     className="h-full pl-12 pr-4 focus:border-solid focus:border-stone-400/70 transition-all outline-none py-3 border border-stone-200 border-solid w-full rounded-md"
@@ -112,7 +120,7 @@ const EmployerChangePasswordPage: React.FC = () => {
                       required: true,
                     })}
                     placeholder="Xác nhận mật khẩu mới"
-                    type="password"
+                    type={showpassword ? "text" : "password"}
                     autoComplete="off"
                     id="passwordnewconfirm"
                     className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pl-12 pr-4 py-3 border border-stone-200 border-solid w-full rounded-md"
@@ -120,6 +128,13 @@ const EmployerChangePasswordPage: React.FC = () => {
                 </div>
               </div>
             </div>
+            <Checkbox
+              onChange={() => {
+                setShowpassword(!showpassword);
+              }}
+            >
+              Hiện mật khẩu
+            </Checkbox>
 
             <div className="flex justify-end mt-5">
               <ButtonLoading
@@ -127,6 +142,7 @@ const EmployerChangePasswordPage: React.FC = () => {
                 loading={false}
               ></ButtonLoading>
             </div>
+            <ExportExcel data={data} />
           </form>
         </div>
       </div>

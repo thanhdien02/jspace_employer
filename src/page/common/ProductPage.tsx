@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import banner from "../../assets/banner-home2.jpg";
+import banner from "../../assets/Banner2.svg";
 import CardProductAtCommonPage from "../../components/cards/CardProductAtCommonPage";
 import { useDispatch, useSelector } from "react-redux";
 import { productGetProduct } from "../../store/product/product-slice";
@@ -15,7 +15,7 @@ const ProductPage: React.FC = () => {
   return (
     <>
       <div className="mt-4">
-        <img src={banner} className="w-full h-[300px] object-contain" alt="" />
+        <img src={banner} className="w-full h-[350px] " alt="" />
       </div>
       <div className="w-primary max-w-full mx-auto pt-5">
         <div className="flex gap-2 items-center">

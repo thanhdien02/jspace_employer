@@ -286,7 +286,7 @@ const EmployerFindCandidatePage: React.FC = () => {
                   <Pagination
                     total={40}
                     // onChange={handleChangePage}
-                    className="inline-block"
+                    className="inline-block panigation"
                     current={1}
                     pageSize={10}
                   />
