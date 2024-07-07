@@ -5,13 +5,13 @@ import { NavLink, Outlet } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import LoginPage from "../page/common/LoginPage";
 import { authLogout } from "../store/auth/auth-slice";
-import { CommentOutlined } from "@ant-design/icons";
 import LayoutHomeUserFooter from "../components/footer/LayoutHomeUserFooter";
 import IconChervonUp from "../components/icons/IconChervonUp";
 import IconHome from "../components/icons/IconHome";
 import IconBriefCase from "../components/icons/IconBriefCase";
 import IconUser from "../components/icons/IconUser";
 import IconNewpaper from "../components/icons/IconNewpaper";
+import { RiMessengerLine } from "react-icons/ri";
 const LayoutEmployerHomePage: React.FC = () => {
   const { accessToken, messageAuth } = useSelector((state: any) => state.auth);
   const [checkLogin, setCheckLogin] = useState(false);
@@ -72,9 +72,10 @@ const LayoutEmployerHomePage: React.FC = () => {
       <a
         href="https://m.me/267479709792373"
         target="_blank"
-        className="fixed z-30 flex md:right-10 right-5 md:w-16 md:h-16 w-14 h-14 md:bottom-10 bottom-20 border-2 border-solid bg-blue-50 border-primary rounded-full hover:opacity-80 transition-all"
+        className="fixed z-30 flex md:right-10 right-5 md:w-16 md:h-16 w-14 h-14 md:bottom-10 bottom-20 rounded-full hover:opacity-80 transition-all"
       >
-        <CommentOutlined className="m-auto text-3xl text-primary" />
+        <RiMessengerLine className="m-auto text-6xl text-primary" />
+        {/* <CommentOutlined className="m-auto text-3xl text-primary" /> */}
       </a>
       <CSSTransition
         in={checkScrolltoTop}

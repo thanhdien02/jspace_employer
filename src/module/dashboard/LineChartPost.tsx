@@ -7,6 +7,7 @@ import {
 } from "../../store/dashboard/dashboard-slice";
 import { dataMonth, dataYear } from "../../utils/dataFetch";
 import { Line } from "react-chartjs-2";
+import ExportExcel from "../../components/export/ExportExcel";
 
 const options = {
   scales: {
@@ -86,6 +87,7 @@ const LineChartPost = () => {
   };
   const data: any = generateDataPost(timeframe, monthlyData, yearlyData);
   const dispatch = useDispatch();
+  const [dataExport, setDataExport] = useState<any>(null);
   useEffect(() => {
     if (companyAuth?.id) console.log("object");
     dispatch(
@@ -97,10 +99,31 @@ const LineChartPost = () => {
     );
   }, [companyAuth]);
   useEffect(() => {
-    if (dashboardPostMonth) setMonthlyData(dashboardPostMonth);
+    if (dashboardPostMonth) {
+      setMonthlyData(dashboardPostMonth);
+
+      const transformedArray: any = Object.entries(dashboardPostMonth).map(
+        ([key, value]) => {
+          return {
+            THÁNG: Number(key),
+            "SỐ LƯỢNG": value,
+          };
+        }
+      );
+      setDataExport(transformedArray);
+    }
   }, [dashboardPostMonth]);
   useEffect(() => {
-    if (dashboardPostYear) setYearlyData(dashboardPostYear);
+    if (dashboardPostYear) {
+      setYearlyData(dashboardPostYear);
+      const transformedArray: any = Object.entries(dashboardPostYear).map(
+        ([key, value]) => ({
+          NĂM: Number(key),
+          "SỐ LƯỢNG": value,
+        })
+      );
+      setDataExport(transformedArray);
+    }
   }, [dashboardPostYear]);
 
   const onChangeMonth = (e: any) => {
@@ -158,14 +181,14 @@ const LineChartPost = () => {
               <Select
                 placeholder="Tháng"
                 value={month}
-                className="!py-0 ml-2 w-[120px]"
+                className="!py-0 ml-2 w-[120px] select-filter"
                 onChange={onChangeMonth}
                 options={dataMonth}
               />
               <Select
                 placeholder="Năm"
                 value={year}
-                className="!py-0 ml-2 w-[120px]"
+                className="!py-0 ml-2 w-[120px] select-filter"
                 onChange={onChangeYearofMonth}
                 options={dataYear}
               />
@@ -175,12 +198,18 @@ const LineChartPost = () => {
               <Select
                 value={year}
                 placeholder="Năm"
-                className="!py-0 ml-2 w-[120px]"
+                className="!py-0 ml-2 w-[120px] select-filter"
                 onChange={onChangeYear}
                 options={dataYear}
               />
             </>
           )}
+          <ExportExcel
+            data={dataExport}
+            nameFile="DanhSach"
+            title="Export"
+            className="px-2 py-1 rounded border border-solid border-gray-200 hover:opacity-80 transition-all"
+          />
         </div>
         <div className="w-full mt-3">
           {data?.labels?.length > 0 && <Line data={data} options={options} />}

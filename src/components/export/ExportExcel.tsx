@@ -1,41 +1,55 @@
 import React from "react";
 import * as XLSX from "xlsx";
-
 interface ExportExcelProps {
   data: Array<Record<string, any>>;
+  nameFile?: string;
+  className?: string;
+  title?: string;
 }
 
-const ExportExcel: React.FC<ExportExcelProps> = ({ data }) => {
+const ExportExcel: React.FC<ExportExcelProps> = ({
+  data,
+  nameFile,
+  className,
+  title = "Export Excel",
+}) => {
   const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
-    // Generate Excel file buffer
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: "xlsx",
-      type: "array",
+    const ws = XLSX.utils.json_to_sheet(data);
+    // const wscols = [
+    //   { wch: 10 },
+    //   { wch: 20 },
+    //   { wch: 20 },
+    //   { wch: 25 },
+    //   { wch: 30 },
+    //   { wch: 10 },
+    //   { wch: 20 },
+    //   { wch: 25 },
+    // ];
+    // ws["!cols"] = wscols;
+    // Tạo một workbook mới và thêm worksheet vào
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    // Xuất file excel
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const dataBlob = new Blob([excelBuffer], {
+      type: "application/octet-stream",
     });
-
-    // Create a Blob from the buffer
-    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
-
-    // Create a link element
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-    link.href = url;
-    link.download = "Data.xlsx"; // Default name, user will change it in the dialog
-
-    // Append to the document and trigger click
-    document.body.appendChild(link);
-    link.click();
-
-    // Clean up and remove the link
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    // Tạo URL cho file và mở hộp thoại lưu file
+    const url = window.URL.createObjectURL(dataBlob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${nameFile}.xlsx`;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
   };
-
-  return <button onClick={exportToExcel}>Export to Excel</button>;
+  return (
+    <button onClick={exportToExcel} type="button" className={`${className}`}>
+      {title}
+    </button>
+  );
 };
 
 export default ExportExcel;

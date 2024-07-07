@@ -137,9 +137,18 @@ const LoginPage: React.FC<PropComponent> = ({
             </h1>
           </div>
           <div className="w-full">
-            <h4 className="mb-2 text-base font-semibold">
-              Bạn đã sẵn sàng để đăng nhập ?
-            </h4>
+            <div className="flex items-center mb-2">
+              <h4 className=" text-base font-semibold">
+                Bạn đã sẵn sàng để đăng nhập ?
+              </h4>
+              <p
+                className="ml-auto text-sm cursor-pointer hover:text-primary transition-all font-medium"
+                onClick={() => login()}
+              >
+                Đăng ký tài khoản
+              </p>
+            </div>
+
             <div className="">
               <label
                 htmlFor="email"
@@ -150,7 +159,6 @@ const LoginPage: React.FC<PropComponent> = ({
               <div className="mt-2 relative">
                 <UserOutlined
                   style={{
-                    // fontSize: "20px",
                     color: "rgb(156 163 175)",
                     position: "absolute",
                     top: "0",
@@ -187,7 +195,7 @@ const LoginPage: React.FC<PropComponent> = ({
                 </p>
               </div>
             </div>
-            <div className="">
+            <div>
               <label
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-600"
@@ -217,7 +225,6 @@ const LoginPage: React.FC<PropComponent> = ({
                 />
               </div>
               <p className="text-red-600 text-sm py-2">
-                {" "}
                 {errors?.password?.type === "required"
                   ? "*Bạn chưa điền mật khẩu."
                   : errors?.password?.type === "maxLength"
@@ -227,6 +234,7 @@ const LoginPage: React.FC<PropComponent> = ({
                   : ""}
               </p>
             </div>
+
             <div className="w-full">
               <Checkbox
                 onChange={onChange}
@@ -243,7 +251,7 @@ const LoginPage: React.FC<PropComponent> = ({
               type="submit"
               className="bg-primary text-white px-4 py-2 w-full !hover:bg-primary rounded-lg flex gap-3 justify-center items-center hover:opacity-80 !transition-all"
             >
-              {loadingEmailPassword ? (
+              {false ? (
                 <Spin
                   indicator={
                     <LoadingOutlined style={{ color: "white" }} spin />
@@ -264,7 +272,7 @@ const LoginPage: React.FC<PropComponent> = ({
               className={`bg-red-500 h-10 text-white px-4 py-2 w-full !hover:bg-red-500 rounded-lg flex gap-3 justify-center items-center hover:opacity-80 !transition-all`}
               onClick={() => login()}
             >
-              {loading ? (
+              {false ? (
                 <>
                   <div className="w-full flex">
                     <span className="border-[3px] rounded-full m-auto border-l-transparent border-solid border-gray-100 w-[25px] h-[25px] animate-spin"></span>

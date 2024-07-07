@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { KeyOutlined } from "@ant-design/icons";
 import ButtonLoading from "../../components/button/ButtonLoading";
 import IconKey from "../../components/icons/IconKey";
-import ExportExcel from "../../components/export/ExportExcel";
 import { Checkbox } from "antd";
 interface Inputs {
   name: string;
@@ -25,11 +24,6 @@ const EmployerChangePasswordPage: React.FC = () => {
     console.log("🚀 ~ dataPassword:", dataPassword);
     reset();
   };
-  const data = [
-    { name: "John", age: 28, city: "New York" },
-    { name: "Jane", age: 22, city: "San Francisco" },
-    { name: "Peter", age: 35, city: "Chicago" },
-  ];
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -142,7 +136,6 @@ const EmployerChangePasswordPage: React.FC = () => {
                 loading={false}
               ></ButtonLoading>
             </div>
-            <ExportExcel data={data} />
           </form>
         </div>
       </div>

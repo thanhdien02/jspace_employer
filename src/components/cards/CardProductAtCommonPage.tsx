@@ -26,15 +26,13 @@ const CardProductAtCommonPage: React.FC<PropComponent> = ({
             </h3>
             <p className="text-sm mt-1">* Giá trên chưa bao gồm VAT</p>
           </div>
-          <button
-            className="w-full mt-3 px-4 py-2 rounded-md font-medium bg-white text-primary border border-solid border-primary hover:opacity-80 transition-all"
-            type="button"
-            onClick={() =>
-              (window.location.href = "https://m.me/267479709792373")
-            }
+          <a
+            target="_blank"
+            href="https://m.me/267479709792373"
+            className="block w-full mt-3 px-4 py-2 rounded-md font-medium bg-white text-primary border border-solid border-primary hover:opacity-80 transition-all text-center"
           >
             Liên hệ tư vấn
-          </button>
+          </a>
           <div className="mt-5">
             <h4 className="text-base font-medium text-gray-600">
               QUYỀN LỢI ĐẶC BIỆT
