@@ -2,16 +2,19 @@ import { call, put } from "redux-saga/effects";
 import { getToken } from "../../utils/auth";
 
 import {
+  candidateFindCandidatePaginationRedux,
   candidateFollowedCompanyPaginationRedux,
   candidatePaginationRedux,
   candidateUpdateAppliedCandidateRedux,
   candidateUpdateCandidateFollowedCompanyRedux,
+  candidateUpdateFindCandidateRedux,
   candidateUpdateLoadingRedux,
 } from "./candidate-slice";
 import { message } from "antd";
 import {
   requestCandidateGetAppliedCandidate,
   requestCandidateGetCandidateFollowedCompany,
+  requestCandidateGetFindCandidate,
   requestEmployerUpdateStatusAppliedCandidate,
 } from "./candidate-requests";
 
@@ -121,8 +124,48 @@ function* handleCandidateGetCandidateFollowedCompany(
     yield put(candidateUpdateLoadingRedux({ loadingCandidate: false }));
   }
 }
+function* handleCandidateGetFindCandidate(
+  dataGetFindCandidate: any
+): Generator<any> {
+  try {
+    yield put(candidateUpdateLoadingRedux({ loadingCandidate: true }));
+    const { accessToken } = getToken();
+    const response: any = yield call(
+      requestCandidateGetFindCandidate,
+      dataGetFindCandidate?.payload?.name,
+      dataGetFindCandidate?.payload?.email,
+      dataGetFindCandidate?.payload?.phone,
+      dataGetFindCandidate?.payload?.page,
+      dataGetFindCandidate?.payload?.size,
+      accessToken
+    );
+    if (response?.data?.code === 1000) {
+      yield put(
+        candidateUpdateFindCandidateRedux({
+          findCandidate: response.data.result.content,
+        })
+      );
+      yield put(
+        candidateFindCandidatePaginationRedux({
+          paginationFindCandidate: {
+            pageNumber: response.data.result.pageNumber,
+            pageSize: response.data.result.pageSize,
+            totalElements: response.data.result.totalElements,
+            totalPages: response.data.result.totalPages,
+            numberOfElements: response.data.result.numberOfElements,
+          },
+        })
+      );
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(candidateUpdateLoadingRedux({ loadingCandidate: false }));
+  }
+}
 export {
   handleCandidateGetAppliedCandidate,
   handleEmployerUpdateStatusAppliedCandidate,
   handleCandidateGetCandidateFollowedCompany,
+  handleCandidateGetFindCandidate,
 };

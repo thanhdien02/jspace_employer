@@ -1,3 +1,4 @@
+import { message } from "antd";
 import React from "react";
 
 interface PropComponent {
@@ -15,14 +16,14 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
       >
         <div className="relative w-full h-[30%] rounded-md">
           <img
-            src={item?.background}
+            src={item?.user?.background}
             alt=""
             className="w-full h-full object-cover rounded-t-md"
           />
           <img
             src={
-              item?.picture
-                ? item?.picture
+              item?.user?.picture
+                ? item?.user?.picture
                 : "https://cdn.pixabay.com/photo/2024/04/06/09/18/highland-cow-8678950_1280.jpg"
             }
             alt=""
@@ -30,18 +31,20 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
           />
         </div>
         <div className="flex-1 flex flex-col h-max mt-[35px] p-3">
-          <h4 className="font-medium text-[17px] text-center">{item?.name}</h4>
+          <h4 className="font-medium text-[17px] text-center">
+            {item?.user?.name}
+          </h4>
           <ul className="mt-2 flex flex-col gap-2">
             <li className="mt-[1px] text-gray-600 text-sm pb-1">
               <span className="inline-block mr-4">Email: </span>
               <span className="text-black font-medium font-sans">
-                {item?.email}
+                {item?.user?.email}
               </span>
             </li>
             <li className="mt-[1px] text-gray-600 text-sm pb-1">
               <span className="inline-block mr-4">Số điện thoại: </span>
               <span className="text-black font-medium font-sans">
-                {item?.phone}
+                {item?.user?.phone}
               </span>
             </li>
             {/* <li className="mt-[1px] text-gray-600 text-sm pb-1">
@@ -68,16 +71,23 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
           <div className="mt-auto grid grid-cols-2 gap-5">
             <button
               type="button"
+              onClick={() =>
+                downloadFile(
+                  item?.defaultResume?.file?.path,
+                  item?.defaultResume?.file?.name
+                )
+              }
               className="px-4 py-2 text-primary bg-white font-medium rounded-md border border-solid border-primary hover:opacity-80 transition-all"
             >
               Tải CV
             </button>
-            <button
-              type="button"
-              className="px-4 py-2 text-white bg-primary font-medium rounded-md hover:opacity-80 transition-all"
+            <a
+              href={item?.defaultResume?.file?.path}
+              target="_blank"
+              className="block text-center px-4 py-2 text-white bg-primary font-medium rounded-md hover:opacity-80 transition-all"
             >
               Xem CV
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -86,3 +96,27 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
 };
 
 export default CardFindCandidatePage;
+async function downloadFile(url: string, nameFile: string) {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const fileHandle: FileSystemFileHandle = await (
+      window as any
+    ).showSaveFilePicker({
+      suggestedName: nameFile,
+      types: [
+        {
+          description: "File",
+          accept: { "*/*": [".pdf", ".txt", ".jpg", ".png"] },
+        },
+      ],
+    });
+    const writable = await fileHandle.createWritable();
+    await writable.write(blob);
+    await writable.close();
+
+    message.success("Tải xuống thành công !");
+  } catch (error) {
+    console.error("Error downloading file:", error);
+  }
+}

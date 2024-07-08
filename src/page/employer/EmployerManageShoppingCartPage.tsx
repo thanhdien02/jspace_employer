@@ -10,6 +10,7 @@ import {
 } from "../../store/cart/cart-slice";
 import { paymentRequestPaymentCart } from "../../store/payment/payment-slice";
 import Loading from "../../components/loading/Loading";
+import { convertDollarToVN } from "../../utils/function-common";
 
 const EmployerManageShoppingCartPage: React.FC = () => {
   const { loadingPayment, payment } = useSelector(
@@ -84,7 +85,7 @@ const EmployerManageShoppingCartPage: React.FC = () => {
         dispatch(
           paymentRequestPaymentCart({
             cart_ids: dataPayment,
-            total: Math.floor(sumCart / 23000),
+            total: sumCart,
           })
         );
       } else {
@@ -161,10 +162,14 @@ const EmployerManageShoppingCartPage: React.FC = () => {
               <div className="flex justify-between items-center font-medium border-solid border-b-[1px] border-gray-200 p-4">
                 <span>Tổng giá trị đơn hàng</span>
                 <span>
-                  {sumCart.toLocaleString("vi", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
+                  {sumCart}$ /{" "}
+                  {convertDollarToVN(Number(sumCart), 24000).toLocaleString(
+                    "vi",
+                    {
+                      style: "currency",
+                      currency: "VND",
+                    }
+                  )}
                 </span>
               </div>
               <div className="flex justify-between items-center font-medium border-solid border-b-[1px] border-gray-200 p-4">

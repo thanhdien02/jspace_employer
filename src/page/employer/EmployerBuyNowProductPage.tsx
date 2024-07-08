@@ -55,7 +55,7 @@ const EmployerBuyNowProductPage: React.FC<PropComponent> = ({
     dispatch(
       paymentRequestPayment({
         quantity: quantity,
-        total: Math.floor(sum / 23000),
+        total: sum,
         productId: productId,
         companyId: companyAuth?.id,
       })

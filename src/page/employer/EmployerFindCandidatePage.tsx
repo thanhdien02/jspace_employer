@@ -5,9 +5,10 @@ import {
   Pagination,
   Popover,
   Progress,
-  Select,
+  Skeleton,
   Tooltip,
 } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -21,15 +22,22 @@ import {
   commonGetRank,
   commonGetSkills,
 } from "../../store/common/common-slice";
-import { dataSalary } from "../../utils/dataFetch";
 import CardFindCandidatePage from "../../components/cards/CardFindCandidatePage";
+import { candidateGetFindCandidate } from "../../store/candidate/candidate-slice";
+import InputSearch from "../../components/input/InputSearch";
+import { debounce } from "ts-debounce";
 
 const EmployerFindCandidatePage: React.FC = () => {
+  const { findCandidate, paginationFindCandidate, loadingCandidate } =
+    useSelector((state: any) => state.candidate);
   const { user, checkAuth } = useSelector((state: any) => state.auth);
-  const { locations, experiences } = useSelector((state: any) => state.common);
-  const [location, setLocation] = useState<any>(null);
-  const [experience, setExperience] = useState<any>(null);
-  const [salary, setSalary] = useState<any>(null);
+
+  // search
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [page, setPage] = useState(1);
+  const [size] = useState(9);
+  //
   // const [rank, setRank] = useState<any>(null);
   const dispatch = useDispatch();
   const [proccessCheckIdentification, setProccessCheckIdentification] =
@@ -93,16 +101,57 @@ const EmployerFindCandidatePage: React.FC = () => {
     dispatch(commonGetExperience());
     dispatch(commonGetSkills());
   }, []);
-  const handleChangeLocation = (value: any) => {
-    setLocation(value);
-  };
-  const handleChangeExperience = (value: any) => {
-    setExperience(value);
-  };
-  const handleChangeSalary = (value: any) => {
-    setSalary(value);
-  };
 
+  //
+  const handleSearchName = debounce((value: any) => {
+    dispatch(
+      candidateGetFindCandidate({
+        name: value,
+        email: email,
+        phone: "",
+        page: 1,
+        size: size,
+      })
+    );
+    setName(value);
+    setPage(1);
+  }, 500);
+  const handleSearchEmail = debounce((value: any) => {
+    dispatch(
+      candidateGetFindCandidate({
+        name: name,
+        email: value,
+        phone: "",
+        page: 1,
+        size: size,
+      })
+    );
+    setEmail(value);
+    setPage(1);
+  }, 500);
+  const handleChangePage = (e: any) => {
+    dispatch(
+      candidateGetFindCandidate({
+        name: name,
+        email: email,
+        phone: "",
+        page: e,
+        size: size,
+      })
+    );
+    setPage(e);
+  };
+  useEffect(() => {
+    dispatch(
+      candidateGetFindCandidate({
+        name: name,
+        email: email,
+        phone: "",
+        page: page,
+        size: size,
+      })
+    );
+  }, []);
   return (
     <>
       {!loadingCheck ? (
@@ -219,87 +268,58 @@ const EmployerFindCandidatePage: React.FC = () => {
           <HeaderContentManage title="Tìm kiếm ứng viên"></HeaderContentManage>
           <div className="bg-white shadow-md p-7 rounded-md ">
             <div className="flex gap-5">
-              <Select
-                showSearch
-                allowClear
-                placeholder="Địa chỉ"
-                className="select w-[20%] text-base rounded-lg h-full bg-white"
-                optionFilterProp="children"
-                value={location}
-                filterOption={(input: string, option: any) =>
-                  ((option?.label ?? "") as string)
-                    .toLowerCase()
-                    .includes((input ?? "").toLowerCase())
-                }
-                options={
-                  locations?.length > 0 &&
-                  locations.map((item: any) => ({
-                    label: item?.province,
-                    value: item?.value,
-                  }))
-                }
-                onChange={handleChangeLocation}
-              />
-
-              <Select
-                showSearch
-                allowClear
-                className="select w-[20%] text-base rounded-lg h-full bg-white"
-                optionFilterProp="children"
-                value={experience}
-                onChange={handleChangeExperience}
-                placeholder="Kinh nghiệm"
-                filterOption={(input: string, option: any) =>
-                  ((option?.label ?? "") as string)
-                    .toLowerCase()
-                    .includes((input ?? "").toLowerCase())
-                }
-                options={
-                  experiences?.length > 0 &&
-                  experiences.map((item: any) => ({
-                    label: item?.code,
-                    value: item?.value,
-                  }))
-                }
-              />
-              <Select
-                showSearch
-                allowClear
-                placeholder="Mức lương"
-                className="select w-[15%] text-base rounded-lg h-full bg-white"
-                optionFilterProp="children"
-                filterOption={(input, option: any) =>
-                  (option?.label ?? "").includes(input)
-                }
-                onChange={handleChangeSalary}
-                value={salary}
-                options={dataSalary}
-              />
-              <button
-                type="button"
-                className="px-3 py-2 bg-primary rounded-md text-white font-medium hover:opacity-80 transition-all"
-              >
-                Tìm kiếm
-              </button>
-              <div className="ml-auto flex justify-end">
-                {true && (
-                  <Pagination
-                    total={40}
-                    // onChange={handleChangePage}
-                    className="inline-block panigation"
-                    current={1}
-                    pageSize={10}
-                  />
-                )}
+              <div className="flex gap-5">
+                <div className="relative">
+                  <InputSearch
+                    placeholder="Nhập tên ứng viên"
+                    onChange={(e: any) => {
+                      handleSearchName(e?.target?.value);
+                    }}
+                    className="pr-10 w-[280px]"
+                  ></InputSearch>
+                  <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+                </div>
+                <div className="relative">
+                  <InputSearch
+                    placeholder="Nhập email"
+                    onChange={(e: any) => {
+                      handleSearchEmail(e?.target?.value);
+                    }}
+                    className="pr-10 w-[280px]"
+                  ></InputSearch>
+                  <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+                </div>
               </div>
             </div>
-            <div className="mt-8 grid lg:grid-cols-3 grid-cols-1 gap-7">
-              <CardFindCandidatePage></CardFindCandidatePage>
-              <CardFindCandidatePage></CardFindCandidatePage>
-              <CardFindCandidatePage></CardFindCandidatePage>
-              <CardFindCandidatePage></CardFindCandidatePage>
-              <CardFindCandidatePage></CardFindCandidatePage>
-              <CardFindCandidatePage></CardFindCandidatePage>
+            {loadingCandidate ? (
+              <div className="py-5">
+                <Skeleton />
+              </div>
+            ) : findCandidate?.length <= 0 ? (
+              <div className="py-10 text-base text-gray-600 font-medium text-center">
+                Không có dữ liệu
+              </div>
+            ) : (
+              <div className="mt-8 grid grid-cols-3 gap-5">
+                {findCandidate?.length > 0 &&
+                  findCandidate.map((item: any) => (
+                    <CardFindCandidatePage
+                      key={item?.user?.id}
+                      item={item}
+                    ></CardFindCandidatePage>
+                  ))}
+              </div>
+            )}
+            <div className="mt-4 flex justify-end">
+              {findCandidate?.length > 0 && (
+                <Pagination
+                  total={paginationFindCandidate?.totalElements}
+                  onChange={handleChangePage}
+                  className="inline-block panigation"
+                  current={page}
+                  pageSize={paginationFindCandidate?.pageSize}
+                />
+              )}
             </div>
           </div>
         </div>
