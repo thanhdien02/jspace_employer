@@ -344,16 +344,20 @@ export const dataHeaderManageJob = [
   },
 
   {
+    title: "Xóa",
+    className: "absolute right-80 z-10",
+  },
+  {
     title: "TT bài đăng",
-    className: "absolute right-56 z-10",
+    className: "absolute right-52 z-10",
   },
   {
     title: "Thực hiện",
-    className: "absolute right-[135px] z-10",
+    className: "absolute right-[125px] z-10",
   },
   {
     title: "Ứng viên",
-    className: "absolute right-10 z-10",
+    className: "absolute right-6 z-10",
   },
 ];
 
@@ -382,11 +386,7 @@ export const dataHeaderManageCandidateApplyJob = [
     title: "Tình trạng",
     className: "w-[20%]",
   },
-  {
-    title: "Chi tiết",
-    className: "w-[15%]",
-  },
-];
+  ];
 
 export const dataCard = [
   {

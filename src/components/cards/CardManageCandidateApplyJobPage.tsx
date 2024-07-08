@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TableRow from "../table/TableRow";
 import TableRowContent from "../table/TableRowContent";
 import { message, Popconfirm } from "antd";
@@ -26,6 +26,15 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
   const handleChangeRejectNotification = (e: any) => {
     setNotificationReject(e?.target?.value);
   };
+  useEffect(() => {
+    if (item?.applyStatus?.value == "APPROVE") {
+      setUpdateStatusCV("approve");
+      setNotificationApprove(item?.note);
+    } else if (item?.applyStatus?.value == "REJECT") {
+      setUpdateStatusCV("reject");
+      setNotificationApprove(item?.note);
+    }
+  }, []);
   return (
     <>
       <TableRow className={`${className}`}>
@@ -161,16 +170,6 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                 Cập nhật
               </span>
             </Popconfirm>
-          </div>
-        </TableRowContent>
-        <TableRowContent className="">
-          <div className="">
-            <span
-              onClick={() => {}}
-              className="py-1 px-2 text-sm rounded-sm hover:opacity-80 transition-all bg-primary text-white cursor-pointer"
-            >
-              Hồ sơ chi tiết
-            </span>
           </div>
         </TableRowContent>
       </TableRow>

@@ -123,6 +123,7 @@ function* handleJobUpdateJob(dataUpdateJob: any): Generator<any> {
           size: 10,
         },
       });
+
       message.success("Cập nhập thông tin công việc thành công.");
     }
   } catch (error: any) {
@@ -148,6 +149,11 @@ function* handleJobUpdateJobStatus(dataUpdateJobStatus: any): Generator<any> {
           company_id: dataUpdateJobStatus?.payload?.company_id,
           page: 1,
           size: 10,
+        },
+      });
+      yield call(handleJobGetJobById, {
+        payload: {
+          job_id: dataUpdateJobStatus?.payload?.job_id,
         },
       });
       message.success("Cập nhập trạng thái công việc thành công.");

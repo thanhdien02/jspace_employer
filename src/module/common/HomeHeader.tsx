@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import logo from "../../assets/logo3.png";
+import logo from "../../assets/logo1.svg"
 interface PropComponent {
   className?: string;
   checkLogin?: boolean;
@@ -13,7 +13,7 @@ const HomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
     <>
       <header className="flex lg:px-28 px-5 pb-3 pt-4 justify-between items-center shadow-md">
         <div className="flex items-center gap-5">
-          <img src={logo} alt="" className="w-[45px] object-cover" />
+          <img src={logo} alt="" className="w-[120px]" />
           <ul className="lg:flex hidden gap-2">
             <li className="">
               <NavLink

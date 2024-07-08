@@ -24,7 +24,7 @@ function* handleNotificationGetNotification(
     const token: Token = getToken();
     const response: any = yield call(
       requestNotificationGetNotification,
-      dataGetNotification?.payload?.userId,
+      dataGetNotification?.payload?.companyId,
       dataGetNotification?.payload?.page,
       dataGetNotification?.payload?.size,
       token?.accessToken

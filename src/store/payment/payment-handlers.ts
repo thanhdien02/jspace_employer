@@ -41,6 +41,7 @@ function* handlePaymentRequestPayment(dataRequestPayment: any): Generator<any> {
 function* handlePaymentRequestPaymentCart(
   dataRequestPaymentCart: any
 ): Generator<any> {
+  console.log("🚀 ~ dataRequestPaymentCart:", dataRequestPaymentCart);
   try {
     yield put(paymentUpdateLoadingRedux({ loadingPayment: true }));
     const token: Token = getToken();

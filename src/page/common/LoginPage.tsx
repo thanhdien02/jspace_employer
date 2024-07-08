@@ -3,7 +3,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Checkbox, CheckboxProps, Spin } from "antd";
-import logo from "../../assets/logo3.png";
+import logo from "../../assets/logo1.svg";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import IconClose from "../../components/icons/IconClose";
@@ -128,13 +128,10 @@ const LoginPage: React.FC<PropComponent> = ({
             className="absolute top-2 right-2 hover:bg-slate-200 rounded-sm cursor-pointer"
           ></IconClose>
 
-          <div className="flex justify-center flex-col items-center gap-2 mb-5">
+          <div className="flex justify-center flex-col items-center gap-2 mb-8">
             <NavLink to="/" className="block">
-              <img src={logo} alt="" className="max-w-[50px]" />
+              <img src={logo} alt="" className="w-[150px]" />
             </NavLink>
-            <h1 className="text-center text-primary font-bold text-2xl tracking-wider">
-              JSPACE
-            </h1>
           </div>
           <div className="w-full">
             <div className="flex items-center mb-2">

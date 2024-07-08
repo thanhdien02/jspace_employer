@@ -3,13 +3,16 @@ import { API } from "../../configs/configAPI";
 
 export const requestCandidateGetAppliedCandidate = (
   job_id: any,
+  candidateName: string = "",
+  candidateEmail: string = "",
+  applyStatus: string = "",
   page: string,
   size: string,
   accessToken: string
 ) => {
   if (!accessToken) return;
   return axios.get(
-    `${API}/api/v1/employees/posts/${job_id}/applied-candidates?page=${page}&size=${size}`,
+    `${API}/api/v1/employees/posts/${job_id}/applied-candidates?candidateName=${candidateName}&candidateEmail=${candidateEmail}&applyStatus=${applyStatus}&page=${page}&size=${size}`,
     {
       headers: {
         "Content-Type": "application/json",

@@ -15,12 +15,16 @@ import {
 function* handleCandidateGetAppliedCandidate(
   dataGetAppliedCandidate: any
 ): Generator<any> {
+  console.log("🚀 ~ dataGetAppliedCandidate:", dataGetAppliedCandidate)
   try {
     yield put(candidateUpdateLoadingRedux({ loadingCandidate: true }));
     const { accessToken } = getToken();
     const response: any = yield call(
       requestCandidateGetAppliedCandidate,
       dataGetAppliedCandidate?.payload?.job_id,
+      dataGetAppliedCandidate?.payload?.candidateName,
+      dataGetAppliedCandidate?.payload?.candidateEmail,
+      dataGetAppliedCandidate?.payload?.applyStatus,
       dataGetAppliedCandidate?.payload?.page,
       dataGetAppliedCandidate?.payload?.size,
       accessToken

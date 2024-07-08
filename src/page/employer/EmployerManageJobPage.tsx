@@ -108,24 +108,7 @@ const EmployerManageJobPage: React.FC = () => {
             ></InputSearch>
             <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
           </div>
-          <Select
-            allowClear
-            size={"large"}
-            placeholder="Lọc theo thời gian"
-            className="custom-base select-filter"
-            onChange={() => {}}
-            style={{ width: 200 }}
-            options={[
-              {
-                value: "current",
-                label: "Bài đăng đang tuyển",
-              },
-              {
-                value: "5nam",
-                label: "Bài đăng hết hạn",
-              },
-            ]}
-          />
+
           <Select
             allowClear
             size={"large"}
@@ -220,7 +203,7 @@ const EmployerManageJobPage: React.FC = () => {
                 </tbody>
               )}
             </Table>
-            <div className="absolute border border-solid border-gray-200 px-4 bg-white w-[350px] h-full right-0 top-0 bottom-0"></div>
+            <div className="absolute border border-solid border-gray-200 px-4 bg-white w-[400px] h-full right-0 top-0 bottom-0"></div>
           </div>
         </div>
         <div className="mt-4 flex justify-end">

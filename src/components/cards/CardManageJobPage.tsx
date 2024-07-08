@@ -25,7 +25,12 @@ const CardManageJobPage: React.FC<PropComponent> = ({
       <TableRow className={`${className}`}>
         <TableRowContent className="">{item?.post?.id}</TableRowContent>
         <TableRowContent className="">
-          <div className="line-clamp-2 h-full">{item?.post?.title}</div>
+          <a
+            href={`https://jspace-fe.vercel.app/jobs/${item?.post?.id}`}
+            target="_blank"
+          >
+            <div className="line-clamp-2 h-full font-medium">{item?.post?.title}</div>
+          </a>
         </TableRowContent>
         <TableRowContent className="">{item?.post?.openDate}</TableRowContent>
         <TableRowContent className="">{item?.post?.closeDate}</TableRowContent>
@@ -78,7 +83,32 @@ const CardManageJobPage: React.FC<PropComponent> = ({
         </TableRowContent>
 
         {/*  */}
-        <TableRowContent className="absolute right-60 z-10">
+        <TableRowContent className="absolute right-[300px] z-10">
+          <Popconfirm
+            title="Xác nhận xóa công việc."
+            description="Bạn có chắc chắn xóa công việc ?"
+            okText="Đồng ý"
+            cancelText="Không"
+            onConfirm={() => {
+              // let status = "";
+              // if (item?.post?.postStatus?.value == "OPEN") status = "CLOSE";
+              // else status = "OPEN";
+              // dispatch(
+              //   jobUpdateJobStatus({
+              //     job_id: item?.post?.id,
+              //     job_status: status,
+              //     company_id: item?.post?.company?.id,
+              //   })
+              // );
+            }}
+            onCancel={() => {}}
+          >
+            <span className="px-3 py-1 bg-red-500 text-white rounded font-medium cursor-pointer hover:opacity-80 transition-all">
+              Xóa
+            </span>
+          </Popconfirm>
+        </TableRowContent>
+        <TableRowContent className="absolute right-56 z-10">
           <Popconfirm
             title="Cập nhật trạng thái công việc"
             description="Bạn có chắc cập nhật trạng thái ?"
@@ -103,7 +133,7 @@ const CardManageJobPage: React.FC<PropComponent> = ({
             />
           </Popconfirm>
         </TableRowContent>
-        <TableRowContent className="absolute right-32 z-10">
+        <TableRowContent className="absolute right-28 z-10">
           <span
             onClick={() => {
               onClickUpdateJob(true);
@@ -123,7 +153,7 @@ const CardManageJobPage: React.FC<PropComponent> = ({
               }}
               className="py-1 px-2 text-sm rounded-sm bg-gray-200 shadow text-primary cursor-pointer font-medium"
             >
-              Xem ứng viên
+              Ứng viên
             </span>
             {item?.appliedCandidate != "0" && (
               <span className="absolute flex bg-green-100 rounded-lg h-6 w-6 -top-4 -right-3 text-green-500 font-medium">

@@ -6,14 +6,14 @@ import { notificationGetNotification } from "../../store/notification/notificati
 import CardNotificationAtHeaderPage from "../../components/cards/CardNotificationAtHeaderPage";
 
 const HeaderNotificationPage: React.FC = () => {
-  const { user } = useSelector((state: any) => state.auth);
+  const { companyAuth } = useSelector((state: any) => state.auth);
   const { notifications, loadingNotification } = useSelector(
     (state: any) => state.notification
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(notificationGetNotification({ userId: user?.id }));
-  }, [user?.id]);
+    dispatch(notificationGetNotification({ companyId: companyAuth?.id }));
+  }, [companyAuth?.id]);
   return (
     <div className="absolute top-[155%]  bg-white shadow-md min-w-[300px] min-h-[200px] z-20 right-0">
       <div className="p-4">

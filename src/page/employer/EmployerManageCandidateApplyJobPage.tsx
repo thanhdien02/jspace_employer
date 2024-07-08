@@ -23,7 +23,11 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
   const { appliedCandidate, loadingCandidate, paginationCandidate } =
     useSelector((state: any) => state.candidate);
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [candidateName, setCandidateName] = useState("");
+  const [candidateEmail, setCandidateEmail] = useState("");
+  const [applyStatus, setApplyStatus] = useState("");
+
+  const [page, setPage] = useState(1);
   const [size] = useState(10);
   useEffect(() => {
     const body = document.body;
@@ -41,12 +45,44 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
           job_id: jobId,
           page: page,
           size: size,
+          candidateEmail: candidateEmail,
+          candidateName: candidateName,
+          applyStatus: applyStatus,
         })
       );
     }
   }, []);
-  const handleSearchCandidate = debounce((value: any) => {
-    console.log("Input value:", value);
+  const handleSearchCandidateWithName = debounce((value: any) => {
+    if (jobId) {
+      dispatch(
+        candidateGetAppliedCandidate({
+          job_id: jobId,
+          page: 1,
+          size: size,
+          candidateEmail: candidateEmail,
+          candidateName: value,
+          applyStatus: applyStatus,
+        })
+      );
+    }
+    setPage(1);
+    setCandidateName(value);
+  }, 500);
+  const handleSearchCandidateWithEmail = debounce((value: any) => {
+    if (jobId) {
+      dispatch(
+        candidateGetAppliedCandidate({
+          job_id: jobId,
+          page: 1,
+          size: size,
+          candidateEmail: value,
+          candidateName: candidateName,
+          applyStatus: applyStatus,
+        })
+      );
+    }
+    setPage(1);
+    setCandidateEmail(value);
   }, 500);
 
   const handleChangePage = (e: any) => {
@@ -55,9 +91,26 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
         job_id: jobId,
         page: e,
         size: size,
+        candidateEmail: candidateEmail,
+        candidateName: candidateName,
+        applyStatus: applyStatus,
       })
     );
     setPage(e);
+  };
+  const handleChangeStatus = (e: any) => {
+    dispatch(
+      candidateGetAppliedCandidate({
+        job_id: jobId,
+        page: 1,
+        size: size,
+        candidateEmail: candidateEmail,
+        candidateName: candidateName,
+        applyStatus: e,
+      })
+    );
+    setPage(1);
+    setApplyStatus(e);
   };
   return (
     <>
@@ -81,19 +134,28 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
               <InputSearch
                 placeholder="Nhập tên ứng viên"
                 onChange={(e: any) => {
-                  handleSearchCandidate(e?.target?.value);
+                  handleSearchCandidateWithName(e?.target?.value);
                 }}
                 className="pr-10 w-[280px]"
               ></InputSearch>
               <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
             </div>
-
+            <div className="relative">
+              <InputSearch
+                placeholder="Nhập email ứng viên"
+                onChange={(e: any) => {
+                  handleSearchCandidateWithEmail(e?.target?.value);
+                }}
+                className="pr-10 w-[280px]"
+              ></InputSearch>
+              <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+            </div>
             <Select
               allowClear
               size={"large"}
               placeholder="Tình trạng"
               className="custom-base select-filter"
-              onChange={() => {}}
+              onChange={handleChangeStatus}
               style={{ width: 200 }}
               options={[
                 {
