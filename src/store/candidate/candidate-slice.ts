@@ -1,24 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface ICandidate {
+  candidateFollowedCompany: any;
   appliedCandidate: any;
   loadingCandidate?: boolean;
   messageCandidate?: string;
   paginationCandidate?: any;
+  paginationCandidateFollowedCompany?: any;
 }
 
 const init: ICandidate = {
+  candidateFollowedCompany: {},
   appliedCandidate: {},
   loadingCandidate: false,
   messageCandidate: "",
   paginationCandidate: {},
+  paginationCandidateFollowedCompany: {},
 };
 const candidateSlice: any = createSlice({
   name: "candidate",
   initialState: init,
   reducers: {
     candidateGetAppliedCandidate: () => {},
+    candidateGetCandidateFollowedCompany: () => {},
     candidateUpdateStatusAppliedCandidate: () => {},
+    candidateUpdateCandidateFollowedCompanyRedux: (
+      state: any,
+      action: any
+    ) => ({
+      ...state,
+      candidateFollowedCompany: action.payload.candidateFollowedCompany,
+    }),
     candidateUpdateAppliedCandidateRedux: (state: any, action: any) => ({
       ...state,
       appliedCandidate: action.payload.appliedCandidate,
@@ -35,6 +47,11 @@ const candidateSlice: any = createSlice({
       ...state,
       paginationCandidate: action.payload.paginationCandidate,
     }),
+    candidateFollowedCompanyPaginationRedux: (state: any, action: any) => ({
+      ...state,
+      paginationCandidateFollowedCompany:
+        action.payload.paginationCandidateFollowedCompany,
+    }),
   },
 });
 export const {
@@ -44,5 +61,8 @@ export const {
   candidatePaginationRedux,
   candidateUpdateAppliedCandidateRedux,
   candidateUpdateStatusAppliedCandidate,
+  candidateGetCandidateFollowedCompany,
+  candidateUpdateCandidateFollowedCompanyRedux,
+  candidateFollowedCompanyPaginationRedux,
 } = candidateSlice.actions;
 export default candidateSlice.reducer;

@@ -90,7 +90,22 @@ const EmployerManageJobPage: React.FC = () => {
         })
       );
     }
-  }, [companyAuth, page]);
+  }, [companyAuth]);
+  const handleChangePage = (e: any) => {
+    if (companyAuth?.id) {
+      dispatch(
+        jobGetPostedJob({
+          company_id: companyAuth?.id,
+          title: title,
+          postStatus: postStatus,
+          duration: duration,
+          page: e,
+          size: size,
+        })
+      );
+    }
+    setPage(e);
+  };
   return (
     <>
       <div className="m-10 mt-5">
@@ -210,7 +225,7 @@ const EmployerManageJobPage: React.FC = () => {
           {postedJobs.length > 0 && (
             <Pagination
               total={paginationPostedJob?.totalElements}
-              onChange={(e) => setPage(e)}
+              onChange={handleChangePage}
               className="inline-block panigation"
               current={page}
               pageSize={paginationPostedJob?.pageSize}

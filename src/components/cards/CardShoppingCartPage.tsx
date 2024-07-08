@@ -3,6 +3,7 @@ import IconTrash from "../../components/icons/IconTrash";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { cartDeleteCart, cartUpdateCart } from "../../store/cart/cart-slice";
+import { convertDollarToVN } from "../../utils/function-common";
 interface PropComponent {
   className?: string;
   checkBox?: boolean;
@@ -84,10 +85,14 @@ const CardShoppingCartPage: React.FC<PropComponent> = ({
         <div className="line-clamp-3">{data?.product?.name}</div>
       </td>
       <td className="p-3 font-medium">
-        {data?.product?.price.toLocaleString("vi", {
-          style: "currency",
-          currency: "VND",
-        })}
+        {data?.product?.price}$ /{" "}
+        {convertDollarToVN(Number(data?.product?.price), 24000).toLocaleString(
+          "vi",
+          {
+            style: "currency",
+            currency: "VND",
+          }
+        )}
       </td>
       <td className="p-3">
         <div className="flex gap-2">
@@ -112,7 +117,11 @@ const CardShoppingCartPage: React.FC<PropComponent> = ({
         </div>
       </td>
       <td className="p-3 text-primary font-medium">
-        {sumprice.toLocaleString("vi", { style: "currency", currency: "VND" })}
+        {sumprice}$ /{" "}
+        {convertDollarToVN(Number(sumprice), 24000).toLocaleString("vi", {
+          style: "currency",
+          currency: "VND",
+        })}
       </td>
       <td className="p-3">
         <span

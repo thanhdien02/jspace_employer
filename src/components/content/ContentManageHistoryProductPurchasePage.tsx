@@ -1,7 +1,7 @@
 import React from "react";
 import TableRow from "../table/TableRow";
 import TableRowContent from "../table/TableRowContent";
-import { formatDate } from "../../utils/function-common";
+import { convertDollarToVN, formatDate } from "../../utils/function-common";
 interface PropComponent {
   className?: string;
   item?: any;
@@ -20,20 +20,28 @@ const ContentManageHistoryProductPurchasePage: React.FC<PropComponent> = ({
         <div className="line-clamp-2">{item?.company?.name}</div>
       </TableRowContent>
       <TableRowContent className="">
-        {item?.productPrice?.toLocaleString("vi", {
-          style: "currency",
-          currency: "VND",
-        })}
+        {item?.productPrice}$ /{" "}
+        {convertDollarToVN(Number(item?.productPrice), 24000).toLocaleString(
+          "vi",
+          {
+            style: "currency",
+            currency: "VND",
+          }
+        )}
       </TableRowContent>
       <TableRowContent className="">
         {formatDate(item?.purchasedDate)}
       </TableRowContent>
       <TableRowContent className="">{item?.quantity} sản phẩm</TableRowContent>
       <TableRowContent className="">
-        {item?.totalPrice?.toLocaleString("vi", {
-          style: "currency",
-          currency: "VND",
-        })}
+        {item?.totalPrice}$ /{" "}
+        {convertDollarToVN(Number(item?.totalPrice), 24000).toLocaleString(
+          "vi",
+          {
+            style: "currency",
+            currency: "VND",
+          }
+        )}
       </TableRowContent>
       <TableRowContent className="">{item?.paymentMethod}</TableRowContent>
     </TableRow>

@@ -1,5 +1,5 @@
 import { Avatar, Button, Spin } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   CaretDownOutlined,
   MenuUnfoldOutlined,
@@ -13,6 +13,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import IconCart from "../../components/icons/IconCart";
 import { UserOutlined } from "@ant-design/icons";
 import HeaderNotificationPage from "./HeaderNotificationPage";
+import { notificationGetNotification } from "../../store/notification/notification-slice";
 interface PropComponent {
   collapsed?: any;
   setCollapsed?: any;
@@ -21,10 +22,24 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
   collapsed,
   setCollapsed,
 }) => {
+  const { companyAuth } = useSelector((state: any) => state.auth);
+  const { notifications } = useSelector((state: any) => state.notification);
+  const { user, loading } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, loading } = useSelector((state: any) => state.auth);
-  const [notifications, setNotifications] = useState(false);
+  const [notificationCheck, setNotificationCheck] = useState(false);
+  const [numberRead, setNumberRead] = useState(0);
+  useEffect(() => {
+    dispatch(notificationGetNotification({ companyId: companyAuth?.id }));
+  }, [companyAuth?.id]);
+  useEffect(() => {
+    if (notifications?.length > 0) {
+      const countRead = notifications.filter(
+        (notification: any) => !notification.read
+      ).length;
+      setNumberRead(countRead);
+    }
+  }, [notifications]);
   return (
     <header className="fixed z-20 h-[65px] top-0 left-0 right-0 flex px-4 py-2 justify-between items-center bg-slate-800">
       <div className="ml-2">
@@ -65,27 +80,22 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
           <span>Đăng tin</span>
         </button>
         <div className="relative">
-          <span onClick={() => setNotifications(!notifications)}>
+          <span onClick={() => setNotificationCheck(!notificationCheck)}>
             <IconBell className="p-2 bg-gray-100/20 block rounded-full cursor-pointer"></IconBell>
           </span>
-          {!true ? (
-            <span className="absolute -top-2 -right-2 px-2 font-medium block bg-red-100 text-red-500 rounded-full text-center">
-              2
+          {numberRead != 0 && (
+            <span className="absolute -top-2 -right-2 px-2 font-medium block bg-red-500 text-white rounded-full text-center">
+              {numberRead}
             </span>
-          ) : (
-            <></>
           )}
-
-          {notifications ? (
+          {notificationCheck && (
             <>
               <HeaderNotificationPage></HeaderNotificationPage>
               <div
-                onClick={() => setNotifications(!notifications)}
+                onClick={() => setNotificationCheck(!notificationCheck)}
                 className="fixed inset-0 z-10 bg-transparent cursor-pointer"
               ></div>
             </>
-          ) : (
-            <></>
           )}
         </div>
         <div className="relative group flex gap-3 items-start cursor-pointer px-4 py-2 rounded-lg transition-all ">

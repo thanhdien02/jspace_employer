@@ -31,7 +31,7 @@ const HeaderNotificationPage: React.FC = () => {
           {notifications?.length > 0 &&
             notifications?.map((item: any) => (
               <CardNotificationAtHeaderPage
-                key={item?.notification?.id}
+                key={item?.id}
                 item={item}
                 classname="border-b border-solid border-gray-200"
               ></CardNotificationAtHeaderPage>

@@ -4,6 +4,7 @@ import IconCheck from "../icons/IconCheck";
 import { useDispatch, useSelector } from "react-redux";
 import { cartAddToCart } from "../../store/cart/cart-slice";
 import { useNavigate } from "react-router-dom";
+import { convertDollarToVN } from "../../utils/function-common";
 
 interface PropComponent {
   className?: string;
@@ -43,20 +44,24 @@ const CardListProductPage: React.FC<PropComponent> = ({
   return (
     <>
       <div
-        className={`flex flex-col gap-2 w-full p-4 min-h-[250px] bg-white shadow-md !border-t-[6px] border-solid border-primary hover:shadow-xl transition-all ${color} ${className}`}
+        className={`flex flex-col gap-2 w-full p-4 min-h-[250px] bg-white shadow-md !border-t-[6px] border-solid border-black hover:shadow-xl transition-all ${color} ${className}`}
       >
         <h3 className="font-semibold text-xl">{item?.name}</h3>
-        <p className="text-primary text-xl font-medium">
-          {item?.price?.toLocaleString("vi", {
-            style: "currency",
-            currency: "VND",
-          })}
+        <p className="text-red-500 text-xl font-medium">
+          {item?.price}$ /{" "}
+          {convertDollarToVN(Number(item?.price), 24000).toLocaleString(
+            "vi",
+            {
+              style: "currency",
+              currency: "VND",
+            }
+          )}
           <span className="text-red-500">*</span>
         </p>
         <ul className="">
           <li className="flex gap-2 mt-2">
             <IconCheck
-              className="text-primary"
+              className="text-green-400"
               classIcon="!w-5 !h-5"
             ></IconCheck>
             <span className="text-gray-600 text-sm">
@@ -66,7 +71,7 @@ const CardListProductPage: React.FC<PropComponent> = ({
           </li>
           <li className="flex gap-2 mt-2">
             <IconCheck
-              className="text-primary"
+              className="text-green-400"
               classIcon="!w-5 !h-5"
             ></IconCheck>
             <span className="text-gray-600 text-sm">
@@ -76,7 +81,7 @@ const CardListProductPage: React.FC<PropComponent> = ({
           </li>
           <li className="flex gap-2 mt-2">
             <IconCheck
-              className="text-primary"
+              className="text-green-400"
               classIcon="!w-5 !h-5"
             ></IconCheck>
             <span className="text-gray-600 text-sm">

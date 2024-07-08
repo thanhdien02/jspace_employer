@@ -40,3 +40,23 @@ export const requestEmployerUpdateStatusAppliedCandidate = (
     }
   );
 };
+export const requestCandidateGetCandidateFollowedCompany = (
+  companyId: string = "",
+  name: string = "",
+  email: string = "",
+  phone: string = "",
+  page: string = "1",
+  size: string = "9",
+  accessToken: string
+) => {
+  if (!accessToken) return;
+  return axios.get(
+    `${API}/api/v1/employees/companies/${companyId}/candidates/followed?name=${name}&email=${email}&phoneNumber=${phone}&page=${page}&size=${size}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};

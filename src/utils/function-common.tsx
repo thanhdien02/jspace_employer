@@ -9,18 +9,6 @@ export const formatDate = (isoString: string) => {
 };
 export const exportToExcel = (data: any, nameFile: string) => {
   const ws = XLSX.utils.json_to_sheet(data);
-  // const wscols = [
-  //   { wch: 10 },
-  //   { wch: 20 },
-  //   { wch: 20 },
-  //   { wch: 25 },
-  //   { wch: 30 },
-  //   { wch: 10 },
-  //   { wch: 20 },
-  //   { wch: 25 },
-  // ];
-  // ws["!cols"] = wscols;
-  // Tạo một workbook mới và thêm worksheet vào
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
   // Xuất file excel
@@ -38,4 +26,7 @@ export const exportToExcel = (data: any, nameFile: string) => {
   a.click();
   document.body.removeChild(a);
   window.URL.revokeObjectURL(url);
+};
+export const convertDollarToVN = (moneyDollar: number, currency: number) => {
+  return moneyDollar * currency;
 };

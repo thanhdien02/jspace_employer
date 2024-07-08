@@ -18,13 +18,12 @@ export const requestNotificationGetNotification = (
   );
 };
 export const requestNotificationUpdateReadNotification = (
-  userId: string = "1",
   notificationId: string = "1",
-  readStatus: boolean,
+  read: boolean,
   accessToken: string
 ) => {
   return axios.put(
-    `${API}/api/v1/users/notifications/update/read-status?userId=${userId}&notificationId=${notificationId}&readStatus=${readStatus}`,
+    `${API}/api/v1/company-notifications/${notificationId}?read=${read}`,
     {},
     {
       headers: {

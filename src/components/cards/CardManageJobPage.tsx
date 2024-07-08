@@ -29,7 +29,9 @@ const CardManageJobPage: React.FC<PropComponent> = ({
             href={`https://jspace-fe.vercel.app/jobs/${item?.post?.id}`}
             target="_blank"
           >
-            <div className="line-clamp-2 h-full font-medium">{item?.post?.title}</div>
+            <div className="line-clamp-2 h-full font-medium">
+              {item?.post?.title}
+            </div>
           </a>
         </TableRowContent>
         <TableRowContent className="">{item?.post?.openDate}</TableRowContent>
@@ -89,18 +91,7 @@ const CardManageJobPage: React.FC<PropComponent> = ({
             description="Bạn có chắc chắn xóa công việc ?"
             okText="Đồng ý"
             cancelText="Không"
-            onConfirm={() => {
-              // let status = "";
-              // if (item?.post?.postStatus?.value == "OPEN") status = "CLOSE";
-              // else status = "OPEN";
-              // dispatch(
-              //   jobUpdateJobStatus({
-              //     job_id: item?.post?.id,
-              //     job_status: status,
-              //     company_id: item?.post?.company?.id,
-              //   })
-              // );
-            }}
+            onConfirm={() => {}}
             onCancel={() => {}}
           >
             <span className="px-3 py-1 bg-red-500 text-white rounded font-medium cursor-pointer hover:opacity-80 transition-all">

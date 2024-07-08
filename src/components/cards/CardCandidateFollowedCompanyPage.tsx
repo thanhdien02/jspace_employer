@@ -4,7 +4,7 @@ interface PropComponent {
   className?: string;
   item?: any;
 }
-const CardFindCandidatePage: React.FC<PropComponent> = ({
+const CardCandidateFollowedCompanyPage: React.FC<PropComponent> = ({
   className,
   item,
 }) => {
@@ -44,26 +44,6 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
                 {item?.phone}
               </span>
             </li>
-            {/* <li className="mt-[1px] text-gray-600 text-sm pb-1">
-              <span className="w-[45%] inline-block">Địa chỉ:</span>
-              <span className="text-black font-medium font-sans">
-                Hồ Chí Minh
-              </span>
-            </li> */}
-            {/* <li className="mt-[1px] text-gray-600 text-sm pb-1">
-              <span className="w-[45%] inline-block">Kinh nghiệm:</span>
-              <span className="text-black font-medium font-sans">1 năm</span>
-            </li>
-            <li className="mt-[1px] text-gray-600 text-sm pb-1">
-              <span className="w-[45%] inline-block">Mức lương: </span>
-              <span className="text-black font-medium font-sans">
-                10 - 15 triệu
-              </span>
-            </li> */}
-            {/* <li className="mt-[1px] text-gray-600 text-sm pb-1">
-              <span className="w-[45%] inline-block">Học vấn:</span>
-              <span className="text-black font-medium font-sans">Đại học</span>
-            </li> */}
           </ul>
           <div className="mt-auto grid grid-cols-2 gap-5">
             <button
@@ -85,4 +65,4 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
   );
 };
 
-export default CardFindCandidatePage;
+export default CardCandidateFollowedCompanyPage;

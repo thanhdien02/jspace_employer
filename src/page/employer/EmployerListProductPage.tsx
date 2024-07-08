@@ -4,7 +4,6 @@ import CardListProductPage from "../../components/cards/CardListProductPage";
 import { useDispatch, useSelector } from "react-redux";
 import { productGetProduct } from "../../store/product/product-slice";
 import { Empty, Pagination, Skeleton } from "antd";
-import { dataColor } from "../../utils/dataFetch";
 
 const EmployerListProductPage: React.FC = () => {
   const { loadingProduct, products, paginationProduct } = useSelector(
@@ -27,13 +26,11 @@ const EmployerListProductPage: React.FC = () => {
           <Skeleton />
         ) : products?.length > 0 ? (
           <div className="mt-5 grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
-            {products.map((item: any, index: number) => (
+            {products.map((item: any) => (
               <CardListProductPage
                 key={item?.id}
                 item={item}
-                color={`${
-                  dataColor[index]?.id == index ? dataColor[index]?.color : ""
-                }`}
+                color=""
               ></CardListProductPage>
             ))}
           </div>

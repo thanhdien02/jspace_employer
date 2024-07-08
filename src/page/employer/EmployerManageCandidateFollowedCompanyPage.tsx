@@ -5,26 +5,39 @@ import {
   Pagination,
   Popover,
   Progress,
-  Select,
+  Skeleton,
   Tooltip,
 } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import IconCheck from "../../components/icons/IconCheck";
 import IconText from "../../components/icons/IconText";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
-import { commonGetLocation } from "../../store/common/common-slice";
-import CardFindCandidatePage from "../../components/cards/CardFindCandidatePage";
+import { candidateGetCandidateFollowedCompany } from "../../store/candidate/candidate-slice";
+import InputSearch from "../../components/input/InputSearch";
+import { debounce } from "ts-debounce";
+import CardCandidateFollowedCompanyPage from "../../components/cards/CardCandidateFollowedCompanyPage";
 
 const EmployerManageCandidateFollowedCompanyPage: React.FC = () => {
-  const { user, checkAuth } = useSelector((state: any) => state.auth);
-  const { locations } = useSelector((state: any) => state.common);
-  const [location, setLocation] = useState<any>(null);
+  const { user, checkAuth, companyAuth } = useSelector(
+    (state: any) => state.auth
+  );
+  const {
+    candidateFollowedCompany,
+    paginationCandidateFollowedCompany,
+    loadingCandidate,
+  } = useSelector((state: any) => state.candidate);
   const dispatch = useDispatch();
+  // search
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [page, setPage] = useState(1);
+  const [size] = useState(9);
+  //
   const [proccessCheckIdentification, setProccessCheckIdentification] =
     useState(0);
-
   const [checkrequire, setCheckRequire] = useState(false);
   const [loadingCheck, setloadingCheck] = useState(false);
   useEffect(() => {
@@ -58,7 +71,6 @@ const EmployerManageCandidateFollowedCompanyPage: React.FC = () => {
 
   //
   const [openConfirmSendMail, setOpenConfirmSendMail] = useState(false);
-
   const showModalConfirmSendMail = () => {
     if (checkAuth?.hasCompany && checkAuth?.companyVerified) {
       setOpenConfirmSendMail(true);
@@ -74,15 +86,66 @@ const EmployerManageCandidateFollowedCompanyPage: React.FC = () => {
   const handleCancelConfirmSendMail = () => {
     setOpenConfirmSendMail(false);
   };
-
   // get commont
   useEffect(() => {
-    dispatch(commonGetLocation());
-  }, []);
-  const handleChangeLocation = (value: any) => {
-    setLocation(value);
+    if (companyAuth?.id) {
+      dispatch(
+        candidateGetCandidateFollowedCompany({
+          companyId: companyAuth?.id,
+          name: name,
+          email: email,
+          phone: "",
+          page: page,
+          size: size,
+        })
+      );
+    }
+  }, [companyAuth?.id]);
+  const handleSearchName = debounce((value: any) => {
+    if (companyAuth?.id)
+      dispatch(
+        candidateGetCandidateFollowedCompany({
+          companyId: companyAuth?.id,
+          name: value,
+          email: email,
+          phone: "",
+          page: 1,
+          size: size,
+        })
+      );
+    setName(value);
+    setPage(1);
+  }, 500);
+  const handleSearchEmail = debounce((value: any) => {
+    if (companyAuth?.id)
+      dispatch(
+        candidateGetCandidateFollowedCompany({
+          companyId: companyAuth?.id,
+          name: name,
+          email: value,
+          phone: "",
+          page: 1,
+          size: size,
+        })
+      );
+    setEmail(value);
+    setPage(1);
+  }, 500);
+  const handleChangePage = (e: any) => {
+    if (companyAuth?.id) {
+      dispatch(
+        candidateGetCandidateFollowedCompany({
+          companyId: companyAuth?.id,
+          name: name,
+          email: email,
+          phone: "",
+          page: e,
+          size: size,
+        })
+      );
+    }
+    setPage(e);
   };
-
   return (
     <>
       {!loadingCheck ? (
@@ -199,46 +262,55 @@ const EmployerManageCandidateFollowedCompanyPage: React.FC = () => {
           <HeaderContentManage title="Danh sách ứng viên theo dõi công ty"></HeaderContentManage>
           <div className="bg-white shadow-md p-7 rounded-md">
             <div className="flex gap-5">
-              <Select
-                showSearch
-                allowClear
-                placeholder="Địa chỉ"
-                className="select w-[20%] text-base rounded-lg h-full bg-white"
-                optionFilterProp="children"
-                value={location}
-                filterOption={(input: string, option: any) =>
-                  ((option?.label ?? "") as string)
-                    .toLowerCase()
-                    .includes((input ?? "").toLowerCase())
-                }
-                options={
-                  locations?.length > 0 &&
-                  locations.map((item: any) => ({
-                    label: item?.province,
-                    value: item?.value,
-                  }))
-                }
-                onChange={handleChangeLocation}
-              />
+              <div className="relative">
+                <InputSearch
+                  placeholder="Nhập tên ứng viên"
+                  onChange={(e: any) => {
+                    handleSearchName(e?.target?.value);
+                  }}
+                  className="pr-10 w-[280px]"
+                ></InputSearch>
+                <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+              </div>
+              <div className="relative">
+                <InputSearch
+                  placeholder="Nhập email"
+                  onChange={(e: any) => {
+                    handleSearchEmail(e?.target?.value);
+                  }}
+                  className="pr-10 w-[280px]"
+                ></InputSearch>
+                <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
+              </div>
+            </div>
+            {loadingCandidate ? (
+              <div className="py-5">
+                <Skeleton />
+              </div>
+            ) : candidateFollowedCompany?.length <= 0 ? (
+              <div className="py-10 text-base text-gray-600 font-medium text-center">
+                Không có dữ liệu
+              </div>
+            ) : (
+              <div className="mt-8 grid grid-cols-3 gap-5">
+                {candidateFollowedCompany?.length > 0 &&
+                  candidateFollowedCompany.map((item: any) => (
+                    <CardCandidateFollowedCompanyPage
+                      key={item?.id}
+                      item={item}
+                    ></CardCandidateFollowedCompanyPage>
+                  ))}
+              </div>
+            )}
 
-              <button
-                type="button"
-                className="px-3 py-2 bg-primary rounded-md text-white font-medium hover:opacity-80 transition-all"
-              >
-                Tìm kiếm
-              </button>
-            </div>
-            <div className="mt-8 grid grid-cols-3 gap-5">
-              <CardFindCandidatePage></CardFindCandidatePage>
-            </div>
             <div className="mt-4 flex justify-end">
-              {true && (
+              {candidateFollowedCompany?.length > 0 && (
                 <Pagination
-                  total={50}
-                  // onChange={handleChangePage}
-                  className="inline-block"
-                  current={1}
-                  pageSize={10}
+                  total={paginationCandidateFollowedCompany?.totalElements}
+                  onChange={handleChangePage}
+                  className="inline-block panigation"
+                  current={page}
+                  pageSize={paginationCandidateFollowedCompany?.pageSize}
                 />
               )}
             </div>

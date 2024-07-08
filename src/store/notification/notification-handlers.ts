@@ -69,17 +69,16 @@ function* handleNotificationUpdateReadNotification(
     const token: Token = getToken();
     const response: any = yield call(
       requestNotificationUpdateReadNotification,
-      dataUpdateNotification?.payload?.userId,
       dataUpdateNotification?.payload?.notificationId,
-      dataUpdateNotification?.payload?.readStatus,
+      dataUpdateNotification?.payload?.read,
       token?.accessToken
     );
     if (response.data.code === 1000) {
       yield call(handleNotificationGetNotification, {
         payload: {
-          userId: dataUpdateNotification?.payload?.userId,
+          companyId: dataUpdateNotification?.payload?.companyId,
           page: 1,
-          size: 10,
+          size: 100,
         },
       });
       message.success("Cập nhật thành công");
