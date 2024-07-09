@@ -1,12 +1,16 @@
 import { Button, message, Modal, Popover, Progress, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import IconCheck from "../../components/icons/IconCheck";
 import IconText from "../../components/icons/IconText";
+import { candidateSendMailToCompanyConfirmAgain } from "../../store/candidate/candidate-slice";
 
 const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
-  const { user, checkAuth } = useSelector((state: any) => state.auth);
+  const { user, checkAuth, companyAuth } = useSelector(
+    (state: any) => state.auth
+  );
+  const dispatch = useDispatch();
   const [proccessCheckIdentification, setProccessCheckIdentification] =
     useState(0);
   const [check, setCheck] = useState(false);
@@ -46,13 +50,22 @@ const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
     if (checkAuth?.hasCompany && checkAuth?.companyVerified) {
       setOpenConfirmSendMail(true);
     } else {
-      message.info(
-        "Vui lòng điền thông tin công ty trước khi yêu cầu xác nhận."
-      );
+      if (checkAuth?.hasCompany && !checkAuth?.companyVerified)
+        message.info(
+          "Vui lòng vào email công ty xác thực thông tin công ty để quản lí duyệt."
+        );
+      else if (!checkAuth?.hasCompany && !checkAuth?.companyVerified)
+        message.info("Vui lòng cập nhật thông tin công ty.");
     }
   };
 
   const handleOkConfirmSendMail = () => {
+    dispatch(
+      candidateSendMailToCompanyConfirmAgain({
+        companyId: companyAuth?.id,
+        employerId: user?.id,
+      })
+    );
     setOpenConfirmSendMail(false);
   };
   const handleCancelConfirmSendMail = () => {
@@ -108,7 +121,9 @@ const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
                   <IconText></IconText>
                 )}
                 <span className="font-medium text-base">
-                  Cập nhật thông tin công ty
+                  {checkAuth?.hasCompany && !checkAuth?.companyVerified
+                    ? "Vui lòng vào mail công ty, xác thực thông tin để quản lí duyệt công ty"
+                    : " Cập nhật thông tin công ty"}
                 </span>
               </NavLink>
               <span

@@ -25,6 +25,7 @@ const candidateSlice: any = createSlice({
   name: "candidate",
   initialState: init,
   reducers: {
+    candidateSendMailToCompanyConfirmAgain: () => {},
     candidateGetAppliedCandidate: () => {},
     candidateGetFindCandidate: () => {},
     candidateGetCandidateFollowedCompany: () => {},
@@ -80,5 +81,6 @@ export const {
   candidateGetFindCandidate,
   candidateUpdateFindCandidateRedux,
   candidateFindCandidatePaginationRedux,
+  candidateSendMailToCompanyConfirmAgain,
 } = candidateSlice.actions;
 export default candidateSlice.reducer;

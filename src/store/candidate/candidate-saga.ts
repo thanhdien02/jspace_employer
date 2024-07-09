@@ -3,12 +3,14 @@ import {
   candidateGetAppliedCandidate,
   candidateGetCandidateFollowedCompany,
   candidateGetFindCandidate,
+  candidateSendMailToCompanyConfirmAgain,
   candidateUpdateStatusAppliedCandidate,
 } from "./candidate-slice";
 import {
   handleCandidateGetAppliedCandidate,
   handleCandidateGetCandidateFollowedCompany,
   handleCandidateGetFindCandidate,
+  handleCandidateSendMailToCompanyConfirmAgain,
   handleEmployerUpdateStatusAppliedCandidate,
 } from "./candidate-handlers";
 
@@ -28,5 +30,9 @@ export default function* authSaga() {
   yield takeLatest(
     candidateGetFindCandidate.type,
     handleCandidateGetFindCandidate
+  );
+  yield takeLatest(
+    candidateSendMailToCompanyConfirmAgain.type,
+    handleCandidateSendMailToCompanyConfirmAgain
   );
 }

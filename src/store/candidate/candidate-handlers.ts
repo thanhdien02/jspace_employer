@@ -1,5 +1,5 @@
 import { call, put } from "redux-saga/effects";
-import { getToken } from "../../utils/auth";
+import { getToken, Token } from "../../utils/auth";
 
 import {
   candidateFindCandidatePaginationRedux,
@@ -15,6 +15,7 @@ import {
   requestCandidateGetAppliedCandidate,
   requestCandidateGetCandidateFollowedCompany,
   requestCandidateGetFindCandidate,
+  requestCandidateSendMailToCompanyConfirmAgain,
   requestEmployerUpdateStatusAppliedCandidate,
 } from "./candidate-requests";
 
@@ -163,9 +164,28 @@ function* handleCandidateGetFindCandidate(
     yield put(candidateUpdateLoadingRedux({ loadingCandidate: false }));
   }
 }
+function* handleCandidateSendMailToCompanyConfirmAgain(
+  dataCandidateSendMailRequestConfirmCompanyAgain: any
+): Generator<any> {
+  try {
+    const token: Token = getToken();
+    const response: any = yield call(
+      requestCandidateSendMailToCompanyConfirmAgain,
+      dataCandidateSendMailRequestConfirmCompanyAgain?.payload?.companyId,
+      dataCandidateSendMailRequestConfirmCompanyAgain?.payload?.employerId,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      message?.success("Yêu cầu đã được gửi thành công.");
+    }
+  } catch (error) {
+    message?.info("Gửi yêu cầu thất bại");
+  }
+}
 export {
   handleCandidateGetAppliedCandidate,
   handleEmployerUpdateStatusAppliedCandidate,
   handleCandidateGetCandidateFollowedCompany,
   handleCandidateGetFindCandidate,
+  handleCandidateSendMailToCompanyConfirmAgain,
 };

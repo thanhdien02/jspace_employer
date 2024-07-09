@@ -79,3 +79,19 @@ export const requestCandidateGetFindCandidate = (
     }
   );
 };
+export const requestCandidateSendMailToCompanyConfirmAgain = (
+  companyId: any,
+  employerId: any,
+  accessToken: string
+) => {
+  return axios.post(
+    `${API}/api/v1/employees/${employerId}/companies/${companyId}/request-verify-info`,
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
