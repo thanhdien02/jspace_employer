@@ -73,3 +73,15 @@ export const requestJobUpdateJobStatus = (
     }
   );
 };
+export const requestJobDeleteJobById = (
+  job_id: string,
+  accessToken: string
+) => {
+  if (!accessToken) return;
+  return axios.delete(`${API}/api/v1/employees/posts/${job_id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

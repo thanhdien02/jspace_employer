@@ -38,7 +38,7 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
         (notification: any) => !notification.read
       ).length;
       setNumberRead(countRead);
-    }
+    } else setNumberRead(0);
   }, [notifications]);
   return (
     <header className="fixed z-20 h-[65px] top-0 left-0 right-0 flex px-4 py-2 justify-between items-center bg-slate-800">

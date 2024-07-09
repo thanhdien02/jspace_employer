@@ -62,3 +62,17 @@ export const requestDashboardGetDashboardPostYear = (
     }
   );
 };
+export const requestDashboardGetDashboardNumberAll = (
+  companyId: string,
+  accessToken: string
+) => {
+  return axios.get(
+    `${API}/api/v1/dashboards/companies/${companyId}/statistic`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};

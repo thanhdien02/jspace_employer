@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { debounce } from "ts-debounce";
-import { purchasehistoryGetPurchaseHistory } from "../../store/purchase_history/purchase-history-slice";
-import { Empty, Pagination, Skeleton } from "antd";
+import {
+  purchasehistoryGetExportAllPurchaseHistory,
+  purchasehistoryGetPurchaseHistory,
+  purchasehistoryUpdateMessageRedux,
+} from "../../store/purchase_history/purchase-history-slice";
+import { Empty, Pagination, Select, Skeleton } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "../../components/table/Table";
 import ContentManageHistoryProductPurchasePage from "../../components/content/ContentManageHistoryProductPurchasePage";
@@ -16,8 +20,10 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
     purchasehistorys,
     loadingPurchaseHistory,
     paginationPurchaseHistory,
+    messagePurchaseHistory,
   } = useSelector((state: any) => state.purchasehistory);
   const { companyAuth, checkAuth } = useSelector((state: any) => state.auth);
+  const { exportData } = useSelector((state: any) => state.common);
   const dispatch = useDispatch();
   const [productName, setProductName] = useState("");
   const [page, setPage] = useState(1);
@@ -60,11 +66,11 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
       })
     );
   };
-  const handleExportExcel = () => {
+  const handleExportData = (dataExport: any) => {
     exportToExcel(
-      purchasehistorys.map((item: any) => {
+      dataExport.map((item: any) => {
         return {
-          "ID": item?.id,
+          ID: item?.id,
           "TÊN SẢN PHẨM": item?.productName,
           "TÊN CÔNG TY": item?.company?.name,
           "GIÁ SẢN PHẨM": item?.productPrice?.toLocaleString("vi", {
@@ -83,6 +89,27 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
       "DanhSachLichSuMuaHang"
     );
   };
+  const handleExportExcel = (e: any) => {
+    if (e == "pagenow") handleExportData(purchasehistorys);
+    else
+      dispatch(
+        purchasehistoryGetExportAllPurchaseHistory({
+          page: 1,
+          size: 1000,
+          company_id: companyAuth?.id,
+        })
+      );
+  };
+  useEffect(() => {
+    if (messagePurchaseHistory == "export") {
+      handleExportData(exportData);
+      dispatch(
+        purchasehistoryUpdateMessageRedux({
+          messagePurchaseHistory: "",
+        })
+      );
+    }
+  }, [messagePurchaseHistory]);
   return (
     <>
       <div className="m-10 mt-5">
@@ -96,13 +123,22 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
             ></InputSearch>
             <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
           </div>
-          <button
+          <Select
+            className="select-filter ml-auto"
+            value="Export excel"
+            onChange={(e: any) => handleExportExcel(e)}
+            options={[
+              { label: "Trang này", value: "pagenow" },
+              { label: "Tất cả", value: "all" },
+            ]}
+          ></Select>
+          {/* <button
             type="button"
             onClick={handleExportExcel}
             className="px-4 py-2 border border-solid border-slate-200 bg-white hover:opacity-80 transition-all"
           >
             Export
-          </button>
+          </button> */}
         </div>
         <Table>
           <HeaderTableManage

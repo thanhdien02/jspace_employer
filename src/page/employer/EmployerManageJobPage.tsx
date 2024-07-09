@@ -106,6 +106,14 @@ const EmployerManageJobPage: React.FC = () => {
     }
     setPage(e);
   };
+  const handleReset = () => {
+    const inputElement: any = document.getElementById("myInput");
+    inputElement.value = "";
+    setPage(1);
+    setPostStatus("");
+    setTitle("");
+    setDuration("");
+  };
   return (
     <>
       <div className="m-10 mt-5">
@@ -119,6 +127,7 @@ const EmployerManageJobPage: React.FC = () => {
               onChange={(e: any) => {
                 handleSearchJob(e?.target?.value);
               }}
+              id="myInput"
               className="pr-10 w-[280px]"
             ></InputSearch>
             <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
@@ -127,6 +136,7 @@ const EmployerManageJobPage: React.FC = () => {
           <Select
             allowClear
             size={"large"}
+            value={postStatus ? postStatus : null}
             placeholder="Trạng thái bài đăng"
             className="custom-base select-filter"
             onChange={handleChangePostStatus}
@@ -146,6 +156,7 @@ const EmployerManageJobPage: React.FC = () => {
             allowClear
             size={"large"}
             placeholder="Còn hạn & hết hạn"
+            value={duration ? duration : null}
             className="custom-base select-filter"
             onChange={handleChangeDuration}
             style={{ width: 200 }}
@@ -206,6 +217,7 @@ const EmployerManageJobPage: React.FC = () => {
                     postedJobs?.length > 0 &&
                     postedJobs?.map((item: any) => (
                       <CardManageJobPage
+                        handleReset={handleReset}
                         className="even:bg-gray-300/50"
                         key={item?.post?.id}
                         item={item}
@@ -232,7 +244,6 @@ const EmployerManageJobPage: React.FC = () => {
             />
           )}
         </div>
-
         {/* update job */}
         {updateJob && (
           <EmployerUpdateJobPage

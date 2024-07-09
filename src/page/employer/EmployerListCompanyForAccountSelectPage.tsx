@@ -12,21 +12,29 @@ const EmployerListCompanyForAccountSelectPage: React.FC = () => {
   const { company, loadingCompany, paginationCompany } = useSelector(
     (state: any) => state.company
   );
+  const [companyname, setCompanyname] = useState("");
   const [page, setPage] = useState(1);
+  const [size] = useState(10);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   const handleSearchCompany = debounce((value: any) => {
+    dispatch(companyGetCompany({ companyname: value, size: size, page: 1 }));
     setPage(1);
-    dispatch(companyGetCompany({ companyname: value }));
+    setCompanyname(value);
   }, 500);
 
   useEffect(() => {
-    dispatch(companyGetCompany({ page: page }));
-  }, [page]);
+    dispatch(companyGetCompany({ page: page, size: size }));
+  }, []);
+  const handleChangePage = (value: any) => {
+    dispatch(
+      companyGetCompany({ companyname: companyname, page: value, size: size })
+    );
+    setPage(value);
+  };
   return (
     <>
       <div className="my-10 xl:mx-40 mx-10">
@@ -56,7 +64,6 @@ const EmployerListCompanyForAccountSelectPage: React.FC = () => {
               </button>
             </div>
           </div>
-
           {loadingCompany ? (
             <div className="p-5 pt-0">
               <Skeleton />
@@ -85,7 +92,7 @@ const EmployerListCompanyForAccountSelectPage: React.FC = () => {
                 <Pagination
                   className="ml-auto pr-5 pb-5"
                   defaultCurrent={1}
-                  onChange={(e) => setPage(e)}
+                  onChange={handleChangePage}
                   total={paginationCompany?.totalElements}
                   current={page}
                   pageSize={paginationCompany?.pageSize}

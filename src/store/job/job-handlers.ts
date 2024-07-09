@@ -10,6 +10,7 @@ import {
 } from "./job-slice";
 import { message } from "antd";
 import {
+  requestJobDeleteJobById,
   requestJobGetJobById,
   requestJobGetPostedJob,
   requestJobPostJob,
@@ -164,10 +165,36 @@ function* handleJobUpdateJobStatus(dataUpdateJobStatus: any): Generator<any> {
     yield put(jobUpdateLoadingByIdRedux({ loadingJobById: false }));
   }
 }
+function* handleJobDeleteJobById(dataDeleteJob: any): Generator<any> {
+  try {
+    yield put(jobUpdateLoadingByIdRedux({ loadingJobById: true }));
+    const token: Token = getToken();
+    const response: any = yield call(
+      requestJobDeleteJobById,
+      dataDeleteJob?.payload?.job_id,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      yield call(handleJobGetPostedJob, {
+        payload: {
+          company_id: dataDeleteJob?.payload?.company_id,
+          page: 1,
+          size: 10,
+        },
+      });
+      message.success("Cập nhập trạng thái công việc thành công.");
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(jobUpdateLoadingByIdRedux({ loadingJobById: false }));
+  }
+}
 export {
   handleJobPostJob,
   handleJobGetPostedJob,
   handleJobGetJobById,
   handleJobUpdateJob,
   handleJobUpdateJobStatus,
+  handleJobDeleteJobById,
 };

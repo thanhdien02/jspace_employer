@@ -4,10 +4,12 @@ import { getToken } from "../../utils/auth";
 import { message } from "antd";
 import {
   purchasehistoryUpdateLoadingRedux,
+  purchasehistoryUpdateMessageRedux,
   purchasehistoryUpdatePaginationRedux,
   purchasehistoryUpdatePurchaseHistoryRedux,
 } from "./purchase-history-slice";
 import { requestPurchaseHistotyGetPurchaseHistoty } from "./purchase-history-requests";
+import { commonUpdateExportDataRedux } from "../common/common-slice";
 
 function* handlePurchaseHistoryGetPurchaseHistory(
   dataGetPurchaseHistory: any
@@ -56,4 +58,37 @@ function* handlePurchaseHistoryGetPurchaseHistory(
     );
   }
 }
-export { handlePurchaseHistoryGetPurchaseHistory };
+function* handlePurchaseHistoryGetExportAllPurchaseHistory(
+  dataGetPurchaseHistory: any
+): Generator<any> {
+  try {
+    const { accessToken } = getToken();
+    const response: any = yield call(
+      requestPurchaseHistotyGetPurchaseHistoty,
+      dataGetPurchaseHistory?.payload?.page,
+      dataGetPurchaseHistory?.payload?.size,
+      dataGetPurchaseHistory?.payload?.company_id,
+      dataGetPurchaseHistory?.payload?.productName,
+      accessToken
+    );
+    if (response.data.code === 1000) {
+      yield put(
+        commonUpdateExportDataRedux({
+          exportData: response.data.result.content,
+        })
+      );
+      yield put(
+        purchasehistoryUpdateMessageRedux({
+          messagePurchaseHistory: "export",
+        })
+      );
+      message.success("Thành công");
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  }
+}
+export {
+  handlePurchaseHistoryGetPurchaseHistory,
+  handlePurchaseHistoryGetExportAllPurchaseHistory,
+};

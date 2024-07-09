@@ -2,6 +2,7 @@ import { call, put } from "redux-saga/effects";
 import { getToken, Token } from "../../utils/auth";
 import { message } from "antd";
 import {
+  dashboardUpdateDashboardNumberAllRedux,
   dashboardUpdateDashboardPostMonthRedux,
   dashboardUpdateDashboardPostYearRedux,
   dashboardUpdateDashboardUserMonthRedux,
@@ -9,6 +10,7 @@ import {
   dashboardUpdateLoadingRedux,
 } from "./dashboard-slice";
 import {
+  requestDashboardGetDashboardNumberAll,
   requestDashboardGetDashboardPostMonth,
   requestDashboardGetDashboardPostYear,
   requestDashboardGetDashboardUserMonth,
@@ -117,9 +119,34 @@ function* handleDashboardGetDashboardPostYear(
     yield put(dashboardUpdateLoadingRedux({ loadingDashboard: false }));
   }
 }
+function* handleDashboardGetDashboardNumberAll(
+  dataGetDashboard: any
+): Generator<any> {
+  try {
+    yield put(dashboardUpdateLoadingRedux({ loadingDashboard: true }));
+    const token: Token = getToken();
+    const response: any = yield call(
+      requestDashboardGetDashboardNumberAll,
+      dataGetDashboard?.payload?.companyId,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      yield put(
+        dashboardUpdateDashboardNumberAllRedux({
+          dashboardNumberAll: response?.data?.result,
+        })
+      );
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(dashboardUpdateLoadingRedux({ loadingDashboard: false }));
+  }
+}
 export {
   handleDashboardGetDashboardUserMonth,
   handleDashboardGetDashboardUserYear,
   handleDashboardGetDashboardPostMonth,
   handleDashboardGetDashboardPostYear,
+  handleDashboardGetDashboardNumberAll,
 };

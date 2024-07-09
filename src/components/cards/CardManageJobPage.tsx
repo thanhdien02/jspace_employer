@@ -2,13 +2,17 @@ import React from "react";
 import TableRow from "../table/TableRow";
 import TableRowContent from "../table/TableRowContent";
 import { Popconfirm, Switch } from "antd";
-import { jobUpdateJobStatus } from "../../store/job/job-slice";
+import {
+  jobDeleteJobById,
+  jobUpdateJobStatus,
+} from "../../store/job/job-slice";
 import { useDispatch } from "react-redux";
 interface PropComponent {
   className?: string;
   onClickUpdateJob?: any;
   onClickListCandidate?: any;
   onClickSetJobId?: any;
+  handleReset?: any;
   item?: any;
 }
 
@@ -17,9 +21,11 @@ const CardManageJobPage: React.FC<PropComponent> = ({
   onClickUpdateJob,
   onClickListCandidate,
   onClickSetJobId,
+  handleReset,
   item,
 }) => {
   const dispatch = useDispatch();
+
   return (
     <>
       <TableRow className={`${className}`}>
@@ -91,7 +97,15 @@ const CardManageJobPage: React.FC<PropComponent> = ({
             description="Bạn có chắc chắn xóa công việc ?"
             okText="Đồng ý"
             cancelText="Không"
-            onConfirm={() => {}}
+            onConfirm={() => {
+              dispatch(
+                jobDeleteJobById({
+                  job_id: item?.post?.id,
+                  company_id: item?.post?.company?.id,
+                })
+              );
+              handleReset();
+            }}
             onCancel={() => {}}
           >
             <span className="px-3 py-1 bg-red-500 text-white rounded font-medium cursor-pointer hover:opacity-80 transition-all">
