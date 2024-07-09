@@ -11,9 +11,9 @@ const CardCandidateFollowedCompanyPage: React.FC<PropComponent> = ({
   return (
     <>
       <div
-        className={`flex flex-col h-[320px] w-full border border-solid border-gray-200 rounded-md hover:shadow-lg transition-all ${className}`}
+        className={`flex flex-col h-[270px] w-full border border-solid border-gray-200 rounded-md hover:shadow-lg transition-all ${className}`}
       >
-        <div className="relative w-full h-[30%] rounded-md">
+        <div className="relative w-full h-[40%] rounded-md">
           <img
             src={item?.background}
             alt=""
@@ -45,14 +45,14 @@ const CardCandidateFollowedCompanyPage: React.FC<PropComponent> = ({
               </span>
             </li>
           </ul>
-          <div className="mt-auto w-full">
+          {/* <div className="mt-auto w-full">
             <button
               type="button"
               className="w-full px-4 py-2 text-primary bg-white border border-solid border-primary font-medium rounded-md hover:opacity-80 transition-all"
             >
               Chi tiết
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

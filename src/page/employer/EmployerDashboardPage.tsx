@@ -10,10 +10,10 @@ import { dashboardGetDashboardNumberAll } from "../../store/dashboard/dashboard-
 Chart.register(...registerables);
 
 const EmployerDashboardPage: React.FC = () => {
-  const { dashboardNumberAll, checkAuth } = useSelector(
-    (state: any) => state.dashboard
+  const { dashboardNumberAll } = useSelector((state: any) => state.dashboard);
+  const { accessToken, checkAuth, companyAuth } = useSelector(
+    (state: any) => state.auth
   );
-  const { accessToken, companyAuth } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {
     if (
@@ -25,14 +25,14 @@ const EmployerDashboardPage: React.FC = () => {
     ) {
       dispatch(dashboardGetDashboardNumberAll({ companyId: companyAuth?.id }));
     }
-  }, [accessToken]);
+  }, [accessToken, checkAuth]);
 
   return (
     <>
-      {checkAuth?.hasCompany &&
+      {checkAuth?.companyVerified &&
+      checkAuth?.hasCompany &&
       checkAuth?.hasFullCredentialInfo &&
-      checkAuth?.verifiedByCompany &&
-      checkAuth?.companyVerified ? (
+      checkAuth?.verifiedByCompany ? (
         <div className="mx-20 mt-10">
           <div className="grid grid-cols-4 gap-5">
             <div className="flex justify-between rounded-md bg-white p-5 shadow">
