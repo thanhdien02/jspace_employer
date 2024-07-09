@@ -58,7 +58,7 @@ const LineChartPost = () => {
     (state: any) => state.dashboard
   );
   const { companyAuth } = useSelector((state: any) => state.auth);
-  const [month, setMonth] = useState<any>(`Tháng ${new Date().getMonth() + 1}`);
+  const [month, setMonth] = useState<any>(`${new Date().getMonth() + 1}`);
   const [year, setYear] = useState<any>(new Date().getFullYear());
   const [monthlyData, setMonthlyData] = useState(null);
   const [yearlyData, setYearlyData] = useState(null);
@@ -73,7 +73,7 @@ const LineChartPost = () => {
           month: new Date().getMonth() + 1,
         })
       );
-      setMonth(`Tháng ${new Date().getMonth() + 1}`);
+      setMonth(`${new Date().getMonth() + 1}`);
       setYear(new Date().getFullYear());
     } else if (range === "year") {
       dispatch(
@@ -89,15 +89,16 @@ const LineChartPost = () => {
   const dispatch = useDispatch();
   const [dataExport, setDataExport] = useState<any>(null);
   useEffect(() => {
-    if (companyAuth?.id) console.log("object");
-    dispatch(
-      dashboardGetDashboardPostMonth({
-        company_id: companyAuth?.id,
-        year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1,
-      })
-    );
-  }, [companyAuth]);
+    if (companyAuth?.id) {
+      dispatch(
+        dashboardGetDashboardPostMonth({
+          company_id: companyAuth?.id,
+          year: new Date().getFullYear(),
+          month: new Date().getMonth() + 1,
+        })
+      );
+    }
+  }, [companyAuth?.id]);
   useEffect(() => {
     if (dashboardPostMonth) {
       setMonthlyData(dashboardPostMonth);
@@ -127,7 +128,6 @@ const LineChartPost = () => {
   }, [dashboardPostYear]);
 
   const onChangeMonth = (e: any) => {
-    setMonth(e);
     dispatch(
       dashboardGetDashboardPostMonth({
         company_id: companyAuth?.id,
@@ -135,9 +135,9 @@ const LineChartPost = () => {
         month: e,
       })
     );
+    setMonth(e);
   };
   const onChangeYearofMonth = (e: any) => {
-    setYear(e);
     dispatch(
       dashboardGetDashboardPostMonth({
         company_id: companyAuth?.id,
@@ -145,6 +145,7 @@ const LineChartPost = () => {
         month: month,
       })
     );
+    setYear(e);
   };
   const onChangeYear = (e: any) => {
     dispatch(

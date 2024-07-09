@@ -1,5 +1,6 @@
 import React from "react";
 import IconCheck from "../icons/IconCheck";
+import { convertDollarToVN } from "../../utils/function-common";
 interface PropComponent {
   className?: string;
   color?: string;
@@ -21,7 +22,11 @@ const CardManageProductBuyedPage: React.FC<PropComponent> = ({
           </h3>
           <span>-</span>
           <p className="text-primary text-lg font-medium">
-            {item?.purchasedProduct?.productPrice?.toLocaleString("vi", {
+            {item?.purchasedProduct?.productPrice}$ /{" "}
+            {convertDollarToVN(
+              Number(item?.purchasedProduct?.productPrice),
+              24000
+            ).toLocaleString("vi", {
               style: "currency",
               currency: "VND",
             })}
@@ -32,7 +37,11 @@ const CardManageProductBuyedPage: React.FC<PropComponent> = ({
         <div className="flex gap-4 items-center justify-between">
           <p className="text-xl text-red-500 font-medium">
             <span className="text-base"> Tổng: </span>
-            {item?.purchasedProduct?.totalPrice?.toLocaleString("vi", {
+            {item?.purchasedProduct?.totalPrice}$ /{" "}
+            {convertDollarToVN(
+              Number(item?.purchasedProduct?.totalPrice),
+              24000
+            ).toLocaleString("vi", {
               style: "currency",
               currency: "VND",
             })}

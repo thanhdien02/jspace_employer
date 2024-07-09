@@ -182,7 +182,7 @@ function* handleJobDeleteJobById(dataDeleteJob: any): Generator<any> {
           size: 10,
         },
       });
-      message.success("Cập nhập trạng thái công việc thành công.");
+      message.success("Đã xóa bài đăng thành công.");
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);

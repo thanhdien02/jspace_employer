@@ -30,7 +30,7 @@ const CardCandidateFollowedCompanyPage: React.FC<PropComponent> = ({
           />
         </div>
         <div className="flex-1 flex flex-col h-max mt-[35px] p-3">
-          <h4 className="font-medium text-[17px] text-center">{item?.name}</h4>
+          <h4 className="font-medium text-[17px] text-center cursor-pointer">{item?.name}</h4>
           <ul className="mt-2 flex flex-col gap-2">
             <li className="mt-[1px] text-gray-600 text-sm pb-1">
               <span className="inline-block mr-4">Email: </span>
@@ -45,18 +45,12 @@ const CardCandidateFollowedCompanyPage: React.FC<PropComponent> = ({
               </span>
             </li>
           </ul>
-          <div className="mt-auto grid grid-cols-2 gap-5">
+          <div className="mt-auto w-full">
             <button
               type="button"
-              className="px-4 py-2 text-primary bg-white font-medium rounded-md border border-solid border-primary hover:opacity-80 transition-all"
+              className="w-full px-4 py-2 text-primary bg-white border border-solid border-primary font-medium rounded-md hover:opacity-80 transition-all"
             >
-              Tải CV
-            </button>
-            <button
-              type="button"
-              className="px-4 py-2 text-white bg-primary font-medium rounded-md hover:opacity-80 transition-all"
-            >
-              Xem CV
+              Chi tiết
             </button>
           </div>
         </div>

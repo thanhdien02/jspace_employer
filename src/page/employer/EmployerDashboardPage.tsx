@@ -3,6 +3,7 @@ import LineChartPost from "../../module/dashboard/LineChartPost";
 import { Chart, registerables } from "chart.js";
 import { PiMoney } from "react-icons/pi";
 import { LuUsers } from "react-icons/lu";
+import { AiFillProduct } from "react-icons/ai";
 import { BsBuilding } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { dashboardGetDashboardNumberAll } from "../../store/dashboard/dashboard-slice";
@@ -64,8 +65,8 @@ const EmployerDashboardPage: React.FC = () => {
               {dashboardNumberAll?.product_number}
             </strong>
           </div>
-          <span className="px-2 py-1 rounded bg-blue-600 flex justify-center items-center self-start ">
-            <BsBuilding className="text-base text-white" />
+          <span className="px-2 py-1 rounded bg-yellow-500 flex justify-center items-center self-start ">
+            <AiFillProduct className="text-base text-white" />
           </span>
         </div>
       </div>
