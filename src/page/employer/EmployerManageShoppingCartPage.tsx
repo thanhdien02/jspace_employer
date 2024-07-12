@@ -66,12 +66,12 @@ const EmployerManageShoppingCartPage: React.FC = () => {
   };
   useEffect(() => {
     if (companyAuth?.id) {
-      dispatch(cartGetCart({ company_id: companyAuth?.id, page: 1, size: 10 }));
+      dispatch(cartGetCart({ company_id: companyAuth?.id, page: 1, size: 100 }));
     }
   }, [companyAuth]);
   useEffect(() => {
     if (messageCart == "addtocart") {
-      dispatch(cartGetCart({ company_id: companyAuth?.id, page: 1, size: 10 }));
+      dispatch(cartGetCart({ company_id: companyAuth?.id, page: 1, size: 100 }));
       dispatch(cartUpdateMessageRedux({ messageCart: "" }));
     }
   }, [messageCart]);

@@ -14,6 +14,7 @@ import IconCart from "../../components/icons/IconCart";
 import { UserOutlined } from "@ant-design/icons";
 import HeaderNotificationPage from "./HeaderNotificationPage";
 import { notificationGetNotification } from "../../store/notification/notification-slice";
+import { cartGetCart } from "../../store/cart/cart-slice";
 interface PropComponent {
   collapsed?: any;
   setCollapsed?: any;
@@ -32,7 +33,12 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
   const [notificationCheck, setNotificationCheck] = useState(false);
   const [numberRead, setNumberRead] = useState(0);
   useEffect(() => {
-    dispatch(notificationGetNotification({ companyId: companyAuth?.id }));
+    if (companyAuth?.id) {
+      dispatch(
+        cartGetCart({ company_id: companyAuth?.id, page: 1, size: 100 })
+      );
+      dispatch(notificationGetNotification({ companyId: companyAuth?.id }));
+    }
   }, [companyAuth?.id]);
   useEffect(() => {
     if (notifications?.length > 0) {
