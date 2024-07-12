@@ -123,7 +123,7 @@ const RegisterPage: React.FC<PropComponent> = ({ className = "" }) => {
                         maxLength: 50,
                         minLength: 6,
                       })}
-                      type={showPassword ? "password" : "text"}
+                      type={!showPassword ? "password" : "text"}
                       placeholder="*************"
                       autoComplete="off"
                       className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-2 border border-stone-200 border-solid placeholder:text-sm w-full rounded-md"
@@ -158,7 +158,7 @@ const RegisterPage: React.FC<PropComponent> = ({ className = "" }) => {
                       placeholder="*************"
                       id="confirmpassword"
                       name="confirmpassword"
-                      type={showPassword ? "password" : "text"}
+                      type={!showPassword ? "password" : "text"}
                       autoComplete="confirmpassword"
                       className="h-full focus:border-solid focus:border-stone-400/70 transition-all outline-none pr-4 pl-10 py-2 border border-stone-200 border-solid placeholder:text-sm w-full rounded-md"
                     />

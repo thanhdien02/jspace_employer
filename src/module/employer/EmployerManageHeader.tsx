@@ -22,9 +22,11 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
   collapsed,
   setCollapsed,
 }) => {
-  const { companyAuth } = useSelector((state: any) => state.auth);
+  const { carts } = useSelector((state: any) => state.cart);
   const { notifications } = useSelector((state: any) => state.notification);
-  const { user, loading } = useSelector((state: any) => state.auth);
+  const { user, loading, companyAuth } = useSelector(
+    (state: any) => state.auth
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [notificationCheck, setNotificationCheck] = useState(false);
@@ -62,13 +64,18 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
 
       <div className="flex gap-5 items-center">
         <button
-          className="flex items-center gap-2 text-white bg-gray-100/20 p-2 text-sm rounded-xl px-4 font-medium"
+          className="relative flex items-center gap-2 text-white bg-gray-100/20 p-2 text-sm rounded-xl px-4 font-medium"
           onClick={() => {
             navigate("/manage/shopping-cart");
           }}
         >
           <IconCart classIcon="!w-5 !h-5"></IconCart>
           <span>Giỏ hàng</span>
+          {carts?.length > 0 && (
+            <span className="absolute -top-2 -right-2 flex justify-center text-base items-center w-6 h-6 bg-red-500 text-white rounded-full">
+              {carts?.length}
+            </span>
+          )}
         </button>
         <button
           className="flex items-center gap-2 text-white bg-gray-100/20 p-2 text-sm rounded-xl px-4 font-medium"
