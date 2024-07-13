@@ -32,7 +32,7 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
       setNotificationApprove(item?.note);
     } else if (item?.applyStatus?.value == "REJECT") {
       setUpdateStatusCV("reject");
-      setNotificationApprove(item?.note);
+      setNotificationReject(item?.note);
     }
   }, []);
   return (
@@ -150,6 +150,12 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                   applyStatus = "APPROVE";
                   notification = notificationApprove;
                 }
+                notification =
+                  item?.post?.company?.name +
+                  "đã cập nhật trạng thái " +
+                  applyStatus +
+                  " với nội dung: " +
+                  notification;
                 dispatch(
                   candidateUpdateStatusAppliedCandidate({
                     postId: item?.post?.id,

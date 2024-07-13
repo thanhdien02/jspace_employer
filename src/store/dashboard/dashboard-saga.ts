@@ -32,6 +32,7 @@ export default function* dashboardSaga() {
     handleDashboardGetDashboardPostYear
   );
   yield takeLatest(
+  
     dashboardGetDashboardNumberAll.type,
     handleDashboardGetDashboardNumberAll
   );

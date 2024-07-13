@@ -39,7 +39,7 @@ const EmployerDashboardPage: React.FC = () => {
               <div>
                 <h3 className="font-medium text-gray-500">Danh thu sản phẩm</h3>
                 <strong className="mt-3 inline-block text-black font-bold text-xl">
-                  {dashboardNumberAll?.total_cost}$
+                  {dashboardNumberAll?.total_cost?.toLocaleString("vi-VN")}$
                 </strong>
               </div>
               <span className="px-2 py-1 rounded bg-green-500 flex justify-center items-center self-start ">

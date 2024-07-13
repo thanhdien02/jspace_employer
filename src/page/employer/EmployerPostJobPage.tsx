@@ -31,6 +31,7 @@ import {
   productGetBuyedProductById,
 } from "../../store/product/product-slice";
 import IconCheck from "../../components/icons/IconCheck";
+import { convertDollarToVN } from "../../utils/function-common";
 interface Inputs {
   title?: string;
   minPay: string;
@@ -318,8 +319,12 @@ const EmployerPostJobPage: React.FC = () => {
                         {buyedproductById?.productName}
                       </h3>
                       <span className="font-medium text-xl">-</span>
-                      <p className="text-xl font-semibold">
-                        {buyedproductById?.productPrice?.toLocaleString("vi", {
+                      <p className="text-xl font-semibold text-red-500">
+                        {buyedproductById?.productPrice}$ /{" "}
+                        {convertDollarToVN(
+                          Number(buyedproductById?.productPrice),
+                          24000
+                        ).toLocaleString("vi", {
                           style: "currency",
                           currency: "VND",
                         })}
