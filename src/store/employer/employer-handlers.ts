@@ -1,6 +1,9 @@
 import { call, put } from "redux-saga/effects";
 import { getToken, Token } from "../../utils/auth";
-import { employerUpdateLoadingRedux } from "./employer-slice";
+import {
+  employerUpdateLoadingRedux,
+  employerUpdateMessageRedux,
+} from "./employer-slice";
 import {
   requestEmployerConfirmCompanyInListThatForYourCompany,
   requestEmployerDeleteAvatar,
@@ -11,6 +14,7 @@ import {
 } from "./employer-requests";
 import { message } from "antd";
 import { handleAuthFetchMe } from "../auth/auth-handlers";
+import { companyUpdateMessageRedux } from "../company/company-slice";
 
 function* handleEmployerUpdateInformation(
   dataUpdateEmployer: any
@@ -29,8 +33,9 @@ function* handleEmployerUpdateInformation(
     if (response?.data?.code === 1000) {
       message.success("Cập nhật thông tin tài khoản thành công.");
       yield call(handleAuthFetchMe);
-    } else {
-      // message.error("Cập nhật thông tin tài khoản thất bại.");
+      yield put(
+        employerUpdateMessageRedux({ messageEmployer: "updatesuccess" })
+      );
     }
   } catch (error: any) {
     message.error(error?.response?.data?.message);
@@ -54,6 +59,9 @@ function* handleEmployerConfirmInformationCompany(
     if (response?.data?.code === 1000) {
       message.success("Cập nhật thông tin tài khoản thành công.");
       yield call(handleAuthFetchMe);
+      yield put(
+        companyUpdateMessageRedux({ messageCompany: "createcompanysuccess" })
+      );
     } else {
       message.error("Cập nhật thông tin tài khoản thất bại.");
     }

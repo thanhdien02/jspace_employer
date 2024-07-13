@@ -17,8 +17,9 @@ import {
   companyGetCompanyById,
   companyUpdateBackgroundCompany,
   companyUpdateLogoCompany,
+  companyUpdateMessageRedux,
 } from "../../store/company/company-slice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { employerConfirmCompanyEmployer } from "../../store/employer/employer-slice";
 import {
   fileUpdateMessageRedux,
@@ -40,9 +41,10 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
   const { loadingFile, messageFile, files } = useSelector(
     (state: any) => state.file
   );
-  const { loadingCompany, company } = useSelector(
+  const { loadingCompany, company, messageCompany } = useSelector(
     (state: any) => state.company
   );
+  const navigate = useNavigate();
   const [disableAll, setDisableAll] = useState(false);
   const [companySize, setCompanySize] = useState("");
   const [companyLogo, setCompanyLogo] = useState("");
@@ -169,6 +171,12 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
     }
   }, [company]);
 
+  useEffect(() => {
+    if (messageCompany == "createcompanysuccess") {
+      navigate("/manage/check-work-required");
+      dispatch(companyUpdateMessageRedux({ messageCompany: "" }));
+    }
+  }, [messageCompany]);
   return (
     <>
       <div className="xl:mx-40 mx-10 my-10 bg-white px-8 py-5  rounded-lg shadow-md">
@@ -458,6 +466,7 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
                 value={companyDescription}
                 onChange={(content) => {
                   setValue("description", content);
+                  setCompanyDescription(content);
                 }}
                 className="mt-2"
               />
@@ -477,6 +486,8 @@ const EmployerUpdateInformationCompanyPage: React.FC = () => {
           </>
         )}
       </div>
+
+      
     </>
   );
 };

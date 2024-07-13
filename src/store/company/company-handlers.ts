@@ -5,6 +5,7 @@ import { handleAuthFetchMe } from "../auth/auth-handlers";
 import {
   companyUpdateCompanyRedux,
   companyUpdateLoadingRedux,
+  companyUpdateMessageRedux,
   companyUpdatePaginationRedux,
 } from "./company-slice";
 import {
@@ -56,11 +57,17 @@ function* handleCompanyCreateCompany(dataCompanyCreate: any): Generator<any> {
     if (response?.data?.code === 1000) {
       message.success("Tạo công ty thành công.");
       yield call(handleAuthFetchMe);
+      yield put(
+        companyUpdateMessageRedux({ messageCompany: "createcompanysuccess" })
+      );
     } else {
       message.error("Tạo công ty thất bại.");
     }
   } catch (error: any) {
-    message.error(error?.response?.data?.message);
+    if (error?.response?.data?.code == 500) {
+      message.error("Công ty đã tồn tại.");
+    }
+    // message.error(error?.response?.data?.message);
   } finally {
     yield put(companyUpdateLoadingRedux({ loadingCompany: false }));
   }

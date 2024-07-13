@@ -3,7 +3,10 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { MailOutlined, UserOutlined, CameraOutlined } from "@ant-design/icons";
 import IconPhone from "../../components/icons/IconPhone";
-import { employerUpdateInformationEmployer } from "../../store/employer/employer-slice";
+import {
+  employerUpdateInformationEmployer,
+  employerUpdateMessageRedux,
+} from "../../store/employer/employer-slice";
 import { Avatar, Select, Spin } from "antd";
 import { dataPosition } from "../../utils/dataFetch";
 import ButtonLoading from "../../components/button/ButtonLoading";
@@ -11,6 +14,7 @@ import IconGroupUser from "../../components/icons/IconGroupUser";
 import InputNumber from "../../components/input/InputNumber";
 import EmployerChangeAccountAvatarPage from "./EmployerChangeAccountAvatarPage";
 import EmpoyerChangeAccountBackgroundPage from "./EmpoyerChangeAccountBackgroundPage";
+import { useNavigate } from "react-router-dom";
 interface Inputs {
   name: string;
   phone: string;
@@ -18,9 +22,12 @@ interface Inputs {
   id: string;
 }
 const EmployerUpdateInformationAccountPage: React.FC = () => {
-  const { user } = useSelector((state: any) => state.auth);
-  const { loadingEmployer } = useSelector((state: any) => state.employer);
+  const { user, checkAuth } = useSelector((state: any) => state.auth);
+  const { loadingEmployer, messageEmployer } = useSelector(
+    (state: any) => state.employer
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [employerLogo, setEmployerLogo] = useState("");
   const [checkChangeAvatar, setCheckChangeAvatar] = useState(false);
   const [checkChangeBackground, setCheckChangeBackground] = useState(false);
@@ -49,6 +56,15 @@ const EmployerUpdateInformationAccountPage: React.FC = () => {
     document.title = "Chi tiết tài khoản";
     window.scrollTo(0, 0);
   }, []);
+  useEffect(() => {
+    if (
+      messageEmployer == "updatesuccess" &&
+      !(checkAuth?.hasCompany && checkAuth?.companyVerified)
+    ) {
+      navigate("/manage/check-work-required");
+      dispatch(employerUpdateMessageRedux({ messageEmployer: "" }));
+    }
+  }, [messageEmployer]);
   return (
     <>
       <div className="mx-10 xl:mx-60 p-5 my-5 mt-10 shadow-md rounded-lg bg-white">

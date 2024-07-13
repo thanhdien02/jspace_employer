@@ -111,21 +111,37 @@ const EmployerCheckWorkRequiredBeforePostJobPage: React.FC = () => {
                   Cập nhật thông tin tài khoản
                 </span>
               </NavLink>
-              <NavLink
-                to="/manage/information-company"
-                className="flex items-center gap-2 border border-gray-200 border-solid p-4 shadow-sm rounded-md hover:text-primary  hover:bg-blue-50 transition-all"
-              >
-                {checkAuth?.hasCompany && checkAuth?.companyVerified ? (
-                  <IconCheck></IconCheck>
-                ) : (
-                  <IconText></IconText>
-                )}
-                <span className="font-medium text-base">
-                  {checkAuth?.hasCompany && !checkAuth?.companyVerified
-                    ? "Vui lòng vào mail công ty, xác thực thông tin để quản lí duyệt công ty"
-                    : " Cập nhật thông tin công ty"}
-                </span>
-              </NavLink>
+              {checkAuth?.hasCompany ? (
+                <div className="flex items-center gap-2 border border-gray-200 border-solid p-4 shadow-sm rounded-md hover:text-primary  hover:bg-blue-50 transition-all">
+                  {checkAuth?.hasCompany && checkAuth?.companyVerified ? (
+                    <IconCheck></IconCheck>
+                  ) : (
+                    <IconText></IconText>
+                  )}
+                  <span className="font-medium text-base">
+                    {checkAuth?.hasCompany && !checkAuth?.companyVerified
+                      ? "Vui lòng vào mail công ty xác thực để quản lí duyệt công ty"
+                      : " Cập nhật thông tin công ty"}
+                  </span>
+                </div>
+              ) : (
+                <NavLink
+                  to="/manage/information-company"
+                  className="flex items-center gap-2 border border-gray-200 border-solid p-4 shadow-sm rounded-md hover:text-primary  hover:bg-blue-50 transition-all"
+                >
+                  {checkAuth?.hasCompany && checkAuth?.companyVerified ? (
+                    <IconCheck></IconCheck>
+                  ) : (
+                    <IconText></IconText>
+                  )}
+                  <span className="font-medium text-base">
+                    {checkAuth?.hasCompany && !checkAuth?.companyVerified
+                      ? "Vui lòng vào mail công ty xác thực để quản lí duyệt công ty"
+                      : " Cập nhật thông tin công ty"}
+                  </span>
+                </NavLink>
+              )}
+
               <span
                 onClick={showModalConfirmSendMail}
                 className="flex items-center gap-2 cursor-pointer border border-gray-200 border-solid p-4 shadow-sm rounded-md hover:text-primary  hover:bg-blue-50 transition-all"
