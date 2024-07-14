@@ -251,10 +251,13 @@ const EmployerPostJobPage: React.FC = () => {
           <h2 className="font-bold text-xl my-2 text-gray-800">Đăng tin</h2>
           {checkSelectProduct ? (
             <div className="ml-auto flex gap-2 items-center">
-              <span className="font-medium py-2 px-4 rounded-md bg-gray-200">
-                {buyedproductById?.productName} (SLBĐ còn lại{" "}
-                {buyedproductById?.productNumberOfPost})
-              </span>
+              {productCurrent && (
+                <span className="font-medium py-2 px-4 rounded-md bg-gray-200">
+                  {buyedproductById?.productName} (SLBĐ còn lại{" "}
+                  {buyedproductById?.productNumberOfPost})
+                </span>
+              )}
+
               <button
                 type="button"
                 className="px-3 py-2 rounded-md text-white bg-primary font-medium hover:opacity-80 transition-all"
@@ -273,6 +276,7 @@ const EmployerPostJobPage: React.FC = () => {
                 onClick={() => {
                   setCheckSelectProduct(!checkSelectProduct);
                   setProductCurrent(null);
+                  setCheckSelectProductInfor("");
                 }}
               >
                 Sử dụng gói trial ({companyAuth?.trialPost})

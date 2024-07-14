@@ -215,12 +215,13 @@ const EmployerManageJobPage: React.FC = () => {
                     </tr>
                   ) : (
                     postedJobs?.length > 0 &&
-                    postedJobs?.map((item: any) => (
+                    postedJobs?.map((item: any, index: number) => (
                       <CardManageJobPage
                         handleReset={handleReset}
                         className="even:bg-gray-300/50"
                         key={item?.post?.id}
                         item={item}
+                        index={index}
                         onClickUpdateJob={setUpdateJob}
                         onClickListCandidate={setCandidateApply}
                         onClickSetJobId={setJobId}

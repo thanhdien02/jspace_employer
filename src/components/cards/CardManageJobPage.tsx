@@ -13,6 +13,7 @@ interface PropComponent {
   onClickListCandidate?: any;
   onClickSetJobId?: any;
   handleReset?: any;
+  index?: any;
   item?: any;
 }
 
@@ -22,6 +23,7 @@ const CardManageJobPage: React.FC<PropComponent> = ({
   onClickListCandidate,
   onClickSetJobId,
   handleReset,
+  index,
   item,
 }) => {
   const dispatch = useDispatch();
@@ -29,7 +31,7 @@ const CardManageJobPage: React.FC<PropComponent> = ({
   return (
     <>
       <TableRow className={`${className}`}>
-        <TableRowContent className="">{item?.post?.id}</TableRowContent>
+        <TableRowContent className="">{index + 1}</TableRowContent>
         <TableRowContent className="">
           <a
             href={`https://jspace-fe.vercel.app/jobs/${item?.post?.id}`}

@@ -17,6 +17,7 @@ import {
   requestJobUpdateJob,
   requestJobUpdateJobStatus,
 } from "./job-requests";
+import { handleAuthFetchMe } from "../auth/auth-handlers";
 
 function* handleJobPostJob(dataPostJob: any): Generator<any> {
   try {
@@ -34,10 +35,15 @@ function* handleJobPostJob(dataPostJob: any): Generator<any> {
           messageJob: "postsuccess",
         })
       );
+      if (dataPostJob?.payload?.useTrialPost) {
+        yield call(handleAuthFetchMe);
+      }
       message.success("Đăng tin thành công.");
     }
   } catch (error: any) {
-    message.error(error?.response?.data?.message);
+    if (error?.response?.data?.message) {
+      message.error(error?.response?.data?.message);
+    }
   } finally {
     yield put(jobUpdateLoadingRedux({ loadingJob: false }));
   }
@@ -74,10 +80,11 @@ function* handleJobGetPostedJob(dataGetPostedJob: any): Generator<any> {
           },
         })
       );
-      // message.success("Tải công việc thành công.");
     }
   } catch (error: any) {
-    message.error(error?.response?.data?.message);
+    if (error?.response?.data?.message) {
+      // message.error(error?.response?.data?.message);
+    }
   } finally {
     yield put(jobUpdateLoadingRedux({ loadingJob: false }));
   }
@@ -100,7 +107,9 @@ function* handleJobGetJobById(dataGetJobById: any): Generator<any> {
       );
     }
   } catch (error: any) {
-    message.error(error?.response?.data?.message);
+    if (error?.response?.data?.message) {
+      // message.error(error?.response?.data?.message);
+    }
   } finally {
     yield put(jobUpdateLoadingByIdRedux({ loadingJobById: false }));
   }
@@ -124,7 +133,6 @@ function* handleJobUpdateJob(dataUpdateJob: any): Generator<any> {
           size: 10,
         },
       });
-
       message.success("Cập nhập thông tin công việc thành công.");
     }
   } catch (error: any) {
