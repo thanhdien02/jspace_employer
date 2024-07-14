@@ -1,7 +1,6 @@
 import {
   UploadOutlined,
   UserOutlined,
-  SwapOutlined,
   ScheduleOutlined,
   ShoppingCartOutlined,
   ShoppingOutlined,
@@ -74,12 +73,12 @@ export const dataSideBar = [
     label: "Ứng viên theo dõi công ty",
     path: "/manage/candidates-followed",
   },
-  {
-    key: "11",
-    icon: <SwapOutlined />,
-    label: "Đổi mật khẩu",
-    path: "/manage/change-password",
-  },
+  // {
+  //   key: "11",
+  //   icon: <SwapOutlined />,
+  //   label: "Đổi mật khẩu",
+  //   path: "/manage/change-password",
+  // },
 ];
 export const dataSalary: any = [
   {
@@ -386,7 +385,7 @@ export const dataHeaderManageCandidateApplyJob = [
     title: "Tình trạng",
     className: "w-[20%]",
   },
-  ];
+];
 
 export const dataCard = [
   {

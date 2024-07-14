@@ -1,4 +1,4 @@
-import { Select, Skeleton, Tabs, TabsProps } from "antd";
+import { message, Select, Skeleton, Tabs, TabsProps } from "antd";
 import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { HomeOutlined } from "@ant-design/icons";
@@ -388,7 +388,13 @@ const EmployerPostJobPage: React.FC = () => {
                   <div className="flex mt-2">
                     <button
                       type="button"
-                      onClick={() => setCheckSelectProduct(true)}
+                      onClick={() => {
+                        if (buyedproductById?.productNumberOfPost == 0) {
+                          message.info(
+                            "Gói sản phẩm đã hết bài đăng. Hãy chọn gói khác"
+                          );
+                        } else setCheckSelectProduct(true);
+                      }}
                       className="px-6 py-2 ml-auto font-medium rounded-md bg-primary text-white text-base hover:opacity-80 transition-all"
                     >
                       Xác nhận
