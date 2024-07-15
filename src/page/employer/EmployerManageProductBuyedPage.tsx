@@ -39,6 +39,7 @@ const EmployerManageProductBuyedPage: React.FC = () => {
           durationFilter: expired,
         })
       );
+      dispatch(notificationGetNotification({ companyId: companyAuth?.id }));
       dispatch(paymentUpdateMessageRedux({ messagePayment: "" }));
     }
   }, [messagePayment]);
@@ -57,7 +58,6 @@ const EmployerManageProductBuyedPage: React.FC = () => {
           PayerID: PayerID,
         })
       );
-      dispatch(notificationGetNotification({ companyId: companyAuth?.id }));
     }
   }, []);
   const handleChangeExpired = (e: any) => {
