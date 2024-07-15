@@ -87,14 +87,14 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataUpdateCompany: Inputs) => {
     console.log("🚀 ~ dataUpdateCompany:", dataUpdateCompany);
-    // let dataUpdate = handleSalaryUpdate(dataUpdateCompany, selectEnterSalary);
-    // dispatch(
-    //   jobUpdateJob({
-    //     job_id: jobById?.post?.id,
-    //     dataUpdateJob: dataUpdate,
-    //     company_id: jobById?.post?.company?.id,
-    //   })
-    // );
+    let dataUpdate = handleSalaryUpdate(dataUpdateCompany, selectEnterSalary);
+    dispatch(
+      jobUpdateJob({
+        job_id: jobById?.post?.id,
+        dataUpdateJob: dataUpdate,
+        company_id: jobById?.post?.company?.id,
+      })
+    );
   };
   useEffect(() => {
     const body = document.body;
