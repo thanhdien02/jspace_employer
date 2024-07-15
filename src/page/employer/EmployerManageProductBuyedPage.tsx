@@ -9,6 +9,7 @@ import {
   paymentRequestConfirmPayment,
   paymentUpdateMessageRedux,
 } from "../../store/payment/payment-slice";
+import { notificationGetNotification } from "../../store/notification/notification-slice";
 
 const EmployerManageProductBuyedPage: React.FC = () => {
   const { companyAuth, checkAuth } = useSelector((state: any) => state.auth);
@@ -56,10 +57,10 @@ const EmployerManageProductBuyedPage: React.FC = () => {
           PayerID: PayerID,
         })
       );
+      dispatch(notificationGetNotification({ companyId: companyAuth?.id }));
     }
   }, []);
   const handleChangeExpired = (e: any) => {
-    console.log("object: ", e);
     setExpired(e);
     dispatch(
       productGetBuyedProduct({
