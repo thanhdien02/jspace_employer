@@ -86,14 +86,15 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (dataUpdateCompany: Inputs) => {
-    let dataUpdate = handleSalaryUpdate(dataUpdateCompany, selectEnterSalary);
-    dispatch(
-      jobUpdateJob({
-        job_id: jobById?.post?.id,
-        dataUpdateJob: dataUpdate,
-        company_id: jobById?.post?.company?.id,
-      })
-    );
+    console.log("🚀 ~ dataUpdateCompany:", dataUpdateCompany);
+    // let dataUpdate = handleSalaryUpdate(dataUpdateCompany, selectEnterSalary);
+    // dispatch(
+    //   jobUpdateJob({
+    //     job_id: jobById?.post?.id,
+    //     dataUpdateJob: dataUpdate,
+    //     company_id: jobById?.post?.company?.id,
+    //   })
+    // );
   };
   useEffect(() => {
     const body = document.body;
@@ -123,7 +124,7 @@ const EmployerUpdateJobPage: React.FC<PropComponent> = ({
       setValue("gender", jobById?.post?.gender?.value);
       setValue("quantity", jobById?.post?.quantity);
       setValue("rank", jobById?.post?.rank?.value);
-
+      setValue("description", jobById?.post?.description);
       // Skills
       const lskill = jobById?.post?.skills.map((item: any) => item?.id);
       setValue("skillIdList", lskill);
