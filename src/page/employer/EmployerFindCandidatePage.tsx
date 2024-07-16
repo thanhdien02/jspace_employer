@@ -15,13 +15,6 @@ import { NavLink } from "react-router-dom";
 import IconCheck from "../../components/icons/IconCheck";
 import IconText from "../../components/icons/IconText";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
-import {
-  commonGetExperience,
-  commonGetJobType,
-  commonGetLocation,
-  commonGetRank,
-  commonGetSkills,
-} from "../../store/common/common-slice";
 import CardFindCandidatePage from "../../components/cards/CardFindCandidatePage";
 import { candidateGetFindCandidate } from "../../store/candidate/candidate-slice";
 import InputSearch from "../../components/input/InputSearch";
@@ -92,15 +85,6 @@ const EmployerFindCandidatePage: React.FC = () => {
   const handleCancelConfirmSendMail = () => {
     setOpenConfirmSendMail(false);
   };
-
-  // get commont
-  useEffect(() => {
-    dispatch(commonGetLocation());
-    dispatch(commonGetJobType());
-    dispatch(commonGetRank());
-    dispatch(commonGetExperience());
-    dispatch(commonGetSkills());
-  }, []);
 
   //
   const handleSearchName = debounce((value: any) => {

@@ -152,7 +152,7 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                 }
                 notification =
                   item?.post?.company?.name +
-                  "đã cập nhật trạng thái " +
+                  " đã cập nhật trạng thái " +
                   applyStatus +
                   " với nội dung: " +
                   notification;

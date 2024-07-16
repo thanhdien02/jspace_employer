@@ -9,7 +9,7 @@ import {
   paymentRequestConfirmPayment,
   paymentUpdateMessageRedux,
 } from "../../store/payment/payment-slice";
-import { notificationGetNotification } from "../../store/notification/notification-slice";
+import { cartGetCart } from "../../store/cart/cart-slice";
 
 const EmployerManageProductBuyedPage: React.FC = () => {
   const { companyAuth, checkAuth } = useSelector((state: any) => state.auth);
@@ -39,8 +39,10 @@ const EmployerManageProductBuyedPage: React.FC = () => {
           durationFilter: expired,
         })
       );
-      dispatch(notificationGetNotification({ companyId: companyAuth?.id }));
       dispatch(paymentUpdateMessageRedux({ messagePayment: "" }));
+      dispatch(
+        cartGetCart({ company_id: companyAuth?.id, page: 1, size: 100 })
+      );
     }
   }, [messagePayment]);
   useEffect(() => {

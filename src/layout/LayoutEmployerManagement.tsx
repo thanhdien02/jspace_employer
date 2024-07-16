@@ -79,7 +79,7 @@ const LayoutEmployerManagement: React.FC = () => {
                   className="w-[45px] h-[45px] rounded-full object-cover"
                 />
               ) : (
-                <Avatar className="!mx-0" size={50} icon={<UserOutlined />} />
+                <Avatar className="!mx-0 min-w-[50px] min-h-[50px]" size={50} icon={<UserOutlined />} />
               )}
 
               {collapsed ? (
