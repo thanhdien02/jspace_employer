@@ -12,13 +12,19 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
   return (
     <>
       <div
-        className={`flex flex-col h-[320px] w-full border border-solid border-gray-200 rounded-md hover:shadow-lg transition-all ${className}`}
+        className={`flex flex-col h-[440px] w-full border border-solid border-gray-200 rounded-md hover:shadow-lg transition-all ${className}`}
       >
         <div className="relative w-full h-[30%] rounded-md">
           <img
-            src={item?.user?.background}
+            src={
+              item?.user?.background
+                ? item?.user?.background
+                : "https://biz.prlog.org/jspace/logo.png"
+            }
             alt=""
-            className="w-full h-full object-cover rounded-t-md"
+            className={`w-full h-full r rounded-t-md ${
+              item?.user?.background ? "object-cover" : "object-contain"
+            }`}
           />
           <img
             src={
@@ -31,7 +37,7 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
           />
         </div>
         <div className="flex-1 flex flex-col h-max mt-[35px] p-3">
-          <h4 className="font-medium text-[17px] text-center">
+          <h4 className="font-medium text-[17px] text-center cursor-pointer">
             {item?.user?.name}
           </h4>
           <ul className="mt-2 flex flex-col gap-2">
@@ -47,13 +53,13 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
                 {item?.user?.phone}
               </span>
             </li>
-            {/* <li className="mt-[1px] text-gray-600 text-sm pb-1">
+            <li className="mt-[1px] text-gray-600 text-sm pb-1">
               <span className="w-[45%] inline-block">Địa chỉ:</span>
               <span className="text-black font-medium font-sans">
                 Hồ Chí Minh
               </span>
-            </li> */}
-            {/* <li className="mt-[1px] text-gray-600 text-sm pb-1">
+            </li>
+            <li className="mt-[1px] text-gray-600 text-sm pb-1">
               <span className="w-[45%] inline-block">Kinh nghiệm:</span>
               <span className="text-black font-medium font-sans">1 năm</span>
             </li>
@@ -62,7 +68,7 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
               <span className="text-black font-medium font-sans">
                 10 - 15 triệu
               </span>
-            </li> */}
+            </li>
             {/* <li className="mt-[1px] text-gray-600 text-sm pb-1">
               <span className="w-[45%] inline-block">Học vấn:</span>
               <span className="text-black font-medium font-sans">Đại học</span>

@@ -6,7 +6,6 @@ import {
   ShoppingOutlined,
   ProductOutlined,
   GroupOutlined,
-  WifiOutlined,
   AppstoreOutlined,
 } from "@ant-design/icons";
 import IconBuilding from "../components/icons/IconBuilding";
@@ -67,12 +66,12 @@ export const dataSideBar = [
     label: "Tìm kiếm ứng viên",
     path: "/manage/candidates",
   },
-  {
-    key: "10",
-    icon: <WifiOutlined />,
-    label: "Ứng viên theo dõi công ty",
-    path: "/manage/candidates-followed",
-  },
+  // {
+  //   key: "10",
+  //   icon: <WifiOutlined />,
+  //   label: "Ứng viên theo dõi công ty",
+  //   path: "/manage/candidates-followed",
+  // },
   // {
   //   key: "11",
   //   icon: <SwapOutlined />,
@@ -331,7 +330,7 @@ export const dataHeaderManageJob = [
   },
   {
     title: "Kinh nghiệm",
-    className: "w-[180px]",
+    className: "w-[200px]",
   },
   {
     title: "Loại công việc",

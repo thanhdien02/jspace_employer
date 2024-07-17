@@ -172,20 +172,20 @@ const EmployerManageShoppingCartPage: React.FC = () => {
                   )}
                 </span>
               </div>
-              <div className="flex justify-between items-center font-medium border-solid border-b-[1px] border-gray-200 p-4">
+              {/* <div className="flex justify-between items-center font-medium border-solid border-b-[1px] border-gray-200 p-4">
                 <span>Tổng tiền chưa bao gồm VAT</span>
                 <span>0 VND</span>
-              </div>
-              <div className="flex justify-between items-center font-medium border-solid border-b-[1px] border-gray-200 p-4">
+              </div> */}
+              {/* <div className="flex justify-between items-center font-medium border-solid border-b-[1px] border-gray-200 p-4">
                 <span>VAT (8%)</span>
                 <span>0 VND</span>
-              </div>
-              <div className="flex justify-between items-center font-medium border-solid border-b-[1px] border-gray-200 p-4">
+              </div> */}
+              {/* <div className="flex justify-between items-center font-medium border-solid border-b-[1px] border-gray-200 p-4">
                 <span>Mã ưu đãi</span>
                 <span className="cursor-pointer px-2 py-1 rounded-md border border-solid border-primary text-primary">
                   Chọn mã
                 </span>
-              </div>
+              </div> */}
               <div className="mt-5">
                 <Checkbox
                   onChange={onChange}

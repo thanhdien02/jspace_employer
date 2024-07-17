@@ -31,7 +31,6 @@ import {
   productGetBuyedProductById,
 } from "../../store/product/product-slice";
 import IconCheck from "../../components/icons/IconCheck";
-import { convertDollarToVN } from "../../utils/function-common";
 interface Inputs {
   title?: string;
   minPay: string;
@@ -164,7 +163,6 @@ const EmployerPostJobPage: React.FC = () => {
       setJobDescription("");
       dispatch(jobUpdateMessageRedux({ messageJob: "" }));
       setValue("newSkills", []);
-
       // Cập nhật lại số lượng bài đăng nếu chọn gói mua
       if (productCurrent) {
         dispatch(
@@ -319,11 +317,11 @@ const EmployerPostJobPage: React.FC = () => {
                   <h4 className="font-semibold text-lg">Thông tin dịch vụ</h4>
                   <div className="mt-3">
                     <div className="flex items-center gap-3">
-                      <h3 className="text-xl font-semibold text-primary">
+                      {/* <h3 className="text-xl font-semibold text-red-500">
                         {buyedproductById?.productName}
-                      </h3>
-                      <span className="font-medium text-xl">-</span>
-                      <p className="text-xl font-semibold text-red-500">
+                      </h3> */}
+                      {/* <span className="font-medium text-xl">-</span> */}
+                      {/* <p className="text-xl font-semibold text-red-500">
                         {buyedproductById?.productPrice}$ /{" "}
                         {convertDollarToVN(
                           Number(buyedproductById?.productPrice),
@@ -333,7 +331,7 @@ const EmployerPostJobPage: React.FC = () => {
                           currency: "VND",
                         })}
                         <span className="text-red-500">*</span>
-                      </p>
+                      </p> */}
                     </div>
                     <ul className="text-base mt-3">
                       <li className="flex items-center gap-2 mt-2">
@@ -374,16 +372,10 @@ const EmployerPostJobPage: React.FC = () => {
                           <span className="font-bold">
                             {` ${buyedproductById?.productPostDuration} ngày `}
                           </span>
-                          kễ từ ngày đăng
+                          kể từ ngày đăng
                         </span>
                       </li>
                     </ul>
-                    <div className="mt-4">
-                      <h4 className="text-base font-medium">Chi tiết</h4>
-                      <p className="max-h-[90px] overflow-auto">
-                        {buyedproductById?.description}
-                      </p>
-                    </div>
                   </div>
                   <div className="flex mt-2">
                     <button
@@ -406,6 +398,7 @@ const EmployerPostJobPage: React.FC = () => {
         ) : (
           <></>
         )}
+
         {checkSelectProduct && (
           <form action="" onSubmit={handleSubmit(onSubmit)} className="py-5">
             <div className="grid grid-cols-2 gap-10">
@@ -467,7 +460,10 @@ const EmployerPostJobPage: React.FC = () => {
                     filterOption={(input, option: any) =>
                       (option?.label ?? "").includes(input)
                     }
-                    options={genders}
+                    options={genders?.map((item: any) => ({
+                      label: item?.language?.vi,
+                      value: item?.value,
+                    }))}
                     onChange={(e) => {
                       setValue("gender", e);
                       clearErrors("gender");
@@ -509,7 +505,7 @@ const EmployerPostJobPage: React.FC = () => {
                     options={
                       experiences?.length > 0 &&
                       experiences.map((item: any) => ({
-                        label: item?.code,
+                        label: item?.language?.vi,
                         value: item?.value,
                       }))
                     }

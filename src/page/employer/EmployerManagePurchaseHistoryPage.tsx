@@ -73,16 +73,10 @@ const EmployerManagePurchaseHistoryPage: React.FC = () => {
           ID: item?.id,
           "TÊN SẢN PHẨM": item?.productName,
           "TÊN CÔNG TY": item?.company?.name,
-          "GIÁ SẢN PHẨM": item?.productPrice?.toLocaleString("vi", {
-            style: "currency",
-            currency: "VND",
-          }),
+          "GIÁ SẢN PHẨM": item?.productPrice?.toLocaleString("vi"),
           "NGÀY MUA": item?.purchasedDate,
           "SỐ LƯỢNG": item?.quantity,
-          "TỔNG TIỀN": item?.totalPrice?.toLocaleString("vi", {
-            style: "currency",
-            currency: "VND",
-          }),
+          "TỔNG TIỀN": item?.totalPrice?.toLocaleString("vi"),
           "PHƯƠNG THỨC THANH TOÁN": item?.paymentMethod,
         };
       }),

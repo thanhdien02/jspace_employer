@@ -76,7 +76,7 @@ const CardManageJobPage: React.FC<PropComponent> = ({
         <TableRowContent className="">{item?.post?.quantity}</TableRowContent>
         <TableRowContent className="">{item?.post?.rank?.code}</TableRowContent>
         <TableRowContent className="">
-          {item?.post?.experience?.code}
+          {item?.post?.experience?.language?.vi}
         </TableRowContent>
         <TableRowContent className="">
           {item?.post?.jobType?.code}

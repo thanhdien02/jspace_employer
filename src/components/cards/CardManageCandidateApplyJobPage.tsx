@@ -10,11 +10,13 @@ interface PropComponent {
   onClickUpdateJob?: any;
   onClickListCandidate?: any;
   item?: any;
+  index?: any;
 }
 
 const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
   className,
   item,
+  index,
 }) => {
   const dispatch = useDispatch();
   const [updateStatusCV, setUpdateStatusCV] = useState("progress");
@@ -38,9 +40,12 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
   return (
     <>
       <TableRow className={`${className}`}>
-        <TableRowContent className="">12</TableRowContent>
-        <TableRowContent className="line-clamp-3">
-          {item?.candidate?.user?.name}
+        <TableRowContent className="">{index + 1}</TableRowContent>
+        <TableRowContent className="">
+          <div className="line-clamp-2 cursor-pointer">
+            {" "}
+            {item?.candidate?.user?.name}
+          </div>
         </TableRowContent>
         <TableRowContent className="">
           <div className="line-clamp-2 h-full">

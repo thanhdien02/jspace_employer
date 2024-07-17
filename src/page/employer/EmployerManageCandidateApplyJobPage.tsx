@@ -200,6 +200,8 @@ const EmployerManageCandidateApplyJobPage: React.FC<PropComponent> = ({
                       <CardManageCandidateApplyJobPage
                         key={index}
                         item={item}
+                        index={index}
+                        className="even:bg-gray-300/20"
                       ></CardManageCandidateApplyJobPage>
                     ))
                   )}
