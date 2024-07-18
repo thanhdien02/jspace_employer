@@ -61,16 +61,21 @@ export const requestCandidateGetCandidateFollowedCompany = (
   );
 };
 export const requestCandidateGetFindCandidate = (
-  name: string = "",
-  email: string = "",
-  phone: string = "",
+  gender: string = "",
+  location: string = "",
+  rank: string = "",
+  experience: string = "",
   page: string = "1",
   size: string = "9",
   accessToken: string
 ) => {
   if (!accessToken) return;
   return axios.get(
-    `${API}/api/v1/employees/candidates?name=${name}&email=${email}&phoneNumber=${phone}&page=${page}&size=${size}`,
+    `${API}/api/v1/employees/candidates?${gender ? `gender=${gender}&` : ""}${
+      location ? `location=${location}&` : ""
+    }${rank ? `rank=${rank}&` : ""}${
+      experience ? `experience=${experience}&` : ""
+    }page=${page}&size=${size}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -87,6 +92,21 @@ export const requestCandidateSendMailToCompanyConfirmAgain = (
   return axios.post(
     `${API}/api/v1/employees/${employerId}/companies/${companyId}/request-verify-info`,
     {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
+export const requestCandidateGetInformation = (
+  candidate_id: string,
+  accessToken: string
+) => {
+  if (!accessToken) return;
+  return axios.get(
+    `${API}/api/v1/candidates/${candidate_id}/profiles/details`,
     {
       headers: {
         "Content-Type": "application/json",

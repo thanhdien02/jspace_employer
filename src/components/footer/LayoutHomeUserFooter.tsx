@@ -47,13 +47,13 @@ const LayoutHomeUserFooter: React.FC = () => {
                 Trang chủ
               </NavLink>
               <NavLink
-                to="/jobs"
+                to="/"
                 className="hover:underline transition-all text-sm text-[#6A6E78]"
               >
                 Tìm việc
               </NavLink>
               <NavLink
-                to="/companys"
+                to="/"
                 className="hover:underline transition-all text-sm text-[#6A6E78]"
               >
                 Công ty

@@ -15,6 +15,7 @@ import { UserOutlined } from "@ant-design/icons";
 import HeaderNotificationPage from "./HeaderNotificationPage";
 import { notificationGetNotification } from "../../store/notification/notification-slice";
 import { cartGetCart } from "../../store/cart/cart-slice";
+import { commonUpdateCheckNotificationRedux } from "../../store/common/common-slice";
 interface PropComponent {
   collapsed?: any;
   setCollapsed?: any;
@@ -25,12 +26,12 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
 }) => {
   const { carts } = useSelector((state: any) => state.cart);
   const { notifications } = useSelector((state: any) => state.notification);
+  const { checkNotification } = useSelector((state: any) => state.common);
   const { user, loading, companyAuth } = useSelector(
     (state: any) => state.auth
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [notificationCheck, setNotificationCheck] = useState(false);
   const [numberRead, setNumberRead] = useState(0);
   useEffect(() => {
     if (companyAuth?.id) {
@@ -93,7 +94,15 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
           <span>Đăng tin</span>
         </button>
         <div className="relative">
-          <span onClick={() => setNotificationCheck(!notificationCheck)}>
+          <span
+            onClick={() =>
+              dispatch(
+                commonUpdateCheckNotificationRedux({
+                  checkNotification: true,
+                })
+              )
+            }
+          >
             <IconBell className="p-2 bg-gray-100/20 block rounded-full cursor-pointer"></IconBell>
           </span>
           {numberRead != 0 && (
@@ -101,11 +110,17 @@ const EmployerManageHeader: React.FC<PropComponent> = ({
               {numberRead}
             </span>
           )}
-          {notificationCheck && (
+          {checkNotification && (
             <>
               <HeaderNotificationPage></HeaderNotificationPage>
               <div
-                onClick={() => setNotificationCheck(!notificationCheck)}
+                onClick={() =>
+                  dispatch(
+                    commonUpdateCheckNotificationRedux({
+                      checkNotification: !checkNotification,
+                    })
+                  )
+                }
                 className="fixed inset-0 z-10 bg-transparent cursor-pointer"
               ></div>
             </>

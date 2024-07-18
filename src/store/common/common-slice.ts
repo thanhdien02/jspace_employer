@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface ICommon {
+  checkNotification?: any;
   exportData?: any;
   user?: any;
   locations?: any;
@@ -15,6 +16,7 @@ interface ICommon {
 }
 
 const init: ICommon = {
+  checkNotification: false,
   exportData: {},
   user: {},
   locations: {},
@@ -76,6 +78,10 @@ const commonSlice: any = createSlice({
       ...state,
       skills: action.payload.skills,
     }),
+    commonUpdateCheckNotificationRedux: (state: any, action: any) => ({
+      ...state,
+      checkNotification: action.payload.checkNotification,
+    }),
     commonGetLocation: () => {},
     commonGetJobType: () => {},
     commonGetGender: () => {},
@@ -104,5 +110,6 @@ export const {
   commonGetSkills,
   commonUpdateSkillsRedux,
   commonUpdateExportDataRedux,
+  commonUpdateCheckNotificationRedux,
 } = commonSlice.actions;
 export default commonSlice.reducer;

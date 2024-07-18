@@ -5,10 +5,10 @@ import {
   Pagination,
   Popover,
   Progress,
+  Select,
   Skeleton,
   Tooltip,
 } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -17,17 +17,25 @@ import IconText from "../../components/icons/IconText";
 import HeaderContentManage from "../../components/header/HeaderContentManage";
 import CardFindCandidatePage from "../../components/cards/CardFindCandidatePage";
 import { candidateGetFindCandidate } from "../../store/candidate/candidate-slice";
-import InputSearch from "../../components/input/InputSearch";
-import { debounce } from "ts-debounce";
+import {
+  commonGetExperience,
+  commonGetGender,
+  commonGetLocation,
+  commonGetRank,
+} from "../../store/common/common-slice";
 
 const EmployerFindCandidatePage: React.FC = () => {
   const { findCandidate, paginationFindCandidate, loadingCandidate } =
     useSelector((state: any) => state.candidate);
   const { user, checkAuth } = useSelector((state: any) => state.auth);
-
+  const { locations, ranks, experiences, genders } = useSelector(
+    (state: any) => state.common
+  );
   // search
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [location, setLocation] = useState<any>(null);
+  const [experience, setExperience] = useState<any>(null);
+  const [gender, setGender] = useState<any>(null);
+  const [rank, setRank] = useState<any>(null);
   const [page, setPage] = useState(1);
   const [size] = useState(9);
   //
@@ -87,39 +95,70 @@ const EmployerFindCandidatePage: React.FC = () => {
   };
 
   //
-  const handleSearchName = debounce((value: any) => {
+  const handleChangeLocation = (value: any) => {
     dispatch(
       candidateGetFindCandidate({
-        name: value,
-        email: email,
-        phone: "",
+        gender: gender,
+        location: value,
+        rank: rank,
+        experience: experience,
         page: 1,
         size: size,
       })
     );
-    setName(value);
+    setLocation(value);
     setPage(1);
-  }, 500);
-  const handleSearchEmail = debounce((value: any) => {
+  };
+  const handleChangeExperience = (value: any) => {
     dispatch(
       candidateGetFindCandidate({
-        name: name,
-        email: value,
-        phone: "",
+        gender: gender,
+        location: location,
+        rank: rank,
+        experience: value,
         page: 1,
         size: size,
       })
     );
-    setEmail(value);
+    setExperience(value);
     setPage(1);
-  }, 500);
+  };
+  const handleChangeGender = (value: any) => {
+    dispatch(
+      candidateGetFindCandidate({
+        gender: value,
+        location: location,
+        rank: rank,
+        experience: experience,
+        page: 1,
+        size: size,
+      })
+    );
+    setGender(value);
+    setPage(1);
+  };
+  const handleChangeRank = (value: any) => {
+    dispatch(
+      candidateGetFindCandidate({
+        gender: gender,
+        location: location,
+        rank: value,
+        experience: experience,
+        page: 1,
+        size: size,
+      })
+    );
+    setRank(value);
+    setPage(1);
+  };
   const handleChangePage = (e: any) => {
     dispatch(
       candidateGetFindCandidate({
-        name: name,
-        email: email,
-        phone: "",
-        page: e,
+        gender: gender,
+        location: location,
+        rank: rank,
+        experience: experience,
+        page: 1,
         size: size,
       })
     );
@@ -128,13 +167,18 @@ const EmployerFindCandidatePage: React.FC = () => {
   useEffect(() => {
     dispatch(
       candidateGetFindCandidate({
-        name: name,
-        email: email,
-        phone: "",
-        page: page,
+        gender: "",
+        location: "",
+        rank: "",
+        experience: "",
+        page: 1,
         size: size,
       })
     );
+    dispatch(commonGetLocation());
+    dispatch(commonGetGender());
+    dispatch(commonGetRank());
+    dispatch(commonGetExperience());
   }, []);
   return (
     <>
@@ -252,28 +296,90 @@ const EmployerFindCandidatePage: React.FC = () => {
           <HeaderContentManage title="Tìm kiếm ứng viên"></HeaderContentManage>
           <div className="bg-white shadow-md p-7 rounded-md ">
             <div className="flex gap-5">
-              <div className="flex gap-5">
-                <div className="relative">
-                  <InputSearch
-                    placeholder="Nhập tên ứng viên"
-                    onChange={(e: any) => {
-                      handleSearchName(e?.target?.value);
-                    }}
-                    className="pr-10 w-[280px]"
-                  ></InputSearch>
-                  <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
-                </div>
-                <div className="relative">
-                  <InputSearch
-                    placeholder="Nhập email"
-                    onChange={(e: any) => {
-                      handleSearchEmail(e?.target?.value);
-                    }}
-                    className="pr-10 w-[280px]"
-                  ></InputSearch>
-                  <SearchOutlined className="absolute top-1/2 -translate-y-1/2 right-2 text-lg text-gray-700" />
-                </div>
-              </div>
+              <Select
+                showSearch
+                allowClear
+                placeholder="Chọn địa điểm"
+                className=" text-base rounded-lg h-10 w-[160px] bg-white"
+                optionFilterProp="children"
+                value={location}
+                filterOption={(input: string, option: any) =>
+                  ((option?.label ?? "") as string)
+                    .toLowerCase()
+                    .includes((input ?? "").toLowerCase())
+                }
+                options={
+                  locations?.length > 0 &&
+                  locations.map((item: any) => ({
+                    label: item?.province,
+                    value: item?.value,
+                  }))
+                }
+                onChange={handleChangeLocation}
+              />
+              <Select
+                showSearch
+                allowClear
+                placeholder="Chọn kinh nghiệm"
+                className=" text-base rounded-lg h-10 w-[200px] bg-white"
+                optionFilterProp="children"
+                value={experience}
+                filterOption={(input: string, option: any) =>
+                  ((option?.label ?? "") as string)
+                    .toLowerCase()
+                    .includes((input ?? "").toLowerCase())
+                }
+                options={
+                  experiences?.length > 0 &&
+                  experiences.map((item: any) => ({
+                    label: item?.language?.vi,
+                    value: item?.value,
+                  }))
+                }
+                onChange={handleChangeExperience}
+              />
+              <Select
+                showSearch
+                allowClear
+                placeholder="Giới tính"
+                className=" text-base rounded-lg h-10 w-[200px] bg-white"
+                optionFilterProp="children"
+                value={gender}
+                filterOption={(input: string, option: any) =>
+                  ((option?.label ?? "") as string)
+                    .toLowerCase()
+                    .includes((input ?? "").toLowerCase())
+                }
+                options={
+                  genders?.length > 0 &&
+                  genders.map((item: any) => ({
+                    label: item?.language?.vi,
+                    value: item?.value,
+                  }))
+                }
+                onChange={handleChangeGender}
+              />
+              <Select
+                showSearch
+                allowClear
+                placeholder="Cấp bậc"
+                className=" text-base rounded-lg h-10 w-[200px] bg-white"
+                optionFilterProp="children"
+                value={rank}
+                filterOption={(input: string, option: any) =>
+                  ((option?.label ?? "") as string)
+                    .toLowerCase()
+                    .includes((input ?? "").toLowerCase())
+                }
+                options={
+                  ranks?.length > 0 &&
+                  ranks.map((item: any) => ({
+                    label: item?.language?.vi,
+                    value: item?.value,
+                  }))
+                }
+                onChange={handleChangeRank}
+              />
             </div>
             {loadingCandidate ? (
               <div className="py-5">

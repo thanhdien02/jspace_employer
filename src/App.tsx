@@ -19,6 +19,7 @@ import EmployerManagePurchaseHistoryPage from "./page/employer/EmployerManagePur
 import EmployerFindCandidatePage from "./page/employer/EmployerFindCandidatePage";
 import EmployerManageCandidateFollowedCompanyPage from "./page/employer/EmployerManageCandidateFollowedCompanyPage";
 import SupportPage from "./page/common/SupportPage";
+import CandidateInformationPage from "./page/candidate/CandidateInformationPage";
 
 const LayoutEmployerManagement = lazy(
   () => import("./layout/LayoutEmployerManagement")
@@ -148,6 +149,10 @@ function App() {
           <Route
             path="/register/:registerMail"
             element={<RegisterPage></RegisterPage>}
+          ></Route>
+          <Route
+            path="/information-candidate/:candidateId"
+            element={<CandidateInformationPage></CandidateInformationPage>}
           ></Route>
         </Routes>
       </Suspense>

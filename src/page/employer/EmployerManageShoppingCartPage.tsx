@@ -23,7 +23,9 @@ const EmployerManageShoppingCartPage: React.FC = () => {
   const dispatch = useDispatch();
   const onChange: CheckboxProps["onChange"] = (e) => {
     console.log(`checked = ${e.target.checked}`);
+    setCheckTerm(e.target.checked);
   };
+  const [checkTerm, setCheckTerm] = useState(false);
   const [selectCheckAll, setSelectCheckAll] = useState(false);
   const [dataCheck, setDataCheck] = useState<any>([]);
   const [sumCart, setSumCart] = useState(0);
@@ -66,12 +68,16 @@ const EmployerManageShoppingCartPage: React.FC = () => {
   };
   useEffect(() => {
     if (companyAuth?.id) {
-      dispatch(cartGetCart({ company_id: companyAuth?.id, page: 1, size: 100 }));
+      dispatch(
+        cartGetCart({ company_id: companyAuth?.id, page: 1, size: 100 })
+      );
     }
   }, [companyAuth]);
   useEffect(() => {
     if (messageCart == "addtocart") {
-      dispatch(cartGetCart({ company_id: companyAuth?.id, page: 1, size: 100 }));
+      dispatch(
+        cartGetCart({ company_id: companyAuth?.id, page: 1, size: 100 })
+      );
       dispatch(cartUpdateMessageRedux({ messageCart: "" }));
     }
   }, [messageCart]);
@@ -82,12 +88,16 @@ const EmployerManageShoppingCartPage: React.FC = () => {
         .map((item: any) => item?.id);
       if (dataPayment?.length > 0) {
         // cartIds
-        dispatch(
-          paymentRequestPaymentCart({
-            cart_ids: dataPayment,
-            total: sumCart,
-          })
-        );
+        if (checkTerm) {
+          dispatch(
+            paymentRequestPaymentCart({
+              cart_ids: dataPayment,
+              total: sumCart,
+            })
+          );
+        } else {
+          message.info("Bạn chưa đồng ý với điều khoản.");
+        }
       } else {
         message.info("Cần chọn sản phẩm để thành toán.");
       }

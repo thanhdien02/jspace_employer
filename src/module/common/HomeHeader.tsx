@@ -39,7 +39,7 @@ const HomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
                 Dịch vụ
               </NavLink>
             </li>
-            <li className="">
+            {/* <li className="">
               <NavLink
                 to="/support"
                 className={({ isActive }) =>
@@ -50,7 +50,7 @@ const HomeHeader: React.FC<PropComponent> = ({ setCheckLogin }) => {
               >
                 Hỗ trợ
               </NavLink>
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="">

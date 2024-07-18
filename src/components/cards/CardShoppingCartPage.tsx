@@ -103,8 +103,9 @@ const CardShoppingCartPage: React.FC<PropComponent> = ({
             <PlusOutlined />
           </span>
           <input
+            readOnly
             type="text"
-            className="w-[25px] px-2"
+            className="w-[30px] px-2 text-center outline-none"
             value={data?.quantity ? data?.quantity : ""}
             onChange={() => {}}
           />

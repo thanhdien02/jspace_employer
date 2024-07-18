@@ -2,7 +2,7 @@ import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Checkbox, CheckboxProps, Spin } from "antd";
+import { Spin } from "antd";
 import logo from "../../assets/logo1.svg";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -101,9 +101,9 @@ const LoginPage: React.FC<PropComponent> = ({
       navigate("/manage");
     }
   }, []);
-  const onChange: CheckboxProps["onChange"] = (e) => {
-    console.log(`checked = ${e.target.checked}`);
-  };
+  // const onChange: CheckboxProps["onChange"] = (e) => {
+  //   console.log(`checked = ${e.target.checked}`);
+  // };
   return (
     <div
       className={` flex fixed inset-0 z-40 ${className}
@@ -120,7 +120,7 @@ const LoginPage: React.FC<PropComponent> = ({
       <div className="m-auto px-5">
         <form
           action=""
-          className="relative md:p-10 p-5 rounded-lg my-5 bg-white min-h-[250px] md:min-w-[380px] shadow-lg border-solid border border-slate-500/30"
+          className="relative md:p-10 p-5 rounded-lg my-5 bg-white min-h-[250px] md:min-w-[500px] shadow-lg border-solid border border-slate-500/30"
           onSubmit={handleSubmit(onSubmit)}
         >
           <IconClose
@@ -232,7 +232,7 @@ const LoginPage: React.FC<PropComponent> = ({
               </p>
             </div>
 
-            <div className="w-full">
+            {/* <div className="w-full">
               <Checkbox
                 onChange={onChange}
                 className="font-normal text-xs text-slate-500 gap-2"
@@ -240,7 +240,7 @@ const LoginPage: React.FC<PropComponent> = ({
                 Bằng cách tạo tài khoản hoặc đăng nhập, bạn hiểu và đồng ý với
                 Điều khoản.
               </Checkbox>
-            </div>
+            </div> */}
           </div>
           <div className="flex w-full mt-5">
             <button

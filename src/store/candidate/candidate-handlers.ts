@@ -8,6 +8,7 @@ import {
   candidateUpdateAppliedCandidateRedux,
   candidateUpdateCandidateFollowedCompanyRedux,
   candidateUpdateFindCandidateRedux,
+  candidateUpdateInformationCandidateRedux,
   candidateUpdateLoadingRedux,
 } from "./candidate-slice";
 import { message } from "antd";
@@ -15,6 +16,7 @@ import {
   requestCandidateGetAppliedCandidate,
   requestCandidateGetCandidateFollowedCompany,
   requestCandidateGetFindCandidate,
+  requestCandidateGetInformation,
   requestCandidateSendMailToCompanyConfirmAgain,
   requestEmployerUpdateStatusAppliedCandidate,
 } from "./candidate-requests";
@@ -133,9 +135,10 @@ function* handleCandidateGetFindCandidate(
     const { accessToken } = getToken();
     const response: any = yield call(
       requestCandidateGetFindCandidate,
-      dataGetFindCandidate?.payload?.name,
-      dataGetFindCandidate?.payload?.email,
-      dataGetFindCandidate?.payload?.phone,
+      dataGetFindCandidate?.payload?.gender,
+      dataGetFindCandidate?.payload?.location,
+      dataGetFindCandidate?.payload?.rank,
+      dataGetFindCandidate?.payload?.experience,
       dataGetFindCandidate?.payload?.page,
       dataGetFindCandidate?.payload?.size,
       accessToken
@@ -182,10 +185,35 @@ function* handleCandidateSendMailToCompanyConfirmAgain(
     message?.info("Gửi yêu cầu thất bại");
   }
 }
+function* handleCandidateGetInformation(
+  dataCandidateInformation: any
+): Generator<any> {
+  try {
+    yield put(candidateUpdateLoadingRedux({ loadingCandidate: true }));
+    const token: Token = getToken();
+    const response: any = yield call(
+      requestCandidateGetInformation,
+      dataCandidateInformation?.payload?.candidate_id,
+      token?.accessToken
+    );
+    if (response?.data?.code === 1000) {
+      yield put(
+        candidateUpdateInformationCandidateRedux({
+          informationCandidate: response.data.result,
+        })
+      );
+    }
+  } catch (error: any) {
+    message.error(error?.response?.data?.message);
+  } finally {
+    yield put(candidateUpdateLoadingRedux({ loadingCandidate: false }));
+  }
+}
 export {
   handleCandidateGetAppliedCandidate,
   handleEmployerUpdateStatusAppliedCandidate,
   handleCandidateGetCandidateFollowedCompany,
   handleCandidateGetFindCandidate,
   handleCandidateSendMailToCompanyConfirmAgain,
+  handleCandidateGetInformation,
 };

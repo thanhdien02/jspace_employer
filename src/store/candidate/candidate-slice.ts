@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface ICandidate {
+  informationCandidate: any;
   findCandidate: any;
   candidateFollowedCompany: any;
   appliedCandidate: any;
@@ -12,6 +13,7 @@ interface ICandidate {
 }
 
 const init: ICandidate = {
+  informationCandidate: {},
   findCandidate: {},
   candidateFollowedCompany: {},
   appliedCandidate: {},
@@ -26,6 +28,7 @@ const candidateSlice: any = createSlice({
   initialState: init,
   reducers: {
     candidateSendMailToCompanyConfirmAgain: () => {},
+    candidateGetInformationCandidate: () => {},
     candidateGetAppliedCandidate: () => {},
     candidateGetFindCandidate: () => {},
     candidateGetCandidateFollowedCompany: () => {},
@@ -36,6 +39,10 @@ const candidateSlice: any = createSlice({
     ) => ({
       ...state,
       candidateFollowedCompany: action.payload.candidateFollowedCompany,
+    }),
+    candidateUpdateInformationCandidateRedux: (state: any, action: any) => ({
+      ...state,
+      informationCandidate: action.payload.informationCandidate,
     }),
     candidateUpdateAppliedCandidateRedux: (state: any, action: any) => ({
       ...state,
@@ -82,5 +89,7 @@ export const {
   candidateUpdateFindCandidateRedux,
   candidateFindCandidatePaginationRedux,
   candidateSendMailToCompanyConfirmAgain,
+  candidateGetInformationCandidate,
+  candidateUpdateInformationCandidateRedux,
 } = candidateSlice.actions;
 export default candidateSlice.reducer;

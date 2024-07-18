@@ -18,6 +18,7 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
   item,
   index,
 }) => {
+  console.log("🚀 ~ item:", item);
   const dispatch = useDispatch();
   const [updateStatusCV, setUpdateStatusCV] = useState("progress");
   const [notificationApprove, setNotificationApprove] = useState<any>(null);
@@ -42,10 +43,13 @@ const CardManageCandidateApplyJobPage: React.FC<PropComponent> = ({
       <TableRow className={`${className}`}>
         <TableRowContent className="">{index + 1}</TableRowContent>
         <TableRowContent className="">
-          <div className="line-clamp-2 cursor-pointer">
-            {" "}
+          <a
+            className="block line-clamp-2 cursor-pointer"
+            href={`https://jspace-employer.vercel.app/information-candidate/${item?.candidate?.user?.id}`}
+            target="_blank"
+          >
             {item?.candidate?.user?.name}
-          </div>
+          </a>
         </TableRowContent>
         <TableRowContent className="">
           <div className="line-clamp-2 h-full">

@@ -12,7 +12,7 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
   return (
     <>
       <div
-        className={`flex flex-col h-[440px] w-full border border-solid border-gray-200 rounded-md hover:shadow-lg transition-all ${className}`}
+        className={`flex flex-col h-[300px] w-full border border-solid border-gray-200 rounded-md hover:shadow-lg transition-all ${className}`}
       >
         <div className="relative w-full h-[30%] rounded-md">
           <img
@@ -37,9 +37,13 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
           />
         </div>
         <div className="flex-1 flex flex-col h-max mt-[35px] p-3">
-          <h4 className="font-medium text-[17px] text-center cursor-pointer">
+          <a
+            className="block font-medium text-[17px] text-center cursor-pointer"
+            href={`https://jspace-employer.vercel.app/information-candidate/${item?.user?.id}`}
+            target="_blank"
+          >
             {item?.user?.name}
-          </h4>
+          </a>
           <ul className="mt-2 flex flex-col gap-2">
             <li className="mt-[1px] text-gray-600 text-sm pb-1">
               <span className="inline-block mr-4">Email: </span>
@@ -53,26 +57,6 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
                 {item?.user?.phone}
               </span>
             </li>
-            <li className="mt-[1px] text-gray-600 text-sm pb-1">
-              <span className="w-[45%] inline-block">Địa chỉ:</span>
-              <span className="text-black font-medium font-sans">
-                Hồ Chí Minh
-              </span>
-            </li>
-            <li className="mt-[1px] text-gray-600 text-sm pb-1">
-              <span className="w-[45%] inline-block">Kinh nghiệm:</span>
-              <span className="text-black font-medium font-sans">1 năm</span>
-            </li>
-            <li className="mt-[1px] text-gray-600 text-sm pb-1">
-              <span className="w-[45%] inline-block">Mức lương: </span>
-              <span className="text-black font-medium font-sans">
-                10 - 15 triệu
-              </span>
-            </li>
-            {/* <li className="mt-[1px] text-gray-600 text-sm pb-1">
-              <span className="w-[45%] inline-block">Học vấn:</span>
-              <span className="text-black font-medium font-sans">Đại học</span>
-            </li> */}
           </ul>
           <div className="mt-auto grid grid-cols-2 gap-5">
             <button

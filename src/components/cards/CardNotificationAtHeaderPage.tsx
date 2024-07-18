@@ -4,6 +4,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { notificationUpdateReadNotification } from "../../store/notification/notification-slice";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 interface PropComponent {
   classname?: string;
   item?: any;
@@ -14,6 +15,7 @@ const CardNotificationAtHeaderPage: React.FC<PropComponent> = ({
 }) => {
   const { companyAuth } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleUpdateReadNotification = () => {
     dispatch(
       notificationUpdateReadNotification({
@@ -25,8 +27,21 @@ const CardNotificationAtHeaderPage: React.FC<PropComponent> = ({
   };
   return (
     <>
-      <div className={`py-1 px-4 pb-2 ${classname}`}>
-        <h4 className="font-medium text-base">{item?.title}</h4>
+      <div className={`py-1 px-4 pb-2  ${classname}`}>
+        <h4
+          className="font-medium text-base cursor-pointer"
+          onClick={() => {
+            if (item?.custom) {
+              if (!item?.read) {
+                handleUpdateReadNotification();
+              }
+
+              navigate("/manage/jobs");
+            }
+          }}
+        >
+          {item?.title}
+        </h4>
         <p className="text-[15px] line-clamp-3">{item?.notification}</p>
         <div className="mt-1 flex justify-between items-center">
           <p className="text-sm font-medium ">
