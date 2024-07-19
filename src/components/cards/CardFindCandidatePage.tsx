@@ -12,7 +12,7 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
   return (
     <>
       <div
-        className={`flex flex-col h-[300px] w-full border border-solid border-gray-200 rounded-md hover:shadow-lg transition-all ${className}`}
+        className={`flex flex-col min-h-[400px] h-[540px] w-full border border-solid border-gray-200 rounded-md hover:shadow-lg transition-all ${className}`}
       >
         <div className="relative w-full h-[30%] rounded-md">
           <img
@@ -45,16 +45,56 @@ const CardFindCandidatePage: React.FC<PropComponent> = ({
             {item?.user?.name}
           </a>
           <ul className="mt-2 flex flex-col gap-2">
-            <li className="mt-[1px] text-gray-600 text-sm pb-1">
-              <span className="inline-block mr-4">Email: </span>
-              <span className="text-black font-medium font-sans">
+            <li className="mt-[1px] text-sm pb-1">
+              <span className="inline-block font-medium mr-4">Email: </span>
+              <span className="text-black font-sans">
                 {item?.user?.email}
               </span>
             </li>
-            <li className="mt-[1px] text-gray-600 text-sm pb-1">
-              <span className="inline-block mr-4">Số điện thoại: </span>
-              <span className="text-black font-medium font-sans">
+            <li className="mt-[1px] text-sm pb-1">
+              <span className="inline-block font-medium mr-4">Số điện thoại: </span>
+              <span className="text-black font-sans">
                 {item?.user?.phone}
+              </span>
+            </li>
+            <li className="mt-[1px] text-sm pb-1 flex flex-nowrap">
+              <span className="inline-block font-medium mr-4 text-nowrap">Địa điểm: </span>
+              <div className="text-black font-sans line-clamp-1">
+                {item?.profile?.location?.province} -{" "}
+                {item?.profile?.detailAddress}
+              </div>
+            </li>
+            <li className="mt-[1px] text-sm pb-1">
+              <span className="inline-block font-medium mr-4">Kinh nghiệm: </span>
+              <span className="text-black font-sans">
+                {item?.profile?.experience?.language?.vi}
+              </span>
+            </li>
+            <li className="mt-[1px] text-sm pb-1">
+              <span className="inline-block font-medium mr-4">Cấp bậc: </span>
+              <span className="text-black font-sans">
+                {item?.profile?.rank?.language?.vi}
+              </span>
+            </li>
+            <li className="mt-[1px] text-sm pb-1">
+              <span className="inline-block font-medium mr-4">Giới tính: </span>
+              <span className="text-black font-sans">
+                {item?.profile?.gender?.language?.vi}
+              </span>
+            </li>
+            <li className="mt-[1px] text-sm pb-1">
+              <span className="inline-block font-medium mr-4">Mức lương: </span>
+              <span className="text-black font-sans">
+                Từ{" "}
+                {item?.profile?.minSalary?.toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                })}{" "}
+                -{" "}
+                {item?.profile?.maxSalary?.toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                })}
               </span>
             </li>
           </ul>
